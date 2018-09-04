@@ -1,30 +1,27 @@
 package com.kalinga.apps.wifistrengthenalizer
 
-import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
-import android.net.wifi.WifiManager
-import android.net.wifi.WifiInfo
-import android.content.Context.WIFI_SERVICE
-
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var wifiStrengthView:TextView
-    lateinit var wifiQuality:TextView
+    private lateinit var wifiStrengthView: TextView
+    private lateinit var wifiQuality: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        wifiStrengthView  = findViewById(R.id.wifiStrengthView)
+        wifiStrengthView = findViewById(R.id.wifiStrengthView)
         wifiQuality = findViewById(R.id.signalQuality)
 
-        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val numberOfLevels = 5
-        val wifiInfo = wifiManager.connectionInfo
-        val level = WifiManager.calculateSignalLevel(wifiInfo.rssi, numberOfLevels)
-        wifiStrengthView.setText(""+wifiInfo.rssi)
-        wifiQuality.setText(""+level)
+        val viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java!!)
+
+        val livdata = viewModel.getWifiStrength(this)
+        livdata.observe(this,{level ->wifiQuality.text = level})
+
+//        wifiStrengthView.text = "Wifi Strength:"
+        //wifiQuality.text = livdata.value.toString()
     }
 }
