@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WIFIStrengthEnalizer</string>
+    <string name="wifi_strength_findier">WIFI STRENGTH FINDIER</string>
+    <string name="w">W</string>
 </resources>

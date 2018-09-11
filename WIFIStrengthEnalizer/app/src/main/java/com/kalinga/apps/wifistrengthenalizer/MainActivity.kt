@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java!!)
 
         val livdata = viewModel.getWifiStrength(this)
-        livdata.observe(this,{level ->wifiQuality.text = level})
+        //livdata.observe(this,{level ->wifiQuality.text = level})
 
 //        wifiStrengthView.text = "Wifi Strength:"
         //wifiQuality.text = livdata.value.toString()
