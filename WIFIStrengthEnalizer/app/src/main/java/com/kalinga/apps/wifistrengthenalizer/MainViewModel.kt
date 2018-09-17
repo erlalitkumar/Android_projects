@@ -10,7 +10,7 @@ class MainViewModel : ViewModel() {
     private val level:MutableLiveData<Int> = MutableLiveData()
     fun getWifiStrength(context: Context): LiveData<Int> {
         val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val numberOfLevels = 5
+        val numberOfLevels = 100
         val wifiInfo = wifiManager.connectionInfo
          level.value = WifiManager.calculateSignalLevel(wifiInfo.rssi, numberOfLevels)
         return level

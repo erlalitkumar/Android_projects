@@ -1,31 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.kalinga.apps.wifistrengthenalizer.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     <TextView
-        android:id="@+id/wifiStrengthView"
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/wifiImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="163dp"
-        tools:layout_editor_absoluteY="118dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="118dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="163dp" />
+        app:srcCompat="@drawable/wifi" />
 
     <TextView
         android:id="@+id/signalQuality"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="163dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintTop_toBottomOf="@+id/wifiStrengthView"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="163dp" />
-</android.support.constraint.ConstraintLayout>
+
+        android:text="TextView" />
+
+
+    <TextView
+        android:id="@+id/wifiNotAvailable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Wifi not available" />
+
+    <Button
+        android:id="@+id/connectWifi"
+        android:layout_width="200dp"
+        android:layout_height="58dp"
+        android:background="@drawable/green_button"
+        android:elevation="2dp"
+        android:text="Connect Wifi"
+        android:textColor="#ffffff" />
+</LinearLayout>

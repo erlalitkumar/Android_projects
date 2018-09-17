@@ -21,7 +21,7 @@ class SplashActivity : AppCompatActivity() {
 
     inner class Delay : AsyncTask<Void, Void, Void>() {
         override fun doInBackground(vararg p0: Void?): Void? {
-            Thread.sleep(3000)
+            Thread.sleep(1000)
             return null
         }
 
