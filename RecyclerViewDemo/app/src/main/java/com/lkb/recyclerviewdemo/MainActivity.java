@@ -1,6 +1,7 @@
 package com.lkb.recyclerviewdemo;
 
 import android.graphics.Movie;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
-        prepareData();
+        // prepareData();
+        SomeTask task = new SomeTask();
+        task.execute();
 
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(getApplicationContext(), recyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
@@ -64,6 +67,27 @@ public class MainActivity extends AppCompatActivity {
         data.add(new SomeData("three","three is three"));
         data.add(new SomeData("four","four is four"));
         data.add(new SomeData("five","five is five"));
-        mAdapter.notifyDataSetChanged();
+    }
+
+    private class SomeTask extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            prepareData();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mAdapter = new RecyclerViewAdapter(data);
+            recyclerView.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+            super.onPostExecute(aVoid);
+        }
     }
 }
