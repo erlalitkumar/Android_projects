@@ -1,23 +1,35 @@
 package com.example.inlbehera.navigationdrawerdemo
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.SubMenu
+import android.widget.ExpandableListView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    lateinit var expandableListView: ExpandableListView
+    //lateinit var expandableListAdapter: BaseExpandableListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        expandableListView = findViewById(R.id.expandableListView)
+
+        val headerList = arrayListOf<String>("Hello", "Hi", "There")
+        val childList1 = arrayListOf<String>("1", "2")
+        val childList2 = arrayListOf<String>("3", "4")
+        val childList3 = arrayListOf<String>("5", "6")
+        val hashMapList =
+            hashMapOf<String, List<String>>("Hello" to childList1, "Hi" to childList2, "There" to childList3)
+        val expandableAdapter = ExpandableListAdapter(this, headerList, hashMapList)
+        expandableListView.setAdapter(expandableAdapter)
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
