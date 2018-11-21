@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var expandableListView: ExpandableListView
-    //lateinit var expandableListAdapter: BaseExpandableListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,10 +21,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         expandableListView = findViewById(R.id.expandableListView)
 
-        val headerList = arrayListOf<String>("Hello", "Hi", "There")
-        val childList1 = arrayListOf<String>("1", "2")
-        val childList2 = arrayListOf<String>("3", "4")
-        val childList3 = arrayListOf<String>("5", "6")
+        val headerList = arrayListOf("Hello", "Hi", "There")
+        val childList1 = arrayListOf("1", "2")
+        val childList2 = arrayListOf("3", "4")
+        val childList3 = arrayListOf("5", "6")
         val hashMapList =
             hashMapOf<String, List<String>>("Hello" to childList1, "Hi" to childList2, "There" to childList3)
         val expandableAdapter = ExpandableListAdapter(this, headerList, hashMapList)
