@@ -3,25 +3,29 @@ package com.lkb.baseandroidproject
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.function.Consumer
 
 class MainActivity : AppCompatActivity() {
+    lateinit var disposable: Disposable
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         textView.text = ""
-        // producer
-        var observable = Observable.just("hello", "hi", "there")
+        disposable = Observable.just("hello", "hi", "there")
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
             .subscribe {
                 textView.text = it.toString();
             }
 
-//        // consumer
-//        val consumer = this::updateUi
-//
-//        // attaching producer to consumer or taking subscription
-//        observable.subscribe(consumer)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.dispose()
     }
 }
