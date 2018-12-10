@@ -13,15 +13,15 @@ class MainActivity : AppCompatActivity() {
 
         textView.text = ""
         // producer
-        var observable = Observable.just("hello", "hi","there")
+        var observable = Observable.just("hello", "hi", "there")
+            .subscribe {
+                textView.text = it.toString();
+            }
 
-        // consumer
-        val consumer = this::updateUi
-
-        observable.subscribe(consumer)
-    }
-
-    fun updateUi(string:String){
-        textView.text = string;
+//        // consumer
+//        val consumer = this::updateUi
+//
+//        // attaching producer to consumer or taking subscription
+//        observable.subscribe(consumer)
     }
 }
