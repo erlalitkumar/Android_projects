@@ -1,27 +1,44 @@
 package com.techyourchance.journeytodependencyinjection.common.dependencyinjection;
 
+import android.app.Activity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionsListUseCase;
+import com.techyourchance.journeytodependencyinjection.screens.common.ImageLoader;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.DialogsManager;
 import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.ViewMvcFactory;
 
 public class PresentationCompositionRoot {
 
     private final CompositionRoot mCompositionRoot;
-    private final FragmentManager mFragmentManager;
-    private LayoutInflater mLayoutInflater;
+    private final AppCompatActivity mActivity;
+    //private final FragmentManager mFragmentManager;
 
-    public PresentationCompositionRoot(CompositionRoot compositionRoot, FragmentManager fragmentManager,LayoutInflater layoutInflater) {
+    //private LayoutInflater mLayoutInflater;
+
+    public PresentationCompositionRoot(CompositionRoot compositionRoot, AppCompatActivity activity) {
         this.mCompositionRoot = compositionRoot;
-        this.mFragmentManager = fragmentManager;
-        this.mLayoutInflater = layoutInflater;
+//        this.mFragmentManager = fragmentManager;
+//        this.mLayoutInflater = layoutInflater;
+        mActivity = activity;
+    }
+    private FragmentManager getFragmentManager(){
+        return mActivity.getSupportFragmentManager();
+    }
+
+    private LayoutInflater getLayoutInflater(){
+        return LayoutInflater.from(mActivity);
+    }
+
+    private Activity getActivity(){
+        return mActivity;
     }
 
     public DialogsManager getDialogsManager(){
-        return new DialogsManager(mFragmentManager);
+        return new DialogsManager(getFragmentManager());
     }
 
     public FetchQuestionsListUseCase getFetchQuestionsListUseCase(){
@@ -33,6 +50,9 @@ public class PresentationCompositionRoot {
     }
 
     public ViewMvcFactory getViewMvcFactory(){
-        return new ViewMvcFactory(mLayoutInflater);
+        return new ViewMvcFactory(getLayoutInflater(),getImageLoader());
+    }
+    private ImageLoader getImageLoader(){
+        return new ImageLoader(getActivity());
     }
 }

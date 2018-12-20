@@ -8,13 +8,13 @@ import java.util.List;
 public class QuestionsListResponseSchema {
 
     @SerializedName("items")
-    private final List<Question> mQuestions;
+    private final List<QuestionSchema> mQuestions;
 
-    public QuestionsListResponseSchema(List<Question> questions) {
+    public QuestionsListResponseSchema(List<QuestionSchema> questions) {
         mQuestions = questions;
     }
 
-    public List<Question> getQuestions() {
+    public List<QuestionSchema> getQuestions() {
         return mQuestions;
     }
 }

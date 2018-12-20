@@ -1,5 +1,6 @@
 package com.techyourchance.journeytodependencyinjection.screens.common.activities;
 
+import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
@@ -10,18 +11,20 @@ import com.techyourchance.journeytodependencyinjection.common.dependencyinjectio
 public class BaseActivity extends AppCompatActivity {
 
     private PresentationCompositionRoot mPresentationCompositionRoot;
-    protected PresentationCompositionRoot getCompositionRoot(){
-        if(mPresentationCompositionRoot == null){
+
+    @UiThread
+    protected PresentationCompositionRoot getCompositionRoot() {
+        if (mPresentationCompositionRoot == null) {
             mPresentationCompositionRoot = new PresentationCompositionRoot(
                     getAppCompositionRoot(),
-                    getSupportFragmentManager(),
-                    LayoutInflater.from(this)
+                    this
             );
-
         }
+
         return mPresentationCompositionRoot;
     }
-    protected CompositionRoot getAppCompositionRoot() {
+
+    private CompositionRoot getAppCompositionRoot() {
         return ((MyApplication) getApplication()).getCompositionRoot();
     }
 }

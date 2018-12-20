@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.techyourchance.journeytodependencyinjection.Constants;
 import com.techyourchance.journeytodependencyinjection.common.BaseObservable;
+import com.techyourchance.journeytodependencyinjection.networking.QuestionSchema;
 import com.techyourchance.journeytodependencyinjection.networking.QuestionsListResponseSchema;
 import com.techyourchance.journeytodependencyinjection.networking.SingleQuestionResponseSchema;
 import com.techyourchance.journeytodependencyinjection.networking.StackoverflowApi;
@@ -20,13 +21,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDetailsUseCase.Listener> {
 
     public interface Listener {
-        void onFetchOfQuestionDetailsSucceeded(QuestionWithBody question);
+        void onFetchOfQuestionDetailsSucceeded(QuestionDetails question);
+
         void onFetchOfQuestionDetailsFailed();
     }
 
     private final StackoverflowApi mStackoverflowApi;
 
-    @Nullable Call<SingleQuestionResponseSchema> mCall;
+    @Nullable
+    Call<SingleQuestionResponseSchema> mCall;
 
     public FetchQuestionDetailsUseCase(StackoverflowApi stackoverflowApi) {
 
@@ -42,7 +45,7 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
             @Override
             public void onResponse(Call<SingleQuestionResponseSchema> call, Response<SingleQuestionResponseSchema> response) {
                 if (response.isSuccessful()) {
-                    notifySucceeded(response.body().getQuestion());
+                    notifySucceeded(questionDetailsFromQuestionSchema(response.body().getQuestion()));
                 } else {
                     notifyFailed();
                 }
@@ -55,13 +58,23 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
         });
     }
 
+    private QuestionDetails questionDetailsFromQuestionSchema(QuestionSchema question) {
+        return new QuestionDetails(
+                question.getId(),
+                question.getTitle(),
+                question.getBody(),
+                question.getOwner().getUserDisplayName(),
+                question.getOwner().getUserAvatarUrl()
+        );
+    }
+
     private void cancelCurrentFetchIfActive() {
         if (mCall != null && !mCall.isCanceled() && !mCall.isExecuted()) {
             mCall.cancel();
         }
     }
 
-    private void notifySucceeded(QuestionWithBody question) {
+    private void notifySucceeded(QuestionDetails question) {
         for (Listener listener : getListeners()) {
             listener.onFetchOfQuestionDetailsSucceeded(question);
         }

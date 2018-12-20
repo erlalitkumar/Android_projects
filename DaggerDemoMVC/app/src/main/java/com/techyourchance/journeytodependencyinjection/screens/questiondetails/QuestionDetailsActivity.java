@@ -4,25 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 
-import com.techyourchance.journeytodependencyinjection.Constants;
-import com.techyourchance.journeytodependencyinjection.MyApplication;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionDetailsUseCase;
-import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionsListUseCase;
-import com.techyourchance.journeytodependencyinjection.questions.QuestionWithBody;
+import com.techyourchance.journeytodependencyinjection.questions.QuestionDetails;
 import com.techyourchance.journeytodependencyinjection.screens.common.activities.BaseActivity;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.DialogsManager;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.ServerErrorDialogFragment;
-import com.techyourchance.journeytodependencyinjection.networking.SingleQuestionResponseSchema;
-import com.techyourchance.journeytodependencyinjection.networking.StackoverflowApi;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QuestionDetailsActivity extends BaseActivity implements
         FetchQuestionDetailsUseCase.Listener, QuestionDetailsViewMvc.Listener {
@@ -74,7 +61,7 @@ public class QuestionDetailsActivity extends BaseActivity implements
     }
 
     @Override
-    public void onFetchOfQuestionDetailsSucceeded(QuestionWithBody question) {
+    public void onFetchOfQuestionDetailsSucceeded(QuestionDetails question) {
         mViewMvc.bindQuestion(question);
     }
 
