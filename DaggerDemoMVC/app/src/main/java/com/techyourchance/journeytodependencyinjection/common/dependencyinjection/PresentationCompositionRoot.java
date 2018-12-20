@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.application.ApplicationComponent;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionsListUseCase;
 import com.techyourchance.journeytodependencyinjection.screens.common.ImageLoader;
@@ -13,46 +14,44 @@ import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.V
 
 public class PresentationCompositionRoot {
 
-    private final CompositionRoot mCompositionRoot;
-    private final AppCompatActivity mActivity;
-    //private final FragmentManager mFragmentManager;
+        private final ApplicationComponent mApplicationComponent;
+        private final AppCompatActivity mActivity;
 
-    //private LayoutInflater mLayoutInflater;
+        public PresentationCompositionRoot(ApplicationComponent applicationComponent,
+                                           AppCompatActivity activity) {
+            mApplicationComponent = applicationComponent;
+            mActivity = activity;
+        }
 
-    public PresentationCompositionRoot(CompositionRoot compositionRoot, AppCompatActivity activity) {
-        this.mCompositionRoot = compositionRoot;
-//        this.mFragmentManager = fragmentManager;
-//        this.mLayoutInflater = layoutInflater;
-        mActivity = activity;
-    }
-    private FragmentManager getFragmentManager(){
-        return mActivity.getSupportFragmentManager();
-    }
+        private FragmentManager getFragmentManager() {
+            return mActivity.getSupportFragmentManager();
+        }
 
-    private LayoutInflater getLayoutInflater(){
-        return LayoutInflater.from(mActivity);
-    }
+        private LayoutInflater getLayoutInflater() {
+            return LayoutInflater.from(mActivity);
+        }
 
-    private Activity getActivity(){
-        return mActivity;
-    }
+        private Activity getActivity() {
+            return mActivity;
+        }
 
-    public DialogsManager getDialogsManager(){
-        return new DialogsManager(getFragmentManager());
-    }
+        public DialogsManager getDialogsManager() {
+            return new DialogsManager(getFragmentManager());
+        }
 
-    public FetchQuestionsListUseCase getFetchQuestionsListUseCase(){
-        return mCompositionRoot.getFetchQuestionsListUseCase();
-    }
+        public FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
+            return mApplicationComponent.getFetchQuestionDetailsUseCase();
+        }
 
-    public FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase(){
-        return mCompositionRoot.getFetchQuestionDetailsUseCase();
-    }
+        public FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
+            return mApplicationComponent.getFetchQuestionsListUseCase();
+        }
 
-    public ViewMvcFactory getViewMvcFactory(){
-        return new ViewMvcFactory(getLayoutInflater(),getImageLoader());
+        public ViewMvcFactory getViewMvcFactory() {
+            return new ViewMvcFactory(getLayoutInflater(), getImageLoader());
+        }
+
+        private ImageLoader getImageLoader() {
+            return new ImageLoader(getActivity());
+        }
     }
-    private ImageLoader getImageLoader(){
-        return new ImageLoader(getActivity());
-    }
-}

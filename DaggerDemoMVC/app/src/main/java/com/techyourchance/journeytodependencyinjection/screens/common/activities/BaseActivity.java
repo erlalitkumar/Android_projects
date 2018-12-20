@@ -8,33 +8,26 @@ import com.techyourchance.journeytodependencyinjection.MyApplication;
 import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.CompositionRoot;
 import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.Injector;
 import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.PresentationCompositionRoot;
+import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.application.ApplicationComponent;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private PresentationCompositionRoot mPresentationCompositionRoot;
     private boolean mIsInjectorUsed;
 
     @UiThread
     protected Injector getInjector() {
         if (mIsInjectorUsed) {
-            throw new RuntimeException("there is not need to use injector more than once");
+            throw new RuntimeException("there is no need to use injector more than once");
         }
         mIsInjectorUsed = true;
         return new Injector(getCompositionRoot());
     }
 
     private PresentationCompositionRoot getCompositionRoot() {
-        if (mPresentationCompositionRoot == null) {
-            mPresentationCompositionRoot = new PresentationCompositionRoot(
-                    getAppCompositionRoot(),
-                    this
-            );
-        }
-
-        return mPresentationCompositionRoot;
+        return new PresentationCompositionRoot(getApplicationComponent(),this);
     }
 
-    private CompositionRoot getAppCompositionRoot() {
-        return ((MyApplication) getApplication()).getCompositionRoot();
+    private ApplicationComponent getApplicationComponent() {
+        return ((MyApplication) getApplication()).getApplicationComponent();
     }
 }
