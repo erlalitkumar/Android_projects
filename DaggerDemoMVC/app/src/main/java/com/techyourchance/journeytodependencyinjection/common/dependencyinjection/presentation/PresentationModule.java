@@ -3,7 +3,6 @@ package com.techyourchance.journeytodependencyinjection.common.dependencyinjecti
 import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.application.ApplicationComponent;
@@ -13,8 +12,10 @@ import com.techyourchance.journeytodependencyinjection.screens.common.ImageLoade
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.DialogsManager;
 import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.ViewMvcFactory;
 
+import dagger.Module;
 import dagger.Provides;
 
+@Module
 public class PresentationModule {
 
     private final ApplicationComponent mApplicationComponent;
