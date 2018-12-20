@@ -46,8 +46,11 @@ public class QuestionDetailsActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        StackoverflowApi stackoverflowApi = ((MyApplication)getApplication()).getStackoverflowApi();
-        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase(stackoverflowApi);
+//        StackoverflowApi stackoverflowApi = ((MyApplication)getApplication()).getStackoverflowApi();
+//        mFetchQuestionDetailsUseCase = new FetchQuestionDetailsUseCase(stackoverflowApi);
+
+        mFetchQuestionDetailsUseCase = ((MyApplication)getApplication()).getFetchQuestionDetailsUseCase();
+
         mViewMvc = new QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null);
         setContentView(mViewMvc.getRootView());
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
