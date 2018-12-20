@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 
 import com.techyourchance.journeytodependencyinjection.MyApplication;
 import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.CompositionRoot;
+import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.Injector;
 import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.PresentationCompositionRoot;
 
 public class BaseActivity extends AppCompatActivity {
@@ -13,7 +14,10 @@ public class BaseActivity extends AppCompatActivity {
     private PresentationCompositionRoot mPresentationCompositionRoot;
 
     @UiThread
-    protected PresentationCompositionRoot getCompositionRoot() {
+    protected Injector getInjector(){
+       return new Injector(getCompositionRoot());
+    }
+    private PresentationCompositionRoot getCompositionRoot() {
         if (mPresentationCompositionRoot == null) {
             mPresentationCompositionRoot = new PresentationCompositionRoot(
                     getAppCompositionRoot(),

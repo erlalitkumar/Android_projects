@@ -9,6 +9,7 @@ import com.techyourchance.journeytodependencyinjection.questions.Question;
 import com.techyourchance.journeytodependencyinjection.screens.common.activities.BaseActivity;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.DialogsManager;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.ServerErrorDialogFragment;
+import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.ViewMvcFactory;
 import com.techyourchance.journeytodependencyinjection.screens.questiondetails.QuestionDetailsActivity;
 
 import java.util.List;
@@ -18,9 +19,11 @@ public class QuestionsListActivity extends BaseActivity implements
 
     private QuestionsListViewMvc mViewMvc;
 
-    private DialogsManager mDialogManager;
+   // private DialogsManager mDialogManager;
 
-    private FetchQuestionsListUseCase mFetchQuestionListUseCase;
+    public FetchQuestionsListUseCase mFetchQuestionsListUseCase;
+    public DialogsManager mDialogsManager;
+    public ViewMvcFactory mViewMvcFactory;
 
     private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
 
@@ -28,26 +31,26 @@ public class QuestionsListActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionsListViewMvc.class,null);
-        setContentView(mViewMvc.getRootView());
-        mFetchQuestionListUseCase = getCompositionRoot().getFetchQuestionsListUseCase();
+        getInjector().inject(this);
 
-        mDialogManager = getCompositionRoot().getDialogsManager();
+        mViewMvc = mViewMvcFactory.newInstance(QuestionsListViewMvc.class, null);
+
+        setContentView(mViewMvc.getRootView());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mViewMvc.registerListener(this);
-        mFetchQuestionListUseCase.registerListener(this);
-        mFetchQuestionListUseCase.fetchLastActiveQuestionsAndNotify(NUM_OF_QUESTIONS_TO_FETCH);
+        mFetchQuestionsListUseCase.registerListener(this);
+        mFetchQuestionsListUseCase.fetchLastActiveQuestionsAndNotify(NUM_OF_QUESTIONS_TO_FETCH);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         mViewMvc.unregisterListener(this);
-        mFetchQuestionListUseCase.unregisterListener(this);
+        mFetchQuestionsListUseCase.unregisterListener(this);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class QuestionsListActivity extends BaseActivity implements
 
     @Override
     public void onFetchOfQuestionsFailed() {
-        mDialogManager.showRetainedDialogWithId(ServerErrorDialogFragment.newInstance(), "");
+        mDialogsManager.showRetainedDialogWithId(ServerErrorDialogFragment.newInstance(), "");
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .add(ServerErrorDialogFragment.newInstance(), null)

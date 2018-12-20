@@ -10,6 +10,7 @@ import com.techyourchance.journeytodependencyinjection.questions.QuestionDetails
 import com.techyourchance.journeytodependencyinjection.screens.common.activities.BaseActivity;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.DialogsManager;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.ServerErrorDialogFragment;
+import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.ViewMvcFactory;
 
 public class QuestionDetailsActivity extends BaseActivity implements
         FetchQuestionDetailsUseCase.Listener, QuestionDetailsViewMvc.Listener {
@@ -25,23 +26,29 @@ public class QuestionDetailsActivity extends BaseActivity implements
     private String mQuestionId;
 
     private QuestionDetailsViewMvc mViewMvc;
+    public FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    public DialogsManager mDialogsManager;
+    public ViewMvcFactory mViewMvcFactory;
 
-    private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
-
-    private DialogsManager mDialogsManager;
+//    private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+//
+//    private DialogsManager mDialogsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getInjector().inject(this);
 
-        mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
+       // mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
 
-        //mViewMvc = new QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null);
+        mViewMvc = mViewMvcFactory.newInstance(QuestionDetailsViewMvc.class,null);
 
-        mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionDetailsViewMvc.class,null);
+
         setContentView(mViewMvc.getRootView());
+
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
-        mDialogsManager = getCompositionRoot().getDialogsManager();
+
+       // mDialogsManager = getCompositionRoot().getDialogsManager();
 
     }
 
