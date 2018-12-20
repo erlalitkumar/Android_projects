@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
+import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.Service;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.journeytodependencyinjection.questions.QuestionDetails;
 import com.techyourchance.journeytodependencyinjection.screens.common.activities.BaseActivity;
@@ -26,9 +27,12 @@ public class QuestionDetailsActivity extends BaseActivity implements
     private String mQuestionId;
 
     private QuestionDetailsViewMvc mViewMvc;
-    public FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
-    public DialogsManager mDialogsManager;
-    public ViewMvcFactory mViewMvcFactory;
+    @Service
+    private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    @Service
+    private DialogsManager mDialogsManager;
+    @Service
+    private ViewMvcFactory mViewMvcFactory;
 
 //    private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
 //
@@ -39,16 +43,16 @@ public class QuestionDetailsActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         getInjector().inject(this);
 
-       // mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
+        // mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
 
-        mViewMvc = mViewMvcFactory.newInstance(QuestionDetailsViewMvc.class,null);
+        mViewMvc = mViewMvcFactory.newInstance(QuestionDetailsViewMvc.class, null);
 
 
         setContentView(mViewMvc.getRootView());
 
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
 
-       // mDialogsManager = getCompositionRoot().getDialogsManager();
+        // mDialogsManager = getCompositionRoot().getDialogsManager();
 
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 
+import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.Service;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionsListUseCase;
 import com.techyourchance.journeytodependencyinjection.questions.Question;
 import com.techyourchance.journeytodependencyinjection.screens.common.activities.BaseActivity;
@@ -19,11 +20,13 @@ public class QuestionsListActivity extends BaseActivity implements
 
     private QuestionsListViewMvc mViewMvc;
 
-   // private DialogsManager mDialogManager;
-
+    // private DialogsManager mDialogManager;
+    @Service
     public FetchQuestionsListUseCase mFetchQuestionsListUseCase;
-    public DialogsManager mDialogsManager;
-    public ViewMvcFactory mViewMvcFactory;
+    @Service
+    private DialogsManager mDialogsManager;
+    @Service
+    private ViewMvcFactory mViewMvcFactory;
 
     private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
 
