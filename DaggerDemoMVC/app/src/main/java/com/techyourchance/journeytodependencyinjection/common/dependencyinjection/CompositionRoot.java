@@ -6,7 +6,6 @@ import com.techyourchance.journeytodependencyinjection.Constants;
 import com.techyourchance.journeytodependencyinjection.networking.StackoverflowApi;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionsListUseCase;
-import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.DialogManagerFactory;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -42,7 +41,4 @@ public class CompositionRoot {
         return new FetchQuestionDetailsUseCase(getStackoverflowApi());
     }
 
-    public DialogManagerFactory getDialogsManagerFactory(){
-        return new DialogManagerFactory();
-    }
 }

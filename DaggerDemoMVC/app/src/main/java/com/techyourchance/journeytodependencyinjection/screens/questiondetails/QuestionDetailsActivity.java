@@ -52,7 +52,7 @@ public class QuestionDetailsActivity extends BaseActivity implements
         mViewMvc = new QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null);
         setContentView(mViewMvc.getRootView());
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
-        mDialogsManager = getCompositionRoot().getDialogsManagerFactory().newDialogsManager(getSupportFragmentManager());
+        mDialogsManager = getCompositionRoot().getDialogsManager();
 
     }
 
