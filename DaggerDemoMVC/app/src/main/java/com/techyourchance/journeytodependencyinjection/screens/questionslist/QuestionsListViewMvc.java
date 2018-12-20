@@ -5,8 +5,8 @@ import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.O
 
 import java.util.List;
 
-public interface QuestionListViewMvc
-        extends ObservableViewMvc<QuestionListViewMvc.Listener> {
+public interface QuestionsListViewMvc
+        extends ObservableViewMvc<QuestionsListViewMvc.Listener> {
     interface Listener {
         void onQuestionClicked(Question question);
     }

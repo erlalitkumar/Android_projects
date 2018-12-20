@@ -14,8 +14,8 @@ import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.B
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionsListViewMvcImpl extends BaseViewMvc<QuestionListViewMvc.Listener>
-        implements QuestionListViewMvc {
+public class QuestionsListViewMvcImpl extends BaseViewMvc<QuestionsListViewMvc.Listener>
+        implements QuestionsListViewMvc {
 
     private RecyclerView mRecyclerView;
     private QuestionsAdapter mQuestionsAdapter;

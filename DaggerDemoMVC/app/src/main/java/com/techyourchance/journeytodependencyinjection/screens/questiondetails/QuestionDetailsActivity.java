@@ -25,7 +25,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QuestionDetailsActivity extends BaseActivity implements
-        FetchQuestionDetailsUseCase.Listener, QuestionDetailsViewMvcImpl.Listener {
+        FetchQuestionDetailsUseCase.Listener, QuestionDetailsViewMvc.Listener {
 
     public static final String EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID";
 
@@ -37,7 +37,7 @@ public class QuestionDetailsActivity extends BaseActivity implements
 
     private String mQuestionId;
 
-    private QuestionDetailsViewMvcImpl mViewMvc;
+    private QuestionDetailsViewMvc mViewMvc;
 
     private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
 
@@ -49,7 +49,9 @@ public class QuestionDetailsActivity extends BaseActivity implements
 
         mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
 
-        mViewMvc = new QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null);
+        //mViewMvc = new QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null);
+
+        mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionDetailsViewMvc.class,null);
         setContentView(mViewMvc.getRootView());
         mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
         mDialogsManager = getCompositionRoot().getDialogsManager();
