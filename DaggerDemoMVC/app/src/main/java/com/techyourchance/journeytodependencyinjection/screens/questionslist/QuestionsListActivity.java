@@ -33,7 +33,7 @@ public class QuestionsListActivity extends BaseActivity implements
         setContentView(mViewMvc.getRootView());
         mFetchQuestionListUseCase = getCompositionRoot().getFetchQuestionsListUseCase();
 
-        mDialogManager = new DialogsManager(getSupportFragmentManager());
+        mDialogManager = getCompositionRoot().getDialogsManager(getSupportFragmentManager());
     }
 
     @Override
