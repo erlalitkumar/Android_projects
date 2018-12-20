@@ -22,7 +22,7 @@ public class QuestionsListActivity extends BaseActivity implements
 
     // private DialogsManager mDialogManager;
     @Service
-    public FetchQuestionsListUseCase mFetchQuestionsListUseCase;
+    private FetchQuestionsListUseCase mFetchQuestionsListUseCase;
     @Service
     private DialogsManager mDialogsManager;
     @Service

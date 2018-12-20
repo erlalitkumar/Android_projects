@@ -12,11 +12,17 @@ import com.techyourchance.journeytodependencyinjection.common.dependencyinjectio
 public class BaseActivity extends AppCompatActivity {
 
     private PresentationCompositionRoot mPresentationCompositionRoot;
+    private boolean mIsInjectorUsed;
 
     @UiThread
-    protected Injector getInjector(){
-       return new Injector(getCompositionRoot());
+    protected Injector getInjector() {
+        if (mIsInjectorUsed) {
+            throw new RuntimeException("there is not need to use injector more than once");
+        }
+        mIsInjectorUsed = true;
+        return new Injector(getCompositionRoot());
     }
+
     private PresentationCompositionRoot getCompositionRoot() {
         if (mPresentationCompositionRoot == null) {
             mPresentationCompositionRoot = new PresentationCompositionRoot(
