@@ -28,13 +28,9 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
 
     @Nullable Call<SingleQuestionResponseSchema> mCall;
 
-    public FetchQuestionDetailsUseCase(Retrofit retrofit) {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Constants.BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-
-        mStackoverflowApi = retrofit.create(StackoverflowApi.class);
+    public FetchQuestionDetailsUseCase(StackoverflowApi stackoverflowApi) {
+//
+        mStackoverflowApi = stackoverflowApi;
     }
 
     public void fetchQuestionDetailsAndNotify(String questionId) {

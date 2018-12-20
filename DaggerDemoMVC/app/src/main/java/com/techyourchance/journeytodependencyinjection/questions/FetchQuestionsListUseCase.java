@@ -27,13 +27,8 @@ public class FetchQuestionsListUseCase extends BaseObservable<FetchQuestionsList
 
     @Nullable Call<QuestionsListResponseSchema> mCall;
 
-    public FetchQuestionsListUseCase(Retrofit retrofit) {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Constants.BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-
-        mStackoverflowApi = retrofit.create(StackoverflowApi.class);
+    public FetchQuestionsListUseCase(StackoverflowApi stackoverflowApi) {
+        mStackoverflowApi = stackoverflowApi;
     }
 
     public void fetchLastActiveQuestionsAndNotify(int numOfQuestions) {

@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import com.techyourchance.journeytodependencyinjection.MyApplication;
-import com.techyourchance.journeytodependencyinjection.networking.QuestionsListResponseSchema;
+import com.techyourchance.journeytodependencyinjection.networking.StackoverflowApi;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionsListUseCase;
 import com.techyourchance.journeytodependencyinjection.questions.Question;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.DialogsManager;
@@ -14,8 +14,6 @@ import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.Se
 import com.techyourchance.journeytodependencyinjection.screens.questiondetails.QuestionDetailsActivity;
 
 import java.util.List;
-
-import retrofit2.Call;
 
 public class QuestionsListActivity extends AppCompatActivity implements
         FetchQuestionsListUseCase.Listener, QuestionListViewMvc.Listener {
@@ -34,7 +32,8 @@ public class QuestionsListActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         mViewMvc = new QuestionsListViewMvcImpl(LayoutInflater.from(this), null);
         setContentView(mViewMvc.getRootView());
-        mFetchQuestionListUseCase = new FetchQuestionsListUseCase(((MyApplication) getApplication()).getRetrofit());
+        StackoverflowApi stackoverflowApi = ((MyApplication)getApplication()).getStackoverflowApi();
+        mFetchQuestionListUseCase = new FetchQuestionsListUseCase(stackoverflowApi);
         mDialogManager = new DialogsManager(getSupportFragmentManager());
     }
 
