@@ -35,7 +35,7 @@ public class QuestionsListActivity extends AppCompatActivity implements
 //        StackoverflowApi stackoverflowApi = ((MyApplication)getApplication()).getStackoverflowApi();
 //        mFetchQuestionListUseCase = new FetchQuestionsListUseCase(stackoverflowApi);
 
-        mFetchQuestionListUseCase = ((MyApplication)getApplication()).getFetchQuestionsListUseCase();
+        mFetchQuestionListUseCase = ((MyApplication)getApplication()).getCompositionRoot().getFetchQuestionsListUseCase();
 
         mDialogManager = new DialogsManager(getSupportFragmentManager());
     }

@@ -29,7 +29,7 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
     @Nullable Call<SingleQuestionResponseSchema> mCall;
 
     public FetchQuestionDetailsUseCase(StackoverflowApi stackoverflowApi) {
-//
+
         mStackoverflowApi = stackoverflowApi;
     }
 
