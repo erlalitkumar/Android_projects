@@ -18,12 +18,10 @@ import dagger.Provides;
 @Module
 public class PresentationModule {
 
-    private final ApplicationComponent mApplicationComponent;
+    //private final ApplicationComponent mApplicationComponent;
     private final FragmentActivity mActivity;
 
-    public PresentationModule(FragmentActivity fragmentActivity,
-                              ApplicationComponent applicationComponent) {
-        mApplicationComponent = applicationComponent;
+    public PresentationModule(FragmentActivity fragmentActivity) {
         mActivity = fragmentActivity;
     }
 
@@ -46,18 +44,22 @@ public class PresentationModule {
     DialogsManager getDialogsManager() {
         return new DialogsManager(getFragmentManager());
     }
-    @Provides
-    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
-        return mApplicationComponent.getFetchQuestionDetailsUseCase();
-    }
-    @Provides
-    FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
-        return mApplicationComponent.getFetchQuestionsListUseCase();
-    }
+
+//    @Provides
+//    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
+//        return mApplicationComponent.getFetchQuestionDetailsUseCase();
+//    }
+//
+//    @Provides
+//    FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
+//        return mApplicationComponent.getFetchQuestionsListUseCase();
+//    }
+
     @Provides
     ViewMvcFactory getViewMvcFactory() {
         return new ViewMvcFactory(getLayoutInflater(), getImageLoader());
     }
+
     @Provides
     ImageLoader getImageLoader() {
         return new ImageLoader(getActivity());
