@@ -2,9 +2,7 @@ package com.techyourchance.journeytodependencyinjection.screens.questionslist;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.view.LayoutInflater;
 
-import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.Service;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionsListUseCase;
 import com.techyourchance.journeytodependencyinjection.questions.Question;
 import com.techyourchance.journeytodependencyinjection.screens.common.activities.BaseActivity;
@@ -15,18 +13,20 @@ import com.techyourchance.journeytodependencyinjection.screens.questiondetails.Q
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class QuestionsListActivity extends BaseActivity implements
         FetchQuestionsListUseCase.Listener, QuestionsListViewMvc.Listener {
 
     private QuestionsListViewMvc mViewMvc;
 
     // private DialogsManager mDialogManager;
-    @Service
-    private FetchQuestionsListUseCase mFetchQuestionsListUseCase;
-    @Service
-    private DialogsManager mDialogsManager;
-    @Service
-    private ViewMvcFactory mViewMvcFactory;
+    @Inject
+    FetchQuestionsListUseCase mFetchQuestionsListUseCase;
+    @Inject
+    DialogsManager mDialogsManager;
+    @Inject
+    ViewMvcFactory mViewMvcFactory;
 
     private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
 
@@ -34,7 +34,7 @@ public class QuestionsListActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getInjector().inject(this);
+        getPresentationComponent().inject(this);
 
         mViewMvc = mViewMvcFactory.newInstance(QuestionsListViewMvc.class, null);
 

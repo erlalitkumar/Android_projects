@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
-import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.Service;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.journeytodependencyinjection.questions.QuestionDetails;
 import com.techyourchance.journeytodependencyinjection.screens.common.activities.BaseActivity;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.DialogsManager;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.ServerErrorDialogFragment;
 import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.ViewMvcFactory;
+
+import javax.inject.Inject;
 
 public class QuestionDetailsActivity extends BaseActivity implements
         FetchQuestionDetailsUseCase.Listener, QuestionDetailsViewMvc.Listener {
@@ -27,12 +28,12 @@ public class QuestionDetailsActivity extends BaseActivity implements
     private String mQuestionId;
 
     private QuestionDetailsViewMvc mViewMvc;
-    @Service
-    private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
-    @Service
-    private DialogsManager mDialogsManager;
-    @Service
-    private ViewMvcFactory mViewMvcFactory;
+    @Inject
+    FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+    @Inject
+    DialogsManager mDialogsManager;
+    @Inject
+    ViewMvcFactory mViewMvcFactory;
 
 //    private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
 //
@@ -41,7 +42,7 @@ public class QuestionDetailsActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getInjector().inject(this);
+        getPresentationComponent().inject(this);
 
         // mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
 
