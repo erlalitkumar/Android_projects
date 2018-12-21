@@ -14,21 +14,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class ApplicationModule {
-    @Singleton
-    @Provides
-    Retrofit getRetrofit() {
-
-        return new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
-    @Singleton
-    @Provides
-    StackoverflowApi getStackoverflowApi(Retrofit retrofit) {
-        return retrofit.create(StackoverflowApi.class);
-    }
+//    @Singleton
+//    @Provides
+//    Retrofit getRetrofit() {
+//
+//        return new Retrofit.Builder()
+//                .baseUrl(Constants.BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//    }
+//
+//    @Singleton
+//    @Provides
+//    StackoverflowApi getStackoverflowApi(Retrofit retrofit) {
+//        return retrofit.create(StackoverflowApi.class);
+//    }
 
     @Provides
     FetchQuestionsListUseCase getFetchQuestionsListUseCase(StackoverflowApi stackoverflowApi) {
