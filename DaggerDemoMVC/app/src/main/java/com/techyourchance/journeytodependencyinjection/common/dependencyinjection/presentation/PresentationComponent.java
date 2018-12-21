@@ -1,14 +1,13 @@
 package com.techyourchance.journeytodependencyinjection.common.dependencyinjection.presentation;
 
-import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.application.ApplicationComponent;
 import com.techyourchance.journeytodependencyinjection.screens.questiondetails.QuestionDetailsActivity;
 import com.techyourchance.journeytodependencyinjection.screens.questionslist.QuestionsListActivity;
 
-import dagger.Component;
+import dagger.Subcomponent;
 
-@PresentationScope
-@Component(dependencies = ApplicationComponent.class, modules = PresentationModule.class)
+@Subcomponent(modules = PresentationModule.class)
 public interface PresentationComponent {
-void inject(QuestionsListActivity questionsListActivity);
-void inject(QuestionDetailsActivity questionDetailsActivity);
+    void inject(QuestionsListActivity questionsListActivity);
+
+    void inject(QuestionDetailsActivity questionDetailsActivity);
 }

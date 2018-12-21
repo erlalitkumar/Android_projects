@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 
 import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.application.ApplicationComponent;
+import com.techyourchance.journeytodependencyinjection.networking.StackoverflowApi;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionsListUseCase;
 import com.techyourchance.journeytodependencyinjection.screens.common.ImageLoader;
@@ -41,19 +42,15 @@ public class PresentationModule {
     }
 
     @Provides
+    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase(StackoverflowApi stackoverflowApi) {
+        return new FetchQuestionDetailsUseCase(stackoverflowApi);
+    }
+
+    @Provides
     DialogsManager getDialogsManager() {
         return new DialogsManager(getFragmentManager());
     }
 
-//    @Provides
-//    FetchQuestionDetailsUseCase getFetchQuestionDetailsUseCase() {
-//        return mApplicationComponent.getFetchQuestionDetailsUseCase();
-//    }
-//
-//    @Provides
-//    FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
-//        return mApplicationComponent.getFetchQuestionsListUseCase();
-//    }
 
     @Provides
     ViewMvcFactory getViewMvcFactory() {
