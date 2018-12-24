@@ -2,7 +2,7 @@
 <layout xmlns:bind="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <variable name="handlers" type="com.lkb.baseandroidproject.MainActivity.MyClickHandlers"/>
         <variable
                 name="user"
                 type="com.lkb.baseandroidproject.User"/>
@@ -33,7 +33,8 @@
         <include
                 android:id="@+id/content"
                 layout="@layout/content_main"
-                bind:user="@{user}"/>
+                bind:user="@{user}"
+                bind:handlers="@{handlers}"/>
 
         <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
@@ -41,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
+                android:onClick="@{handlers::onFabClicked}"
                 app:srcCompat="@android:drawable/ic_dialog_email"/>
 
     </android.support.design.widget.CoordinatorLayout>
