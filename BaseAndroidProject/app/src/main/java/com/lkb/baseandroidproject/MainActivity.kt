@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding.user = usr
         handlers = MyClickHandlers(this)
         binding.handlers = handlers
-        binding.loader = ImageLoader()
+        binding.loader = ProfileViewModel(this)
     }
 
 

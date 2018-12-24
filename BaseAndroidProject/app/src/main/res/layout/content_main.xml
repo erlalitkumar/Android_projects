@@ -5,7 +5,7 @@
 
         <variable name="user" type="com.lkb.baseandroidproject.User"/>
         <variable name="handlers" type="com.lkb.baseandroidproject.MainActivity.MyClickHandlers"/>
-        <variable name="loader" type="com.lkb.baseandroidproject.ImageLoader"/>
+        <variable name="loader" type="com.lkb.baseandroidproject.ProfileViewModel"/>
     </data>
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -50,7 +50,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="@dimen/fab_margin"
-                android:imageUrl="@{loader.imageUrl}"/>
+                android:src="@{loader.profileImage}"/>
 
     </LinearLayout>
 </layout>

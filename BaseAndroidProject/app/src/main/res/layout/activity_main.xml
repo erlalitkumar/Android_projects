@@ -7,7 +7,7 @@
                 name="user"
                 type="com.lkb.baseandroidproject.User"/>
 
-        <variable name="loader" type="com.lkb.baseandroidproject.ImageLoader"/>
+        <variable name="loader" type="com.lkb.baseandroidproject.ProfileViewModel"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
