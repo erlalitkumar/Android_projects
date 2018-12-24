@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(binding.toolbar)
         usr = User()
         usr.name.set("Lalit")
         usr.email.set("lalitkbehera@gmail.com")
@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding.user = usr
         handlers = MyClickHandlers(this)
         binding.handlers = handlers
+        binding.loader = ImageLoader()
     }
 
 

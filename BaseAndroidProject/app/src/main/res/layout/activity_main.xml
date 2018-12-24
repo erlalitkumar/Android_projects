@@ -6,6 +6,8 @@
         <variable
                 name="user"
                 type="com.lkb.baseandroidproject.User"/>
+
+        <variable name="loader" type="com.lkb.baseandroidproject.ImageLoader"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -34,7 +36,8 @@
                 android:id="@+id/content"
                 layout="@layout/content_main"
                 bind:user="@{user}"
-                bind:handlers="@{handlers}"/>
+                bind:handlers="@{handlers}"
+                bind:loader="@{loader}"/>
 
         <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
