@@ -9,15 +9,18 @@ import com.lkb.baseandroidproject.databinding.ActivityMainBinding
 import android.widget.Toast
 
 
-
 class MainActivity : AppCompatActivity() {
-private lateinit var handlers: MyClickHandlers
+    private lateinit var handlers: MyClickHandlers
+    lateinit var usr: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(binding.toolbar);
-        val usr = User("Lalit", "lalitkbehera@gmail.com")
+        usr = User()
+        usr.name = "Lalit"
+        usr.email = "lalitkbehera@gmail.com"
+
         binding.user = usr
         handlers = MyClickHandlers(this)
         binding.handlers = handlers
@@ -27,6 +30,8 @@ private lateinit var handlers: MyClickHandlers
     inner class MyClickHandlers(internal var context: Context) {
 
         fun onFabClicked(view: View) {
+            usr.name = "Jhon Doe"
+            usr.email = "jhon@gmail.com"
             Toast.makeText(applicationContext, "FAB clicked!", Toast.LENGTH_SHORT).show()
         }
 
