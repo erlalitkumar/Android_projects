@@ -35,7 +35,7 @@ public class QuestionsListViewMvcImpl extends BaseViewMvc<QuestionsListViewMvc.L
                 }
             }
         });
-
+da
         mRecyclerView.setAdapter(mQuestionsAdapter);
     }
 
