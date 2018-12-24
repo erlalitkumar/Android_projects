@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(binding.toolbar);
         usr = User()
-        usr.name = "Lalit"
-        usr.email = "lalitkbehera@gmail.com"
+        usr.name.set("Lalit")
+        usr.email.set("lalitkbehera@gmail.com")
 
         binding.user = usr
         handlers = MyClickHandlers(this)
@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity() {
     inner class MyClickHandlers(internal var context: Context) {
 
         fun onFabClicked(view: View) {
-            usr.name = "Jhon Doe"
-            usr.email = "jhon@gmail.com"
+            usr.name.set("Jhon Doe")
+            usr.email.set("jhon@gmail.com")
             Toast.makeText(applicationContext, "FAB clicked!", Toast.LENGTH_SHORT).show()
         }
 

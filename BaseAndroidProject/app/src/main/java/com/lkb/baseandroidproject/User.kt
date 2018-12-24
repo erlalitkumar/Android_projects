@@ -1,20 +1,10 @@
 package com.lkb.baseandroidproject
 
 import android.databinding.BaseObservable
-import android.databinding.Bindable
+import android.databinding.ObservableField
 
 class User : BaseObservable() {
-    @get:Bindable
-    var name:String=""
-     set(value){
-        field =value
-        notifyPropertyChanged(BR.name)
-    }
+    var name:ObservableField<String> = ObservableField()
+    var email:ObservableField<String> = ObservableField()
 
-    @get:Bindable
-    var email:String=""
-         set(value){
-            field =value
-            notifyPropertyChanged(BR.email)
-        }
 }
