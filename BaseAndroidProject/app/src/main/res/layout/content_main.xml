@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <import type="com.lkb.baseandroidproject.Util"/>
         <variable name="user" type="com.lkb.baseandroidproject.User"/>
         <variable name="handlers" type="com.lkb.baseandroidproject.MainActivity.MyClickHandlers"/>
         <variable name="loader" type="com.lkb.baseandroidproject.ProfileViewModel"/>
@@ -21,7 +21,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{user.name}"/>
+                android:text="@{Util.capitalize(user.name)}"/>
 
         <TextView
                 android:layout_width="wrap_content"
