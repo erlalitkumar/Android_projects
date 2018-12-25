@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.base
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

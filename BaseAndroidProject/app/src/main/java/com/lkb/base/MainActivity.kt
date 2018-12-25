@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.base
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
