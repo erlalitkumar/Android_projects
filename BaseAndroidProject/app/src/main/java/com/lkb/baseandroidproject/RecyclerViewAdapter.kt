@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
-    var data: ArrayList<User> = arrayListOf()
+    var data: List<User> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, postion: Int): MyViewHolder {
         var view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_item, parent, false)
         return MyViewHolder(view)
@@ -29,7 +29,7 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolde
         var email: TextView = itemView.findViewById(R.id.email)
     }
 
-    fun bindData(data: ArrayList<User>) {
+    fun bindData(data: List<User>) {
         this.data = data
         notifyDataSetChanged()
     }
