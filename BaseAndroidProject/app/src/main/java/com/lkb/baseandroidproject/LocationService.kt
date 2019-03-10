@@ -4,18 +4,51 @@ import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.*
 import android.util.Log
 import android.widget.Toast
+import android.hardware.SensorManager
 
-class LocationService : Service() {
+
+class LocationService : Service(), SensorEventListener {
+    private val gravity = FloatArray(3)
+    private val linear_acceleration = FloatArray(3)
     private var instance: LocationService? = null
     private val tag = "LocationService"
     private var serviceLooper: Looper? = null
     private var serviceHandler: ServiceHandler? = null
+
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        // alpha is calculated as t / (t + dT)
+        // with t, the low-pass filter's time-constant
+        // and dT, the event delivery rate
+
+        val alpha = 0.8f;
+
+        gravity[0] = alpha * gravity[0] + (1 - alpha) * event!!.values[0];
+        gravity[1] = alpha * gravity[1] + (1 - alpha) * event!!.values[1];
+        gravity[2] = alpha * gravity[2] + (1 - alpha) * event!!.values[2];
+
+        linear_acceleration[0] = event!!.values[0] - gravity[0];
+        linear_acceleration[1] = event!!.values[1] - gravity[1];
+        linear_acceleration[2] = event!!.values[2] - gravity[2];
+        Log.d(tag, linear_acceleration[0].toString());
+        Log.d(tag, linear_acceleration[1].toString());
+        Log.d(tag, linear_acceleration[2].toString());
+    }
+
+
 
     private fun isServiceRunning(): Boolean {
         return instance != null
@@ -32,6 +65,10 @@ class LocationService : Service() {
     }
 
     override fun onCreate() {
+
+        val mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL)
         HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
             start()
             // Get the HandlerThread's Looper and use it for our Handler
@@ -82,6 +119,7 @@ class LocationService : Service() {
     }
 
     override fun onDestroy() {
+        Log.v(tag, "Location Service destroyed")
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
         instance = null
     }
