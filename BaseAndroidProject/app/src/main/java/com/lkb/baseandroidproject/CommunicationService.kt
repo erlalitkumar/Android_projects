@@ -44,6 +44,7 @@ class CommunicationService : Service() {
                 //val post = dataSnapshot.getValue(Post::class.java)
                 // ...
                 val data = dataSnapshot.getValue(ComModel::class.java)
+                Toast.makeText(this@CommunicationService,data!!.content,Toast.LENGTH_SHORT).show()
                 Log.w(tag, "${data.toString()}")
             }
 

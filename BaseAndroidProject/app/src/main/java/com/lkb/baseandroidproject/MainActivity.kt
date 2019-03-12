@@ -13,17 +13,37 @@ import android.util.Log
 import android.widget.Toast
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
-    private var mAuth:FirebaseAuth?=null
+    val tag = "MainActivity"
+    private var mAuth: FirebaseAuth? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mAuth = FirebaseAuth.getInstance()
+        var userDatabase = FirebaseDatabase.getInstance().reference
+        val userSnapshot = userDatabase.child("users").child(mAuth!!.uid.toString())
+        val valueEventListener = object : ValueEventListener {
+            override fun onCancelled(e: DatabaseError) {
+                Log.d(tag, "Error", e.toException())
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (!dataSnapshot.exists())
+                    userDatabase.child("users").child(mAuth!!.uid.toString()).setValue(UserModel())
+            }
+
+        }
+        userSnapshot.addListenerForSingleValueEvent(valueEventListener)
+
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             var intent = Intent(this@MainActivity, LoginActivity::class.java)
