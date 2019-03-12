@@ -19,14 +19,14 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
-
+    private var mAuth:FirebaseAuth?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        mAuth = FirebaseAuth.getInstance()
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            var intent = Intent(this@MainActivity,LoginActivity::class.java)
+            var intent = Intent(this@MainActivity, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)

@@ -15,7 +15,8 @@ import com.google.firebase.database.*
 class CommunicationService : Service() {
 
     private var instance: CommunicationService? = null
-    private val tag = "Communication service"
+    private val msg_root="messages"
+    private val tag = "ComService"
     private var serviceLooper: Looper? = null
     private var serviceHandler: ServiceHandler? = null
     private lateinit var comDataReference: DatabaseReference
@@ -29,13 +30,14 @@ class CommunicationService : Service() {
         @SuppressLint("MissingPermission")
         override fun handleMessage(msg: Message?) {
             //create the communication model in firebase and observe any change.
-            comDataReference.child("messages").child(FirebaseAuth.getInstance().uid.toString())
+            comDataReference.child(msg_root).child(FirebaseAuth.getInstance().uid.toString())
                 .setValue(ComModel("${FirebaseAuth.getInstance().uid}", "Hello", true))
         }
     }
 
     override fun onCreate() {
         comDataReference = FirebaseDatabase.getInstance().reference
+        Log.v(tag,FirebaseAuth.getInstance().uid)
         val comDataListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
@@ -51,7 +53,7 @@ class CommunicationService : Service() {
                 // ...
             }
         }
-        comDataReference.child("messages").child(FirebaseAuth.getInstance().uid.toString()).addValueEventListener(comDataListener)
+        comDataReference.child("messages").child("0XOvHr3sYxZHSXLMgw994m6fSME3").addValueEventListener(comDataListener)
         HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
             start()
             // Get the HandlerThread's Looper and use it for our Handler
