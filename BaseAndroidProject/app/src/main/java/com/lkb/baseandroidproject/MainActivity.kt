@@ -24,16 +24,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        FirebaseApp.initializeApp(this);
-        btnLogin.setOnClickListener{
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(etEmail.text.toString(), etPassword.text.toString())
-                .addOnCompleteListener(this) {
-                    if (it.isSuccessful) {
-                        tvLoggedInUser.text = FirebaseAuth.getInstance().currentUser!!.email
-                    } else {
-                        Toast.makeText(this@MainActivity, "Unable to login!",Toast.LENGTH_SHORT).show()
-                    }
-                }
+        btnLogout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            var intent = Intent(this@MainActivity,LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
         }
 
         button.setOnClickListener {
