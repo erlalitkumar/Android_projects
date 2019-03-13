@@ -17,20 +17,34 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONObject
 import java.io.IOException
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
     val tag = "MainActivity"
+    var qrScan:IntentIntegrator?=null
     private var mAuth: FirebaseAuth? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        qrScan = IntentIntegrator(this)
+
         mAuth = FirebaseAuth.getInstance()
         var userDatabase = FirebaseDatabase.getInstance().reference
         val userSnapshot = userDatabase.child("users").child(mAuth!!.uid.toString())
+
+       btnParent.setOnClickListener {
+           qrScan?.initiateScan()
+       }
+
+        btnChild.setOnClickListener {
+            var intent = Intent(this@MainActivity, ChildQRCodeActivity::class.java)
+            startActivity(intent)
+        }
         val valueEventListener = object : ValueEventListener {
             override fun onCancelled(e: DatabaseError) {
                 Log.d(tag, "Error", e.toException())
@@ -86,6 +100,19 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             // Permission has already been granted
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        var result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data)
+        if(result!=null){
+            if(result.contents ==null){
+                Toast.makeText(this@MainActivity,"Result not found",Toast.LENGTH_SHORT).show()
+
+            }else{
+                txtChildId.text = result.contents
+            }
         }
     }
 }
