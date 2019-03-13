@@ -3,6 +3,7 @@ package com.lkb.baseandroidproject
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.*
 import android.os.Bundle
@@ -13,10 +14,7 @@ import android.util.Log
 import android.widget.Toast
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
@@ -24,10 +22,11 @@ import java.io.IOException
 import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     val tag = "MainActivity"
-    var qrScan:IntentIntegrator?=null
+    var qrScan: IntentIntegrator? = null
     private var mAuth: FirebaseAuth? = null
+    var userSnapshot: DatabaseReference? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,28 +34,17 @@ class MainActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         var userDatabase = FirebaseDatabase.getInstance().reference
-        val userSnapshot = userDatabase.child("users").child(mAuth!!.uid.toString())
+        userSnapshot = userDatabase.child("users").child(mAuth!!.uid.toString())
 
-       btnParent.setOnClickListener {
-           qrScan?.initiateScan()
-       }
+        btnParent.setOnClickListener {
+            qrScan?.initiateScan()
+        }
 
         btnChild.setOnClickListener {
             var intent = Intent(this@MainActivity, ChildQRCodeActivity::class.java)
             startActivity(intent)
         }
-        val valueEventListener = object : ValueEventListener {
-            override fun onCancelled(e: DatabaseError) {
-                Log.d(tag, "Error", e.toException())
-            }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (!dataSnapshot.exists())
-                    userDatabase.child("users").child(mAuth!!.uid.toString()).setValue(UserModel())
-            }
-
-        }
-        userSnapshot.addListenerForSingleValueEvent(valueEventListener)
 
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -105,13 +93,40 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        var result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data)
-        if(result!=null){
-            if(result.contents ==null){
-                Toast.makeText(this@MainActivity,"Result not found",Toast.LENGTH_SHORT).show()
+        var result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents == null) {
+                Toast.makeText(this@MainActivity, "Result not found", Toast.LENGTH_SHORT).show()
 
-            }else{
+            } else {
                 txtChildId.text = result.contents
+                //(application as MyApplication).childId = result.contents
+                //update the child_id in the database
+                (application as MyApplication).childId = result.contents
+                var sPref = applicationContext.getSharedPreferences("Tracking",0) //private mode
+                var editor = sPref.edit()
+                editor.putString("child_id", result.contents)
+                editor.commit()
+                FirebaseDatabase.getInstance().reference
+                    .child("users")
+                    .child(FirebaseAuth.getInstance().uid.toString())
+                    .setValue(UserModel(result.contents))
+//                val valueEventListener = object : ValueEventListener {
+//                    override fun onCancelled(e: DatabaseError) {
+//                        Log.d(tag, "Error", e.toException())
+//                    }
+//
+//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                        if (dataSnapshot.exists())
+//                        //update the child_id in the database
+//                            FirebaseDatabase.getInstance().reference
+//                                .child("users")
+//                                .child(FirebaseAuth.getInstance().uid.toString())
+//                                .setValue(UserModel(result.contents))
+//                    }
+//
+//                }
+//                userSnapshot?.addListenerForSingleValueEvent(valueEventListener)
             }
         }
     }

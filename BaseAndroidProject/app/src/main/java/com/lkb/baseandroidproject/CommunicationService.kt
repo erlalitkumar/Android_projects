@@ -15,7 +15,7 @@ import com.google.firebase.database.*
 class CommunicationService : Service() {
 
     private var instance: CommunicationService? = null
-    private val msg_root="messages"
+    private val msg_root = "messages"
     private val tag = "ComService"
     private var serviceLooper: Looper? = null
     private var serviceHandler: ServiceHandler? = null
@@ -31,20 +31,20 @@ class CommunicationService : Service() {
         override fun handleMessage(msg: Message?) {
             //create the communication model in firebase and observe any change.
             comDataReference.child(msg_root).child(FirebaseAuth.getInstance().uid.toString())
-                .setValue(ComModel("${FirebaseAuth.getInstance().uid}", "Hello", true))
+                .setValue(ComModel())
         }
     }
 
     override fun onCreate() {
         comDataReference = FirebaseDatabase.getInstance().reference
-        Log.v(tag,FirebaseAuth.getInstance().uid)
+        Log.v(tag, FirebaseAuth.getInstance().uid)
         val comDataListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
                 //val post = dataSnapshot.getValue(Post::class.java)
                 // ...
                 val data = dataSnapshot.getValue(ComModel::class.java)
-                Toast.makeText(this@CommunicationService,data!!.content,Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CommunicationService, " current lat${data?.cLat} and long${data?.cLong}", Toast.LENGTH_SHORT).show()
                 Log.w(tag, "${data.toString()}")
             }
 
@@ -54,7 +54,8 @@ class CommunicationService : Service() {
                 // ...
             }
         }
-        comDataReference.child("messages").child("0XOvHr3sYxZHSXLMgw994m6fSME3").addValueEventListener(comDataListener)
+        comDataReference.child("messages").child((application as MyApplication).childId)
+            .addValueEventListener(comDataListener)
         HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
             start()
             // Get the HandlerThread's Looper and use it for our Handler
