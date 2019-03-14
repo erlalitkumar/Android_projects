@@ -30,8 +30,10 @@ class CommunicationService : Service() {
         @SuppressLint("MissingPermission")
         override fun handleMessage(msg: Message?) {
             //create the communication model in firebase and observe any change.
-            comDataReference.child(msg_root).child(FirebaseAuth.getInstance().uid.toString())
-                .setValue(ComModel())
+            // comDataReference.child(msg_root).child(FirebaseAuth.getInstance().uid.toString())
+            //  .setValue(ComModel())
+
+
         }
     }
 

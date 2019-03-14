@@ -36,6 +36,7 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
         if (auth.currentUser != null) {
             var intent = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -78,6 +79,7 @@ class LoginActivity : BaseActivity(), GoogleApiClient.OnConnectionFailedListener
                     Log.d(tag, "signInWithCredential:success")
                     var intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(tag, "signInWithCredential:failure", task.exception)

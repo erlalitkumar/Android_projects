@@ -4,16 +4,14 @@ import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.*
 import android.util.Log
 import android.widget.Toast
-import android.hardware.SensorManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 /**
  * This service provides the current latitude and longitude.
@@ -41,8 +39,8 @@ class LocationService : Service() {
 
     override fun onCreate() {
 
-        val mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        val mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        // val mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        //val mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         //mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL)
         HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
             start()
@@ -80,11 +78,23 @@ class LocationService : Service() {
     private inner class MyLocationListener : LocationListener {
 
         override fun onLocationChanged(loc: Location) {
+            val fbDatabaseRef = FirebaseDatabase.getInstance().reference
             val longitude = "Longitude: " + loc.longitude
             Log.v(tag, longitude)
             val latitude = "Latitude: " + loc.latitude
             Log.v(tag, latitude)
+            fbDatabaseRef.child("messages")
+                .child(FirebaseAuth.getInstance().uid.toString())
+                .child("clat")
+                .setValue(loc.latitude)
+
+            fbDatabaseRef.child("messages")
+                .child(FirebaseAuth.getInstance().uid.toString())
+                .child("clong")
+                .setValue(loc.longitude)
         }
+
+
 
         override fun onProviderDisabled(provider: String) {}
 
