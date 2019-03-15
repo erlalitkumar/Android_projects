@@ -12,6 +12,9 @@ import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import android.os.IBinder
+import androidx.lifecycle.MutableLiveData
+
 
 /**
  * This service provides the current latitude and longitude.
@@ -22,9 +25,18 @@ class LocationService : Service() {
     private val tag = "LocationService"
     private var serviceLooper: Looper? = null
     private var serviceHandler: ServiceHandler? = null
+    private var location: MutableLiveData<LocationData>? = null
 
     private fun isServiceRunning(): Boolean {
         return instance != null
+    }
+
+    // This is the object that receives interactions from clients.
+    private val mBinder = LocalBinder()
+
+    inner class LocalBinder : Binder() {
+        internal val service: LocationService
+            get() = this@LocationService
     }
 
     // Handler that receives messages from the thread.
@@ -52,7 +64,7 @@ class LocationService : Service() {
 
 
     override fun onBind(intent: Intent?): IBinder? {
-        return Binder()
+        return mBinder
     }
 
     @SuppressLint("MissingPermission")
@@ -83,6 +95,7 @@ class LocationService : Service() {
             Log.v(tag, longitude)
             val latitude = "Latitude: " + loc.latitude
             Log.v(tag, latitude)
+            location?.value = LocationData(latitude = loc.latitude, longitude = loc.longitude)
             fbDatabaseRef.child("messages")
                 .child(FirebaseAuth.getInstance().uid.toString())
                 .child("clat")
@@ -95,7 +108,6 @@ class LocationService : Service() {
         }
 
 
-
         override fun onProviderDisabled(provider: String) {}
 
         override fun onProviderEnabled(provider: String) {}
@@ -104,8 +116,12 @@ class LocationService : Service() {
     }
 
     override fun onDestroy() {
-        Log.v(tag, "Location Service destroyed")
+        Log.v(tag, "Com Service destroyed")
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
         instance = null
+    }
+
+    fun currentLocatoin(): MutableLiveData<LocationData>? {
+        return location
     }
 }

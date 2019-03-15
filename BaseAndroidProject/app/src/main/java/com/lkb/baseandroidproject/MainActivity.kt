@@ -60,12 +60,23 @@ class MainActivity : BaseActivity() {
         }
 
         button.setOnClickListener {
-            val intent = Intent(this@MainActivity, CommunicationService::class.java)
-            startService(intent)
+            if((application as MyApplication).role == "Child"){
+                val intent = Intent(this@MainActivity, LocationService::class.java)
+                startService(intent)
+            }else{
+                val intent = Intent(this@MainActivity, CommunicationService::class.java)
+                startService(intent)
+            }
+
         }
         stopServiceButton.setOnClickListener {
-            val intent = Intent(this@MainActivity, CommunicationService::class.java)
-            stopService(intent)
+            if((application as MyApplication).role == "Child"){
+                val intent = Intent(this@MainActivity, LocationService::class.java)
+                stopService(intent)
+            }else{
+                val intent = Intent(this@MainActivity, CommunicationService::class.java)
+                stopService(intent)
+            }
         }
 
         if (ContextCompat.checkSelfPermission(

@@ -9,7 +9,7 @@ class MyApplication: Application() {
         super.onCreate()
         var sPref = applicationContext.getSharedPreferences("Tracking",0) //private mode
         childId = sPref.getString("child_id","")
-        if (!childId.isEmpty()) role= "Parent"
-        else role = "Child"
+        role = if (!childId.isEmpty()) "Parent"
+        else "Child"
     }
 }

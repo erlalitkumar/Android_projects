@@ -6,33 +6,19 @@ import android.content.Intent
 import android.os.*
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-/**
- * This service provides the current latitude and longitude.
- */
-class CommunicationService : Service() {
-
-    private var instance: CommunicationService? = null
+class MonitorService: Service() {
+    private var instance: MonitorService? = null
     private val msg_root = "messages"
-    private val tag = "ComService"
+    private val tag = "MonitorService"
     private var serviceLooper: Looper? = null
     private var serviceHandler: ServiceHandler? = null
     private lateinit var comDataReference: DatabaseReference
-    private var location: MutableLiveData<LocationData> = MutableLiveData()
 
     private fun isServiceRunning(): Boolean {
         return instance != null
-    }
-
-    // This is the object that receives interactions from clients.
-    private val mBinder = LocalBinder()
-
-    inner class LocalBinder : Binder() {
-        internal val service: CommunicationService
-            get() = this@CommunicationService
     }
 
     // Handler that receives messages from the thread.
@@ -56,9 +42,7 @@ class CommunicationService : Service() {
                 //val post = dataSnapshot.getValue(Post::class.java)
                 // ...
                 val data = dataSnapshot.getValue(ComModel::class.java)
-                //location?.value = LocationData(latitude = data?.cLat!!, longitude = data?.cLong)
-                location.postValue(LocationData(latitude = data?.cLat!!, longitude = data?.cLong))
-                Toast.makeText(this@CommunicationService, " current lat${data?.cLat} and long${data?.cLong}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MonitorService, " current lat${data?.cLat} and long${data?.cLong}", Toast.LENGTH_SHORT).show()
                 Log.w(tag, "${data.toString()}")
             }
 
@@ -77,13 +61,13 @@ class CommunicationService : Service() {
             serviceHandler = ServiceHandler(looper)
         }
 
-        val intent = Intent(this@CommunicationService, CommunicationService::class.java)
+        val intent = Intent(this@MonitorService, CommunicationService::class.java)
         startService(intent)
     }
 
 
     override fun onBind(intent: Intent?): IBinder? {
-        return mBinder
+        return Binder()
     }
 
     @SuppressLint("MissingPermission")
@@ -98,7 +82,7 @@ class CommunicationService : Service() {
                 msg.arg1 = startId
                 serviceHandler?.sendMessage(msg)
             }
-            instance = this@CommunicationService
+            instance = this@MonitorService
         }
 
         // If we get killed, after returning from here, restart
@@ -106,14 +90,10 @@ class CommunicationService : Service() {
     }
 
     override fun onDestroy() {
-        val intent = Intent(this@CommunicationService, CommunicationService::class.java)
+        val intent = Intent(this@MonitorService, CommunicationService::class.java)
         stopService(intent)
         Log.v(tag, "Location Service destroyed")
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
         instance = null
-    }
-
-    fun currentLocatoin(): MutableLiveData<LocationData> {
-        return location
     }
 }
