@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.model
 
 data class ComModel (
    var cmd:String = "",// command to execute corresponding service

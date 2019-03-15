@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.model
 
 data class LocationData (
     var latitude:Double =0.0,

@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.ui
 
 import android.content.ComponentName
 import android.content.Context
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.Observer
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -17,6 +16,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.lkb.baseandroidproject.service.CommunicationService
+import com.lkb.baseandroidproject.R
+import com.lkb.baseandroidproject.model.LocationData
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -49,15 +51,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         observer = Observer {
@@ -66,17 +60,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         }
 
-
-        // Add a marker in Sydney and move the camera
-
-
     }
 
-    fun doBindService() {
+    private fun doBindService() {
         bindService(Intent(this@MapsActivity, CommunicationService::class.java), mConnection, Context.BIND_AUTO_CREATE)
     }
 
-    fun doUnbindService() {
+    private fun doUnbindService() {
         unbindService(mConnection)
     }
 

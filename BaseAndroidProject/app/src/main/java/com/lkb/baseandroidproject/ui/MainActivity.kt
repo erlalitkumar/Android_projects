@@ -1,81 +1,84 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.ui
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.location.*
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
-import android.util.Log
-import android.widget.Toast
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.zxing.integration.android.IntentIntegrator
+import com.lkb.baseandroidproject.*
+import com.lkb.baseandroidproject.model.UserModel
+import com.lkb.baseandroidproject.router.Router
+import com.lkb.baseandroidproject.service.CommunicationService
+import com.lkb.baseandroidproject.service.LocationService
 import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONObject
-import java.io.IOException
-import java.util.*
 
 
 class MainActivity : BaseActivity() {
-    val tag = "MainActivity"
+    companion object {
+       const val TAG = "MainActivity"
+    }
+
     var qrScan: IntentIntegrator? = null
     private var mAuth: FirebaseAuth? = null
     var userSnapshot: DatabaseReference? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         qrScan = IntentIntegrator(this)
 
         mAuth = FirebaseAuth.getInstance()
         var userDatabase = FirebaseDatabase.getInstance().reference
-        userSnapshot = userDatabase.child("users").child(mAuth!!.uid.toString())
+        userSnapshot = userDatabase.child("users").child(mAuth?.uid.toString())
 
         btnParent.setOnClickListener {
             qrScan?.initiateScan()
         }
 
         btnStartMap.setOnClickListener {
-            var intent = Intent(this@MainActivity, MapsActivity::class.java)
-            startActivity(intent)
+            Router.startMapsActivity(this@MainActivity)
         }
 
         btnChild.setOnClickListener {
-            var intent = Intent(this@MainActivity, ChildQRCodeActivity::class.java)
-            startActivity(intent)
+            Router.startChildQRCodeActivity(this@MainActivity)
         }
 
 
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            var intent = Intent(this@MainActivity, LoginActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
+            Router.startLoginActivity(this@MainActivity)
         }
 
         button.setOnClickListener {
-            if((application as MyApplication).role == "Child"){
-                val intent = Intent(this@MainActivity, LocationService::class.java)
-                startService(intent)
-            }else{
-                val intent = Intent(this@MainActivity, CommunicationService::class.java)
-                startService(intent)
+            when {
+                (application as MyApplication).role == "Child" -> {
+                    val intent = Intent(this@MainActivity, LocationService::class.java)
+                    startService(intent)
+                }
+                else -> {
+                    val intent = Intent(this@MainActivity, CommunicationService::class.java)
+                    startService(intent)
+                }
             }
 
         }
         stopServiceButton.setOnClickListener {
-            if((application as MyApplication).role == "Child"){
-                val intent = Intent(this@MainActivity, LocationService::class.java)
-                stopService(intent)
-            }else{
-                val intent = Intent(this@MainActivity, CommunicationService::class.java)
-                stopService(intent)
+            when {
+                (application as MyApplication).role == "Child" -> {
+                    val intent = Intent(this@MainActivity, LocationService::class.java)
+                    stopService(intent)
+                }
+                else -> {
+                    val intent = Intent(this@MainActivity, CommunicationService::class.java)
+                    stopService(intent)
+                }
             }
         }
 
@@ -116,8 +119,6 @@ class MainActivity : BaseActivity() {
 
             } else {
                 txtChildId.text = result.contents
-                //(application as MyApplication).childId = result.contents
-                //update the child_id in the database
                 (application as MyApplication).childId = result.contents
                 var sPref = applicationContext.getSharedPreferences("Tracking",0) //private mode
                 var editor = sPref.edit()
@@ -127,22 +128,6 @@ class MainActivity : BaseActivity() {
                     .child("users")
                     .child(FirebaseAuth.getInstance().uid.toString())
                     .setValue(UserModel(result.contents))
-//                val valueEventListener = object : ValueEventListener {
-//                    override fun onCancelled(e: DatabaseError) {
-//                        Log.d(tag, "Error", e.toException())
-//                    }
-//
-//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                        if (dataSnapshot.exists())
-//                        //update the child_id in the database
-//                            FirebaseDatabase.getInstance().reference
-//                                .child("users")
-//                                .child(FirebaseAuth.getInstance().uid.toString())
-//                                .setValue(UserModel(result.contents))
-//                    }
-//
-//                }
-//                userSnapshot?.addListenerForSingleValueEvent(valueEventListener)
             }
         }
     }

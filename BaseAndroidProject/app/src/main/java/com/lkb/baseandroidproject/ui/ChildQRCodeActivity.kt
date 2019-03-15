@@ -1,15 +1,15 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.ui
 
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import com.lkb.baseandroidproject.R
 import kotlinx.android.synthetic.main.qrcode_main.*
 
-class ChildQRCodeActivity:BaseActivity(){
+class ChildQRCodeActivity: BaseActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.qrcode_main)

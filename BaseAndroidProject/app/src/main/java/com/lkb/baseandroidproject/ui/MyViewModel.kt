@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.ui
 
 import androidx.lifecycle.ViewModel
 

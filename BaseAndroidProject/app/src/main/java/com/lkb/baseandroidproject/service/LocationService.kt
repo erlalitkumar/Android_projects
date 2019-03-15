@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.service
 
 import android.annotation.SuppressLint
 import android.app.Service
@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import android.os.IBinder
 import androidx.lifecycle.MutableLiveData
+import com.lkb.baseandroidproject.model.LocationData
 
 
 /**
@@ -95,7 +96,8 @@ class LocationService : Service() {
             Log.v(tag, longitude)
             val latitude = "Latitude: " + loc.latitude
             Log.v(tag, latitude)
-            location?.value = LocationData(latitude = loc.latitude, longitude = loc.longitude)
+            location?.value =
+                LocationData(latitude = loc.latitude, longitude = loc.longitude)
             fbDatabaseRef.child("messages")
                 .child(FirebaseAuth.getInstance().uid.toString())
                 .child("clat")
