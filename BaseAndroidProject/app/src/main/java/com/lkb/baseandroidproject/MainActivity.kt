@@ -40,6 +40,11 @@ class MainActivity : BaseActivity() {
             qrScan?.initiateScan()
         }
 
+        btnStartMap.setOnClickListener {
+            var intent = Intent(this@MainActivity, MapsActivity::class.java)
+            startActivity(intent)
+        }
+
         btnChild.setOnClickListener {
             var intent = Intent(this@MainActivity, ChildQRCodeActivity::class.java)
             startActivity(intent)
