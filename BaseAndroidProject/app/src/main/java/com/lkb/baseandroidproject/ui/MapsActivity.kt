@@ -53,11 +53,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     override fun onMapReady(googleMap: GoogleMap) {
+
         mMap = googleMap
+        val sydney = LatLng(0.0, 0.0)
+        val marker =  mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         observer = Observer {
-            val sydney = LatLng(it.latitude, it.longitude)
-            mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+            marker.position = LatLng(it.latitude,it.longitude)
+            //mMap.moveCamera(CameraUpdateFactory.newLatLng(marker.position))
         }
 
     }
