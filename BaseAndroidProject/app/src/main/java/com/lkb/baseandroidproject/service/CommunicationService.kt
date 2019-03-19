@@ -1,17 +1,22 @@
 package com.lkb.baseandroidproject.service
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.*
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.lkb.baseandroidproject.MyApplication
+import com.lkb.baseandroidproject.MyApplication.Companion.CHANNEL_ID
+import com.lkb.baseandroidproject.R
 import com.lkb.baseandroidproject.model.ComModel
 import com.lkb.baseandroidproject.model.LocationData
+import com.lkb.baseandroidproject.ui.LoginActivity
 
 /**
  * This service provides the current latitude and longitude.
@@ -48,6 +53,9 @@ class CommunicationService : Service() {
     }
 
     override fun onCreate() {
+
+
+
         comDataReference = FirebaseDatabase.getInstance().reference
         Log.v(tag, FirebaseAuth.getInstance().uid)
         val comDataListener = object : ValueEventListener {
@@ -87,9 +95,19 @@ class CommunicationService : Service() {
 
     @SuppressLint("MissingPermission")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d(tag, "onStartCommand executed");
 
-        if (!isServiceRunning()) {
+        val notificationIntent = Intent(this@CommunicationService,LoginActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this,
+            0,notificationIntent,0)
+        val notification = NotificationCompat.Builder(this,CHANNEL_ID)
+            .setContentTitle("ComService")
+            .setContentText("Watching")
+            .setSmallIcon(R.drawable.ic_pantone)
+            .setContentIntent(pendingIntent)
+            .build()
+        startForeground(1,notification)
+        Log.d(tag, "onStartCommand executed")
+            if (!isServiceRunning()) {
             Log.d(tag, "onStartCommand executed with job");
             serviceHandler?.obtainMessage()?.also { msg ->
                 msg.arg1 = startId
