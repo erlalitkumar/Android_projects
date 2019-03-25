@@ -9,6 +9,7 @@ class MyApplication : Application() {
     companion object {
         const val CHANNEL_ID = "MyRadioPlayer"
     }
+    var displaySplash = true
 
     override fun onCreate() {
         super.onCreate()
