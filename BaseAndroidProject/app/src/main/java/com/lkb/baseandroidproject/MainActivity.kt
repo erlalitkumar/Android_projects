@@ -10,13 +10,17 @@ import android.os.IBinder
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.android.synthetic.main.activity_main.*
-import android.support.v7.widget.StaggeredGridLayoutManager
+import java.io.InputStream
 
 
 class MainActivity : AppCompatActivity() {
@@ -46,6 +50,10 @@ class MainActivity : AppCompatActivity() {
         //doBindService()
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
         mToolbar.setBackgroundColor(Color.TRANSPARENT)
+        val file: InputStream = resources.openRawResource(R.raw.station)
+        val mapper2 = jacksonObjectMapper()
+        val stationList: StationList = mapper2.readValue(file)
+        Log.d("json", stationList.stationList[0].title)
 
         viewManager = staggeredGridLayoutManager
         var myDataset = listOf<String>(
