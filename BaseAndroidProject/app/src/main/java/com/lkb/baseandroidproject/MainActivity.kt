@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -112,6 +113,7 @@ class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAda
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.info_text)
+        val playImage:ImageView = view.findViewById(R.id.playImage)
     }
 
 
@@ -132,7 +134,7 @@ class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAda
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.textView.text = myDataset.stationList[position].title
-        holder.textView.setOnClickListener {
+        holder.playImage.setOnClickListener {
             listener.onClick(myDataset.stationList[position])
         }
     }
