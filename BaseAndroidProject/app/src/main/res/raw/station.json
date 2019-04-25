@@ -1,32 +1,31 @@
 {
   "stationList": [
     {
-      "title": "Radio 1",
-      "url": "http://shoutcast2.omroep.nl:8100/;"
+      "title": "radiocity-hindi",
+      "url": "http://prclive1.listenon.in:9960/;"
     },
     {
-      "title": "Radio 2",
-      "url": "http://shoutcast2.omroep.nl:8102/;"
+      "title": "Radiocity-classic",
+      "url": "https://prclive4.listenon.in/HindiClassics"
     },
     {
-      "title": "3FM",
-      "url": "http://shoutcast2.omroep.nl:8104/;"
-    },
-    {
-      "title": "Radio 4",
-      "url": "http://shoutcast2.omroep.nl:8106/;"
-    },
-    {
-      "title": "Radio 5",
-      "url": "http://shoutcast2.omroep.nl:8108/;"
-    },
-    {
-      "title": "Radio 6",
-      "url": "http://shoutcast2.omroep.nl:8110/;"
-    },
-    {
-      "title": "Nijmegen1",
-      "url": "http://icecast.streamone.nl:9080/nijmegen1"
+      "title": "Radiocity-international",
+      "url": "https://prclive4.listenon.in/International"
+    } ,   {
+      "title": "Radiocity-Electronica",
+      "url": "https://prclive4.listenon.in/Electronica"
+    } ,   {
+      "title": "Radiocity-Bangla",
+      "url": "https://prclive4.listenon.in/Classics"
+    },   {
+      "title": "Radiocity-BollywoodMix",
+      "url": "https://prclive4.listenon.in/BollywoodMix"
+    },   {
+      "title": "Radio-Mirchi",
+      "url": "http://peridot.streamguys.com:7150/Mirchi"
+    },   {
+      "title": "Vivid bharati",
+      "url": "https://vividhbharati-lh.akamaihd.net/i/vividhbharati_1@507811/master.m3u8"
     }
   ]
 }

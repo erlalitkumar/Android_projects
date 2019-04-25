@@ -16,14 +16,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.lkb.baseandroidproject.MyAdapter.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.InputStream
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
+    override fun onClick(item: Station) {
+        var intent = Intent(this@MainActivity, MusicService::class.java)
+        intent.putExtra("channel", item.url)
+        startService(intent)
+    }
+
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: StaggeredGridLayoutManager
 
@@ -56,25 +62,9 @@ class MainActivity : AppCompatActivity() {
         Log.d("json", stationList.stationList[0].title)
 
         viewManager = staggeredGridLayoutManager
-        var myDataset = listOf<String>(
-            "Radio city Hindi",
-            "Radio city International ",
-            "Radio city Classic",
-            "Radio city Hindi",
-            "Radio city Hindi",
-            "Radio city International ",
-            "Radio city Classic",
-            "Radio city Hindi",
-            "Radio city Hindi",
-            "Radio city International ",
-            "Radio city Classic",
-            "Radio city Hindi",
-            "Radio city Hindi",
-            "Radio city International ",
-            "Radio city Classic",
-            "Radio city Hindi"
-        )
+        var myDataset = stationList
         viewAdapter = MyAdapter(myDataset)
+        (viewAdapter as MyAdapter).setRecyclerViewClickListener(this)
 
         (mRecyclerView as RecyclerView).apply {
             // use this setting to improve performance if you know that changes
@@ -86,18 +76,6 @@ class MainActivity : AppCompatActivity() {
 
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
-        }
-
-        btnChannel.setOnClickListener {
-            var intent = Intent(this@MainActivity, MusicService::class.java)
-            intent.putExtra("channel", "http://prclive1.listenon.in:9960/;")
-            startService(intent)
-        }
-
-        btnChannel3.setOnClickListener {
-            var intent = Intent(this@MainActivity, MusicService::class.java)
-            intent.putExtra("channel", "https://prclive4.listenon.in/International")
-            startService(intent)
         }
     }
 
@@ -121,7 +99,16 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class MyAdapter(private val myDataset: List<String>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+    lateinit var listener: RecyclerViewClickListener
+
+    interface RecyclerViewClickListener {
+        fun onClick(item: Station)
+    }
+
+    fun setRecyclerViewClickListener(listener: RecyclerViewClickListener) {
+        this.listener = listener
+    }
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.info_text)
@@ -132,7 +119,7 @@ class MyAdapter(private val myDataset: List<String>) : RecyclerView.Adapter<MyAd
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MyAdapter.MyViewHolder {
+    ): MyViewHolder {
         // create a new view
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.my_text_view, parent, false)
@@ -144,9 +131,12 @@ class MyAdapter(private val myDataset: List<String>) : RecyclerView.Adapter<MyAd
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.text = myDataset[position]
+        holder.textView.text = myDataset.stationList[position].title
+        holder.textView.setOnClickListener {
+            listener.onClick(myDataset.stationList[position])
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = myDataset.size
+    override fun getItemCount() = myDataset.stationList.size
 }
