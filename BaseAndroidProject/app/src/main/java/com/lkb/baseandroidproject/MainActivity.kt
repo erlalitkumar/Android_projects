@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v7.app.AppCompatActivity
@@ -15,8 +16,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.lkb.baseandroidproject.MyAdapter.RecyclerViewClickListener
@@ -54,9 +57,21 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
+//            setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true)
+//        }
+        if (Build.VERSION.SDK_INT >= 19) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        }
+        if (Build.VERSION.SDK_INT >= 21) {
+            setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
+            window.statusBarColor = Color.TRANSPARENT
+        }
         //doBindService()
+        //mToolbar.overflowIcon =resources.getDrawable(R.drawable.setting_icon)
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
-        mToolbar.setBackgroundColor(Color.TRANSPARENT)
+       // mToolbar.setBackgroundColor(Color.TRANSPARENT)
         val file: InputStream = resources.openRawResource(R.raw.station)
         val mapper2 = jacksonObjectMapper()
         val stationList: StationList = mapper2.readValue(file)
@@ -78,6 +93,10 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
         }
+
+        settingImage.setOnClickListener {
+            Toast.makeText(this@MainActivity,"Setting icon clicked",Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun doBindService() {
@@ -97,6 +116,17 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
     override fun onDestroy() {
         super.onDestroy()
         doUnbindService()
+    }
+
+    private fun setWindowFlag(bits: Int, on: Boolean) {
+        val win = window
+        val winParams = win.attributes
+        if (on) {
+            winParams.flags = winParams.flags or bits
+        } else {
+            winParams.flags = winParams.flags and bits.inv()
+        }
+        win.attributes = winParams
     }
 }
 

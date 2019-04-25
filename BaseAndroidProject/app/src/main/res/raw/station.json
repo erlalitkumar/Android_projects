@@ -24,8 +24,11 @@
       "title": "Radio-Mirchi",
       "url": "http://peridot.streamguys.com:7150/Mirchi"
     },   {
-      "title": "Vivid bharati",
+      "title": "Vvidhbharati",
       "url": "https://vividhbharati-lh.akamaihd.net/i/vividhbharati_1@507811/master.m3u8"
+    },   {
+      "title": "MeethiMirchi",
+      "url": "https://meethimirchihdl-lh.akamaihd.net/i/MeethiMirchiHDLive_1_1@320572/master.m3u8"
     }
   ]
 }

@@ -6,23 +6,64 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
-        android:background="#000000">
-    <android.support.v7.widget.Toolbar
-            android:id="@+id/mToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+        android:background="@drawable/black_bg">
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/mToolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?attr/actionBarSize"-->
+    <!--android:background="?attr/colorPrimary"-->
+    <!--android:elevation="4dp"-->
+    <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light" app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>-->
 
     <include
             android:id="@+id/mRecyclerView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="300dp"
-            layout="@layout/recycler_view" app:layout_constraintTop_toTopOf="@+id/mToolbar"
+            layout="@layout/recycler_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintTop_toBottomOf="@+id/textView"/>
+    <TextView
+            android:text="Radio Stations"
+            android:textSize="24sp"
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="150dp" android:layout_marginStart="16dp"/>
+    <ImageView
+            android:layout_width="28dp"
+            android:layout_height="0dp" app:srcCompat="@drawable/setting_icon"
+            android:id="@+id/settingImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="32dp"/>
+    <View
+            android:background="#131212"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="150dp"/>
+            app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/view">
+    </View><!--android:layout_marginEnd="16dp"/>-->
+    <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp" app:srcCompat="@drawable/home_icon"
+            android:id="@+id/homeImage"
+            android:layout_marginBottom="16dp" app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"/>
+    <TextView
+            android:text="Home"
+            android:textSize="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/homeImage"
+            app:layout_constraintEnd_toEndOf="@+id/homeImage"
+            app:layout_constraintStart_toStartOf="@+id/homeImage"/>
 
 </android.support.constraint.ConstraintLayout>
