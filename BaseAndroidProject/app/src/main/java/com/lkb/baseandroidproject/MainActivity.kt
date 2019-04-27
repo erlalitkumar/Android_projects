@@ -1,13 +1,9 @@
 package com.lkb.baseandroidproject
 
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.IBinder
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -28,12 +24,7 @@ import java.io.InputStream
 
 
 class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
-    override fun onClick(item: Station) {
-        var intent = Intent(this@MainActivity, MusicService::class.java)
-        intent.putExtra("channel", item.url)
-        startService(intent)
-    }
-
+//    private var mMusicService: MusicService? = null
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: StaggeredGridLayoutManager
 
@@ -41,18 +32,23 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         var TAG = "MainActivity"
     }
 
-    private var mMusicService: MusicService? = null
-    private var mServiceConnection = object : ServiceConnection {
-        override fun onServiceDisconnected(name: ComponentName?) {
-            Log.d(TAG, "Music service disconnected.")
-        }
-
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            mMusicService = (service as MusicService.LocalBinder).service
-            Log.d(TAG, "Music service Connected")
-        }
-
+    override fun onClick(item: Station) {
+        var intent = Intent(this@MainActivity, MusicService::class.java)
+        intent.putExtra("channel", item.url)
+        startService(intent)
     }
+
+//    private var mServiceConnection = object : ServiceConnection {
+//        override fun onServiceDisconnected(name: ComponentName?) {
+//            Log.d(TAG, "Music service disconnected.")
+//        }
+//
+//        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+//            mMusicService = (service as MusicService.LocalBinder).service
+//            Log.d(TAG, "Music service Connected")
+//        }
+//
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,24 +96,24 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         }
     }
 
-    private fun doBindService() {
-        startService(Intent(this@MainActivity, MusicService::class.java))
-        bindService(
-            Intent(
-                this@MainActivity, MusicService::class.java
-            ), mServiceConnection,
-            Context.BIND_AUTO_CREATE
-        )
-    }
+//    private fun doBindService() {
+//        startService(Intent(this@MainActivity, MusicService::class.java))
+//        bindService(
+//            Intent(
+//                this@MainActivity, MusicService::class.java
+//            ), mServiceConnection,
+//            Context.BIND_AUTO_CREATE
+//        )
+//    }
+//
+//    private fun doUnbindService() {
+//        unbindService(mServiceConnection)
+//    }
 
-    private fun doUnbindService() {
-        unbindService(mServiceConnection)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        doUnbindService()
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        //doUnbindService()
+//    }
 
     private fun setWindowFlag(bits: Int, on: Boolean) {
         val win = window
@@ -132,8 +128,8 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
 }
 
 class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-    var currentPlayingStationPosition = -1
-    lateinit var listener: RecyclerViewClickListener
+    private var currentPlayingStationPosition = -1
+    private lateinit var listener: RecyclerViewClickListener
 
     interface RecyclerViewClickListener {
         fun onClick(item: Station)
@@ -172,7 +168,7 @@ class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAda
             holder.playImage.setImageResource(R.drawable.ic_stop_icon)
         }
         holder.playImage.setOnClickListener {
-            if (currentPlayingStationPosition != -1) {
+            if (currentPlayingStationPosition != -1 && currentPlayingStationPosition!=position) {
                 myDataset.stationList[currentPlayingStationPosition].isPlaying = false
                 notifyDataSetChanged()
             }
@@ -190,6 +186,6 @@ class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAda
         }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // Return the size of your data set (invoked by the layout manager)
     override fun getItemCount() = myDataset.stationList.size
 }
