@@ -62,7 +62,8 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
 //            setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true)
 //        }
         if (Build.VERSION.SDK_INT >= 19) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         }
         if (Build.VERSION.SDK_INT >= 21) {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         //doBindService()
         //mToolbar.overflowIcon =resources.getDrawable(R.drawable.setting_icon)
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
-       // mToolbar.setBackgroundColor(Color.TRANSPARENT)
+        // mToolbar.setBackgroundColor(Color.TRANSPARENT)
         val file: InputStream = resources.openRawResource(R.raw.station)
         val mapper2 = jacksonObjectMapper()
         val stationList: StationList = mapper2.readValue(file)
@@ -95,7 +96,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         }
 
         settingImage.setOnClickListener {
-            Toast.makeText(this@MainActivity,"Setting icon clicked",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@MainActivity, "Setting icon clicked", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -131,6 +132,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
 }
 
 class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+    var currentPlayingStationPosition = -1
     lateinit var listener: RecyclerViewClickListener
 
     interface RecyclerViewClickListener {
@@ -143,7 +145,7 @@ class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAda
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.info_text)
-        val playImage:ImageView = view.findViewById(R.id.playImage)
+        val playImage: ImageView = view.findViewById(R.id.playImage)
     }
 
 
@@ -164,8 +166,27 @@ class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAda
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.textView.text = myDataset.stationList[position].title
+        if (!myDataset.stationList[position].isPlaying) {
+            holder.playImage.setImageResource(R.drawable.ic_play_icon)
+        } else {
+            holder.playImage.setImageResource(R.drawable.ic_stop_icon)
+        }
         holder.playImage.setOnClickListener {
+            if (currentPlayingStationPosition != -1) {
+                myDataset.stationList[currentPlayingStationPosition].isPlaying = false
+                notifyDataSetChanged()
+            }
             listener.onClick(myDataset.stationList[position])
+            currentPlayingStationPosition = position
+
+            if (!myDataset.stationList[position].isPlaying) {
+                holder.playImage.setImageResource(R.drawable.ic_stop_icon)
+                myDataset.stationList[position].isPlaying = true
+            } else {
+                holder.playImage.setImageResource(R.drawable.ic_play_icon)
+                myDataset.stationList[position].isPlaying = false
+            }
+
         }
     }
 
