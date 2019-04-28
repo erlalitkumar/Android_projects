@@ -14,6 +14,7 @@ import com.lkb.baseandroidproject.MyApplication.Companion.CHANNEL_ID
 
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener {
+    private var currentStation = "NA"
     override fun onPrepared(mp: MediaPlayer?) {
         mp?.start()
         Log.d(tag, "Track info is : ${mp?.trackInfo.toString()}")
@@ -42,8 +43,12 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
         @SuppressLint("MissingPermission")
         override fun handleMessage(msg: Message?) {
             Log.d(tag, "onHandle with the msg")
-            if (msg != null && msg.data.getString("url").isNotEmpty()) {
                 val url = msg?.data?.getString("url") // your URL here
+            if(currentStation.contentEquals(msg?.data?.getString("channel").toString())){
+                pausePlayBack()
+                currentStation = "NA"
+            }else{
+                currentStation = msg?.data?.getString("channel").toString()
                 Log.d(tag, "onHandle with the msg $url")
                 releaseMediaPlayer()
                 if (url != null) {
@@ -51,11 +56,13 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
                 }
             }
 
+
         }
     }
 
     override fun onCreate() {
         val notificationIntent = Intent(this@MusicService, MainActivity::class.java)
+        notificationIntent.putExtra("station",currentStation)
         val pendingIntent = PendingIntent.getActivity(
             this,
             0, notificationIntent, 0
@@ -83,6 +90,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     @SuppressLint("MissingPermission")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val channelUrl = intent?.getStringExtra("channel") ?: "http://prclive1.listenon.in:9960/;"
+        val currentStation = intent?.getStringExtra("station")?:"NA"
         Log.d(tag, "onStartCommand executed")
         //if (!isServiceRunning()) {
         Log.d(tag, "onStartCommand executed with job");
@@ -90,6 +98,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
             msg.arg1 = startId
             val bundle = Bundle()
             bundle.putString("url", channelUrl)
+            bundle.putString("channel",currentStation)
             msg.data = bundle
             serviceHandler?.sendMessage(msg)
         }

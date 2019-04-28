@@ -3,9 +3,11 @@ package com.lkb.baseandroidproject
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.os.Build
 
 class MyApplication : Application() {
+    var currentStationName= "NA"
     companion object {
         const val CHANNEL_ID = "MyRadioPlayer"
     }
@@ -14,6 +16,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
+        resetPref()
     }
 
     private fun createNotificationChannel() {
@@ -27,5 +30,12 @@ class MyApplication : Application() {
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(serviceChannel)
         }
+    }
+
+    fun resetPref(){
+        val pref = getSharedPreferences("radio", Context.MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.putString("station", "NA")
+        editor.commit()
     }
 }

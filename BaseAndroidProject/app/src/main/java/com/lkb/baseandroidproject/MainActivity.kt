@@ -1,5 +1,6 @@
 package com.lkb.baseandroidproject
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -9,23 +10,27 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.lkb.baseandroidproject.MyAdapter.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.InputStream
+import android.app.ActivityManager
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.TranslateAnimation
+
+
+
+
 
 
 class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
-//    private var mMusicService: MusicService? = null
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    //    private var mMusicService: MusicService? = null
+    private lateinit var viewAdapter: MyAdapter
     private lateinit var viewManager: StaggeredGridLayoutManager
 
     companion object {
@@ -33,8 +38,10 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
     }
 
     override fun onClick(item: Station) {
+        setCurrentStation(item.title)
         var intent = Intent(this@MainActivity, MusicService::class.java)
         intent.putExtra("channel", item.url)
+        intent.putExtra("station", item.title)
         startService(intent)
     }
 
@@ -53,6 +60,9 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//        tvNowPlaying.isSelected = true
+//        tvNowPlaying.setHorizontallyScrolling(true)
+        //setTranslation()
 
 //        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
 //            setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true)
@@ -77,7 +87,8 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         viewManager = staggeredGridLayoutManager
         var myDataset = stationList
         viewAdapter = MyAdapter(myDataset)
-        (viewAdapter as MyAdapter).setRecyclerViewClickListener(this)
+        viewAdapter.currentPlayingStationPosition = getStationIndex(getCurrentStation(),myDataset)
+        viewAdapter.setRecyclerViewClickListener(this)
 
         (mRecyclerView as RecyclerView).apply {
             // use this setting to improve performance if you know that changes
@@ -125,67 +136,50 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         }
         win.attributes = winParams
     }
-}
 
-class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-    private var currentPlayingStationPosition = -1
-    private lateinit var listener: RecyclerViewClickListener
-
-    interface RecyclerViewClickListener {
-        fun onClick(item: Station)
+    fun getCurrentStation(): String {
+        val pref = getSharedPreferences("radio", Context.MODE_PRIVATE)
+        val station = pref.getString("station", "NA")
+        return station
     }
 
-    fun setRecyclerViewClickListener(listener: RecyclerViewClickListener) {
-        this.listener = listener
+    fun setCurrentStation(station: String) {
+        val pref = getSharedPreferences("radio", Context.MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.putString("station", station)
+        editor.commit()
     }
 
-    inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.info_text)
-        val playImage: ImageView = view.findViewById(R.id.playImage)
-    }
-
-
-    // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): MyViewHolder {
-        // create a new view
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.my_text_view, parent, false)
-        // set the view's size, margins, paddings and layout parameters
-        return MyViewHolder(view)
-    }
-
-    // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.textView.text = myDataset.stationList[position].title
-        if (!myDataset.stationList[position].isPlaying) {
-            holder.playImage.setImageResource(R.drawable.ic_play_icon)
-        } else {
-            holder.playImage.setImageResource(R.drawable.ic_stop_icon)
+    fun getStationIndex(name: String, data: StationList): Int {
+        for (i in 0 until data.stationList.size) {
+            if (data.stationList[i].title.contentEquals(name))
+                return i
         }
-        holder.playImage.setOnClickListener {
-            if (currentPlayingStationPosition != -1 && currentPlayingStationPosition!=position) {
-                myDataset.stationList[currentPlayingStationPosition].isPlaying = false
-                notifyDataSetChanged()
-            }
-            listener.onClick(myDataset.stationList[position])
-            currentPlayingStationPosition = position
-
-            if (!myDataset.stationList[position].isPlaying) {
-                holder.playImage.setImageResource(R.drawable.ic_stop_icon)
-                myDataset.stationList[position].isPlaying = true
-            } else {
-                holder.playImage.setImageResource(R.drawable.ic_play_icon)
-                myDataset.stationList[position].isPlaying = false
-            }
-
-        }
+        return -1
     }
 
-    // Return the size of your data set (invoked by the layout manager)
-    override fun getItemCount() = myDataset.stationList.size
+    fun checkServiceRunning(): Boolean {
+        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.example.yourpackagename.YourServiceName" == service.service.className) {
+                return true
+            }
+        }
+        return false
+    }
+
+//    private fun setTranslation() {
+//        val tanim = TranslateAnimation(
+//            TranslateAnimation.ABSOLUTE, 1.0f * 500,
+//            TranslateAnimation.ABSOLUTE, -1.0f * 500,
+//            TranslateAnimation.ABSOLUTE, 0.0f,
+//            TranslateAnimation.ABSOLUTE, 0.0f
+//        )
+//        tanim.duration = 6000
+//        tanim.interpolator = LinearInterpolator()
+//        tanim.repeatCount = Animation.INFINITE
+//        tanim.repeatMode = Animation.ABSOLUTE
+//
+//        tvNowPlaying.startAnimation(tanim)
+//    }
 }
