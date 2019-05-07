@@ -32,6 +32,7 @@ public class ViewDialog {
 
         textCancel.setOnClickListener(v -> {
             dialog.cancel();
+            listener.onCancelDialog();
         });
 
         textTakePhoto.setOnClickListener(v -> {

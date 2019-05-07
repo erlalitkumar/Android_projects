@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -16,10 +17,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;
 
@@ -28,7 +29,10 @@ public class MainActivity extends AppCompatActivity implements ViewDialog.OnCust
     private WeakReference<MainActivity> context;
     private Bitmap mSelectedImage;
     private ImageView mImageView;
-    CardView mImageContainer;
+    private CardView mImageContainer;
+    private TextView mRemoveText;
+    private ProgressBar mProgressBar;
+    private UploadImageTask mUploadTask;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,11 +42,18 @@ public class MainActivity extends AppCompatActivity implements ViewDialog.OnCust
         mUploadButton = findViewById(R.id.btnPicUpload);
         mImageView = findViewById(R.id.imageView);
         mImageContainer = findViewById(R.id.imageContainer);
-
+        mRemoveText = findViewById(R.id.tvRemove);
+        mProgressBar = findViewById(R.id.progressbar);
+        mProgressBar.setMax(100);
         mUploadButton.setOnClickListener(v -> {
-            mUploadButton.setVisibility(View.GONE);
             ViewDialog alert = new ViewDialog();
             alert.showDialog(context);
+        });
+
+        mRemoveText.setOnClickListener(v->{
+            mImageContainer.setVisibility(View.GONE);
+            mUploadButton.setVisibility(View.VISIBLE);
+            mRemoveText.setVisibility(View.GONE);
         });
 
     }
@@ -74,21 +85,28 @@ public class MainActivity extends AppCompatActivity implements ViewDialog.OnCust
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        mUploadTask = new UploadImageTask();
         switch (requestCode) {
             case 33:
                 if (resultCode == RESULT_OK) {
+                    mUploadButton.setVisibility(View.GONE);
                     mImageContainer.setVisibility(View.VISIBLE);
+                   // mRemoveText.setVisibility(View.VISIBLE);
                     mSelectedImage = (Bitmap) data.getExtras().get("data");
                     Glide.with(context.get())
                             .load(mSelectedImage) // Uri of the picture
                             //.apply(new RequestOptions().override(80, 80))
                             .into(mImageView);
                     mImageView.setImageBitmap(mSelectedImage);
+                    // start the up loading process
+                    mUploadTask.execute(100);
                 }
                 break;
             case 34:
                 if (resultCode == RESULT_OK) {
+                    mUploadButton.setVisibility(View.GONE);
                     mImageContainer.setVisibility(View.VISIBLE);
+                   // mRemoveText.setVisibility(View.VISIBLE);
                    Uri uri = data.getData();
                     try {
                         String path = FileUtil.getPath(this,uri);
@@ -97,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements ViewDialog.OnCust
                                 //.apply(new RequestOptions().override(80, 80))
                                 .into(mImageView);
                         //mImageView.setImageBitmap(mSelectedImage);
+                        // start the up loading process
+                        mUploadTask.execute(100);
                         Log.d("path", path);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
@@ -140,6 +160,39 @@ public class MainActivity extends AppCompatActivity implements ViewDialog.OnCust
 
             // other 'case' lines to check for other
             // permissions this app might request.
+        }
+    }
+
+    private class UploadImageTask extends AsyncTask<Integer,Integer,Void>{
+        @Override
+        protected void onPreExecute() {
+           mProgressBar.setVisibility(View.VISIBLE);
+           mProgressBar.setProgress(0);
+        }
+
+        @Override
+        protected Void doInBackground(Integer... params) {
+            for(int count = 0; count<=params[0]; count++){
+                try {
+                    Thread.sleep(5);
+                    publishProgress(count);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            mProgressBar.setProgress(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mProgressBar.setVisibility(View.GONE);
+            mRemoveText.setVisibility(View.VISIBLE);
         }
     }
 }
