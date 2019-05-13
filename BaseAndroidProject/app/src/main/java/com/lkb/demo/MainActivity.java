@@ -20,7 +20,16 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;
 
@@ -99,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements ViewDialog.OnCust
                             .into(mImageView);
                     mImageView.setImageBitmap(mSelectedImage);
                     // start the up loading process
-                    mUploadTask.execute(100);
+                    //mUploadTask.execute("100");
                 }
                 break;
             case 34:
@@ -116,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements ViewDialog.OnCust
                                 .into(mImageView);
                         //mImageView.setImageBitmap(mSelectedImage);
                         // start the up loading process
-                        mUploadTask.execute(100);
+                        mUploadTask.execute(uri);
                         Log.d("path", path);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();
@@ -163,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements ViewDialog.OnCust
         }
     }
 
-    private class UploadImageTask extends AsyncTask<Integer,Integer,Void>{
+    private class UploadImageTask extends AsyncTask<Uri,Integer,Void>{
         @Override
         protected void onPreExecute() {
            mProgressBar.setVisibility(View.VISIBLE);
@@ -171,15 +180,16 @@ public class MainActivity extends AppCompatActivity implements ViewDialog.OnCust
         }
 
         @Override
-        protected Void doInBackground(Integer... params) {
-            for(int count = 0; count<=params[0]; count++){
-                try {
-                    Thread.sleep(5);
-                    publishProgress(count);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+        protected Void doInBackground(Uri... params) {
+//            for(int count = 0; count<=Integer.parseInt(params[0]); count++){
+//                try {
+//                    Thread.sleep(5);
+//                    publishProgress(count);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            uploadFile(params[0]);
 
             return null;
         }
@@ -194,5 +204,46 @@ public class MainActivity extends AppCompatActivity implements ViewDialog.OnCust
             mProgressBar.setVisibility(View.GONE);
             mRemoveText.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void uploadFile(Uri fileUri) {
+        // create upload service client
+        FileUploadService service = ServiceGenerator.createService(FileUploadService.class);
+
+        // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
+        // use the FileUtils to get the actual file by uri
+        File file = new File(FileUtil.getRealPathFromURI(this,fileUri));
+
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(getContentResolver().getType(fileUri)),
+                        file
+                );
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("filename", file.getName(), requestFile);
+
+        // add another part within the multipart request
+        String descriptionString = "hello, this is description speaking";
+        RequestBody description =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, descriptionString);
+
+        // finally, execute the request
+        Call<ResponseBody> call = service.upload(description, body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call,
+                                   Response<ResponseBody> response) {
+                Log.v("Upload", response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("Upload error:", t.getMessage());
+            }
+        });
     }
 }
