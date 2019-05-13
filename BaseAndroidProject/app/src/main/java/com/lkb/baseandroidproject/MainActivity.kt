@@ -13,8 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         uiScope.launch {
-            delay(1_000)
-            Toast.makeText(this@MainActivity,"From coroutine",Toast.LENGTH_SHORT).show()
+            showDelayedToast()
         }
 
     }
@@ -22,5 +21,10 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mJob.cancel()
+    }
+
+    private suspend fun showDelayedToast() {
+        delay(1_000)
+        Toast.makeText(this@MainActivity, "From coroutine", Toast.LENGTH_SHORT).show()
     }
 }
