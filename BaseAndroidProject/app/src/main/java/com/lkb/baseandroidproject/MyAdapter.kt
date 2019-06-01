@@ -29,11 +29,11 @@ class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAda
 
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+            parent: ViewGroup,
+            viewType: Int
     ): MyViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.my_text_view, parent, false)
+                .inflate(R.layout.my_text_view, parent, false)
         return MyViewHolder(view)
     }
 

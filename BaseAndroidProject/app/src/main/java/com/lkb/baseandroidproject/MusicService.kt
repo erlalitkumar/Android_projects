@@ -43,11 +43,11 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
         @SuppressLint("MissingPermission")
         override fun handleMessage(msg: Message?) {
             Log.d(tag, "onHandle with the msg")
-                val url = msg?.data?.getString("url") // your URL here
-            if(currentStation.contentEquals(msg?.data?.getString("channel").toString())){
+            val url = msg?.data?.getString("url") // your URL here
+            if (currentStation.contentEquals(msg?.data?.getString("channel").toString())) {
                 pausePlayBack()
                 currentStation = "NA"
-            }else{
+            } else {
                 currentStation = msg?.data?.getString("channel").toString()
                 Log.d(tag, "onHandle with the msg $url")
                 releaseMediaPlayer()
@@ -62,17 +62,17 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
 
     override fun onCreate() {
         val notificationIntent = Intent(this@MusicService, MainActivity::class.java)
-        notificationIntent.putExtra("station",currentStation)
+        notificationIntent.putExtra("station", currentStation)
         val pendingIntent = PendingIntent.getActivity(
-            this,
-            0, notificationIntent, 0
+                this,
+                0, notificationIntent, 0
         )
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("MyRadio")
-            .setContentText("Now Playing...")
-            .setSmallIcon(R.drawable.ic_baseline_play)
-            .setContentIntent(pendingIntent)
-            .build()
+                .setContentTitle("MyRadio")
+                .setContentText("Now Playing...")
+                .setSmallIcon(R.drawable.ic_baseline_play)
+                .setContentIntent(pendingIntent)
+                .build()
         startForeground(1, notification)
         HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
             start()
@@ -90,7 +90,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     @SuppressLint("MissingPermission")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val channelUrl = intent?.getStringExtra("channel") ?: "http://prclive1.listenon.in:9960/;"
-        val currentStation = intent?.getStringExtra("station")?:"NA"
+        val currentStation = intent?.getStringExtra("station") ?: "NA"
         Log.d(tag, "onStartCommand executed")
         //if (!isServiceRunning()) {
         Log.d(tag, "onStartCommand executed with job");
@@ -98,7 +98,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
             msg.arg1 = startId
             val bundle = Bundle()
             bundle.putString("url", channelUrl)
-            bundle.putString("channel",currentStation)
+            bundle.putString("channel", currentStation)
             msg.data = bundle
             serviceHandler?.sendMessage(msg)
         }
@@ -121,10 +121,10 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     fun createMediaPlayer(url: String) {
         mediaPlayer = MediaPlayer().apply {
             val attributes = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .setLegacyStreamType(AudioManager.STREAM_MUSIC)
-                .build()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setLegacyStreamType(AudioManager.STREAM_MUSIC)
+                    .build()
             setAudioAttributes(attributes)
             setDataSource(url)
             prepareAsync()
