@@ -12,7 +12,7 @@ object Util {
         val services = activityManager.getRunningServices(Integer.MAX_VALUE)
 
         for (runningServiceInfo in services) {
-            // Log.d(SyncStateContract.Constants.TAG, String.format("Service:%s", runningServiceInfo.service.className))
+           // Log.d(SyncStateContract.Constants.TAG, String.format("Service:%s", runningServiceInfo.service.className))
             if (runningServiceInfo.service.className.equals(serviceClass.name)) {
                 return true
             }

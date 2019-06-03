@@ -1,7 +1,7 @@
 package com.lkb.baseandroidproject
 
 import android.graphics.Color
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import es.claucookie.miniequalizerlibrary.EqualizerView
 
-class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(private val myDataset: StationList) : androidx.recyclerview.widget.RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     var currentPlayingStationPosition = -1
     private lateinit var listener: RecyclerViewClickListener
 
@@ -21,7 +21,7 @@ class MyAdapter(private val myDataset: StationList) : RecyclerView.Adapter<MyAda
         this.listener = listener
     }
 
-    inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    inner class MyViewHolder(val view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.info_text)
         val playImage: ImageView = view.findViewById(R.id.playImage)
         val equalizer: EqualizerView = view.findViewById(R.id.equalizerView)
