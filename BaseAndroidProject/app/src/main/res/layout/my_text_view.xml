@@ -1,4 +1,4 @@
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:custom="http://schemas.android.com/apk/res-auto"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -8,8 +8,8 @@
         android:padding="10dp"
         android:layout_margin="10dp"
         card_view:cardCornerRadius="2dp">
-    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
-                                                 android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="match_parent">
         <ImageView android:layout_width="20dp"
                    android:layout_height="20dp"
                    android:background="@drawable/music"
@@ -46,7 +46,7 @@
                 custom:layout_constraintStart_toStartOf="@+id/playImage" custom:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="32dp"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

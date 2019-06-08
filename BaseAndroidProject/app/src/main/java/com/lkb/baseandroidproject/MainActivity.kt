@@ -1,37 +1,31 @@
 package com.lkb.baseandroidproject
 
+import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.crashlytics.android.Crashlytics
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.lkb.baseandroidproject.MyAdapter.RecyclerViewClickListener
+import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.InputStream
-import android.app.ActivityManager
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.view.animation.TranslateAnimation
-
-
-
-
 
 
 class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
-    //    private var mMusicService: MusicService? = null
+    //private var mMusicService: MusicService? = null
     private lateinit var viewAdapter: MyAdapter
-    private lateinit var viewManager: StaggeredGridLayoutManager
+    private lateinit var viewManager: androidx.recyclerview.widget.StaggeredGridLayoutManager
+    private val longText = "                                                              "
 
     companion object {
         var TAG = "MainActivity"
@@ -39,34 +33,18 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onClick(item: Station) {
         setCurrentStation(item.title)
+        tvNowPlaying.text = "Now Playing : "+item.title+longText
         var intent = Intent(this@MainActivity, MusicService::class.java)
         intent.putExtra("channel", item.url)
         intent.putExtra("station", item.title)
         startService(intent)
     }
 
-//    private var mServiceConnection = object : ServiceConnection {
-//        override fun onServiceDisconnected(name: ComponentName?) {
-//            Log.d(TAG, "Music service disconnected.")
-//        }
-//
-//        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-//            mMusicService = (service as MusicService.LocalBinder).service
-//            Log.d(TAG, "Music service Connected")
-//        }
-//
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        tvNowPlaying.isSelected = true
-//        tvNowPlaying.setHorizontallyScrolling(true)
-        //setTranslation()
-
-//        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
-//            setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true)
-//        }
+        Fabric.with(this, Crashlytics())
         if (Build.VERSION.SDK_INT >= 19) {
             window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -75,9 +53,11 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
             setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
             window.statusBarColor = Color.TRANSPARENT
         }
-        //doBindService()
-        //mToolbar.overflowIcon =resources.getDrawable(R.drawable.setting_icon)
-        val staggeredGridLayoutManager = StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL)
+
+        val staggeredGridLayoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(
+            1,
+            androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
+        )
         // mToolbar.setBackgroundColor(Color.TRANSPARENT)
         val file: InputStream = resources.openRawResource(R.raw.station)
         val mapper2 = jacksonObjectMapper()
@@ -87,10 +67,10 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         viewManager = staggeredGridLayoutManager
         var myDataset = stationList
         viewAdapter = MyAdapter(myDataset)
-        viewAdapter.currentPlayingStationPosition = getStationIndex(getCurrentStation(),myDataset)
+        viewAdapter.currentPlayingStationPosition = getStationIndex(getCurrentStation(), myDataset)
         viewAdapter.setRecyclerViewClickListener(this)
 
-        (mRecyclerView as RecyclerView).apply {
+        (mRecyclerView as androidx.recyclerview.widget.RecyclerView).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
@@ -105,26 +85,13 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         settingImage.setOnClickListener {
             Toast.makeText(this@MainActivity, "Setting icon clicked", Toast.LENGTH_SHORT).show()
         }
+        mHomeIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
+        mFavIcon.setOnClickListener {  Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show()}
+        mLibraryIcon.setOnClickListener {  Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show()}
+        mRatingIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
+        mPlayIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
     }
 
-//    private fun doBindService() {
-//        startService(Intent(this@MainActivity, MusicService::class.java))
-//        bindService(
-//            Intent(
-//                this@MainActivity, MusicService::class.java
-//            ), mServiceConnection,
-//            Context.BIND_AUTO_CREATE
-//        )
-//    }
-//
-//    private fun doUnbindService() {
-//        unbindService(mServiceConnection)
-//    }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        //doUnbindService()
-//    }
 
     private fun setWindowFlag(bits: Int, on: Boolean) {
         val win = window
