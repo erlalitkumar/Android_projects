@@ -11,14 +11,14 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.crashlytics.android.Crashlytics
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.lkb.baseandroidproject.MyAdapter.RecyclerViewClickListener
-import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.InputStream
+import android.os.StrictMode
+
+
 
 
 class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Fabric.with(this, Crashlytics())
+
         if (Build.VERSION.SDK_INT >= 19) {
             window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -134,19 +134,4 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         }
         return false
     }
-
-//    private fun setTranslation() {
-//        val tanim = TranslateAnimation(
-//            TranslateAnimation.ABSOLUTE, 1.0f * 500,
-//            TranslateAnimation.ABSOLUTE, -1.0f * 500,
-//            TranslateAnimation.ABSOLUTE, 0.0f,
-//            TranslateAnimation.ABSOLUTE, 0.0f
-//        )
-//        tanim.duration = 6000
-//        tanim.interpolator = LinearInterpolator()
-//        tanim.repeatCount = Animation.INFINITE
-//        tanim.repeatMode = Animation.ABSOLUTE
-//
-//        tvNowPlaying.startAnimation(tanim)
-//    }
 }
