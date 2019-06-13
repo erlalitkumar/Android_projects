@@ -2,6 +2,7 @@ package com.lkb.base.view
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.lkb.base.R
@@ -23,6 +24,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.d("MYTAG", "${this.hashCode()}")
         loginPresenter = LoginPresenter(this)
 
         loginBtn.setOnClickListener { loginPresenter.onLogin(emailEdit.text.toString(), passwordEdit.text.toString()) }
