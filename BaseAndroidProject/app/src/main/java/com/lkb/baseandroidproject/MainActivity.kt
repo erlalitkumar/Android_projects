@@ -7,27 +7,27 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    var isClicked = false;
+    private var isClicked = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val initialwidth = button.width
+        val initialx = button.x
         button.setOnClickListener {
             isClicked = !isClicked
            if(isClicked){
-               val widthAnimator = ValueAnimator.ofInt(button.width, 400)
+               val widthAnimator = ValueAnimator.ofFloat(initialx, 400f)
                widthAnimator.addUpdateListener { animation ->
-                   val animatedValue = animation.animatedValue as Int
-                   button.layoutParams.width = animatedValue
-                   button.requestLayout()
+                   val animatedValue = animation.animatedValue as Float
+                   button.translationX = animatedValue
+                   widthAnimator.duration = 500
                }
                widthAnimator.start()
            }else{
-               val widthAnimator = ValueAnimator.ofInt(400, 200)
+               val widthAnimator = ValueAnimator.ofFloat(400f, initialx)
                widthAnimator.addUpdateListener { animation ->
-                   val animatedValue = animation.animatedValue as Int
-                   button.layoutParams.width = animatedValue
-                   button.requestLayout()
+                   val animatedValue = animation.animatedValue as Float
+                   button.translationX = animatedValue
+                   widthAnimator.duration = 500
                }
                widthAnimator.start()
            }
