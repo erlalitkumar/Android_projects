@@ -1,9 +1,10 @@
 package com.lkb.baseandroidproject
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.animation.ValueAnimator
-import android.view.View
+import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -20,6 +21,27 @@ class MainActivity : AppCompatActivity() {
                 inAndOutLinearAnimation(0f, 60f)
             }
         }
+        recyclerView.apply {
+            adapter = LocalAdapter(
+                listOf(
+                    "Apple",
+                    "Orange",
+                    "Banana",
+                    "Pineapple",
+                    "Cherry",
+                    "wood Apple",
+                    "naseberry",
+                    "Apple",
+                    "Orange",
+                    "Banana",
+                    "Pineapple",
+                    "Cherry",
+                    "wood Apple",
+                    "naseberry"
+                )
+            )
+            layoutManager = LinearLayoutManager(this@MainActivity)
+        }
     }
 
     private fun inAndOutLinearAnimation(param1: Float, param2: Float) {
@@ -27,7 +49,12 @@ class MainActivity : AppCompatActivity() {
         widthAnimator.addUpdateListener { animation ->
             val animatedValue = animation.animatedValue as Float
             iconContainer.translationX = animatedValue
-            widthAnimator.duration = 500
+            Log.d("ANIM"," animated value = $animatedValue")
+            widthAnimator.duration = 400
+            if(!iconContainer.isInLayout){
+                iconContainer.requestLayout()
+            }
+
         }
         widthAnimator.start()
     }
