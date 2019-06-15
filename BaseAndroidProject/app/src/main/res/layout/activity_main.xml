@@ -25,6 +25,31 @@
                 app:layout_scrollFlags="enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:titleTextAppearance="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                <LinearLayout
+                        android:id="@+id/iconContainer"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center|end"
+                        android:translationX="25dp"
+                        android:layout_height="wrap_content">
+
+                <ImageView
+                        android:id="@+id/clockImage"
+                        android:background="@drawable/ic_clock"
+                        android:layout_width="16dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:layout_height="16dp"/>
+
+                <ImageView
+                        android:id="@+id/searchImage"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/ic_search"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"/>
+                </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
