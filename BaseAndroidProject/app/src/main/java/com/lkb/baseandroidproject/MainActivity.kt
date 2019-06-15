@@ -12,28 +12,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val initialx = searchImage.x
-        val xofClock = clockImage.x
-        val delta = initialx-xofClock
         button.setOnClickListener {
             isClicked = !isClicked
-           if(isClicked){
-               val widthAnimator = ValueAnimator.ofFloat(60f, 0f)
-               widthAnimator.addUpdateListener { animation ->
-                   val animatedValue = animation.animatedValue as Float
-                   iconContainer.translationX = animatedValue
-                   widthAnimator.duration = 500
-               }
-               widthAnimator.start()
-           }else{
-               val widthAnimator = ValueAnimator.ofFloat(0f, 60f)
-               widthAnimator.addUpdateListener { animation ->
-                   val animatedValue = animation.animatedValue as Float
-                   iconContainer.translationX = animatedValue
-                   widthAnimator.duration = 500
-               }
-               widthAnimator.start()
-           }
+            if (isClicked) {
+                inAndOutLinearAnimation(60f, 0f)
+            } else {
+                inAndOutLinearAnimation(0f, 60f)
+            }
         }
+    }
+
+    private fun inAndOutLinearAnimation(param1: Float, param2: Float) {
+        val widthAnimator = ValueAnimator.ofFloat(param1, param2)
+        widthAnimator.addUpdateListener { animation ->
+            val animatedValue = animation.animatedValue as Float
+            iconContainer.translationX = animatedValue
+            widthAnimator.duration = 500
+        }
+        widthAnimator.start()
     }
 }
