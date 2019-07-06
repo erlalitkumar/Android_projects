@@ -1,4 +1,4 @@
 package com.lkb.baseandroidproject
 
-data class StationList(val stationList: ArrayList<Station>) {
+data class StationList(val stationList: List<Station>) {
 }

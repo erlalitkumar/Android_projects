@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
 
     override fun onClick(item: Station) {
         setCurrentStation(item.title)
-        tvNowPlaying.text = "Now Playing : "+item.title+longText
+        tvNowPlaying.text = "Now Playing : " + item.title + longText
         var intent = Intent(this@MainActivity, MusicService::class.java)
         intent.putExtra("channel", item.url)
         intent.putExtra("station", item.title)
@@ -80,10 +80,13 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
             Toast.makeText(this@MainActivity, "Setting icon clicked", Toast.LENGTH_SHORT).show()
         }
         mHomeIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
-        mFavIcon.setOnClickListener {  Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show()}
-        mLibraryIcon.setOnClickListener {  Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show()}
+        mFavIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
+        mLibraryIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
         mRatingIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
         mPlayIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
+
+        val mediaUseCase = MediaUseCase()
+        mediaUseCase.start()
     }
 
 
