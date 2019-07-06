@@ -19,7 +19,6 @@ import java.io.InputStream
 
 
 class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
-    //private var mMusicService: MusicService? = null
     private lateinit var viewAdapter: MyAdapter
     private lateinit var viewManager: androidx.recyclerview.widget.StaggeredGridLayoutManager
     private val longText = "                                                              "
@@ -54,7 +53,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
             1,
             androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
         )
-        // mToolbar.setBackgroundColor(Color.TRANSPARENT)
         val file: InputStream = resources.openRawResource(R.raw.station)
         val mapper2 = jacksonObjectMapper()
         val stationList: StationList = mapper2.readValue(file)
@@ -130,19 +128,4 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
         }
         return false
     }
-
-//    private fun setTranslation() {
-//        val tanim = TranslateAnimation(
-//            TranslateAnimation.ABSOLUTE, 1.0f * 500,
-//            TranslateAnimation.ABSOLUTE, -1.0f * 500,
-//            TranslateAnimation.ABSOLUTE, 0.0f,
-//            TranslateAnimation.ABSOLUTE, 0.0f
-//        )
-//        tanim.duration = 6000
-//        tanim.interpolator = LinearInterpolator()
-//        tanim.repeatCount = Animation.INFINITE
-//        tanim.repeatMode = Animation.ABSOLUTE
-//
-//        tvNowPlaying.startAnimation(tanim)
-//    }
 }
