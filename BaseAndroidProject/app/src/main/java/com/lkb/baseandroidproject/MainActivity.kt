@@ -13,12 +13,22 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.gson.Gson
 import com.lkb.baseandroidproject.MyAdapter.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.InputStream
+import java.io.*
 
 
-class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
+class MainActivity : AppCompatActivity(), RecyclerViewClickListener, IMainPresenter.view {
+    var presenter: MainPresenter? = null
+    override fun onStationData(data: List<Station>) {
+        //data.forEach { Log.d("Station", it.title) }
+        val stringJson = Gson().toJson(data)
+        //write the data to the file system
+        Log.d("Station", stringJson)
+        writeFile("station.json", stringJson)
+    }
+
     private lateinit var viewAdapter: MyAdapter
     private lateinit var viewManager: androidx.recyclerview.widget.StaggeredGridLayoutManager
     private val longText = "                                                              "
@@ -40,6 +50,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        presenter = MainPresenter(this)
         if (Build.VERSION.SDK_INT >= 19) {
             window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -53,9 +64,22 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
             1,
             androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
         )
-        val file: InputStream = resources.openRawResource(R.raw.station)
+        val jsonFile = File("station.json")
+
+        if(jsonFile.exists()){
+            //val stationSource: InputStream = resources.openRawResource(R.raw.station)
+            val mapper2 = jacksonObjectMapper()
+            val stationList: StationList = mapper2.readValue(jsonFile)
+            Log.d("json", stationList.stationList[0].title)
+        }else{
+            val stationSource: InputStream = resources.openRawResource(R.raw.station)
+            val mapper2 = jacksonObjectMapper()
+            val stationList: StationList = mapper2.readValue(stationSource)
+            Log.d("json", stationList.stationList[0].title)
+        }
+        val stationSource: InputStream = resources.openRawResource(R.raw.station)
         val mapper2 = jacksonObjectMapper()
-        val stationList: StationList = mapper2.readValue(file)
+        val stationList: StationList = mapper2.readValue(stationSource)
         Log.d("json", stationList.stationList[0].title)
 
         viewManager = staggeredGridLayoutManager
@@ -80,13 +104,20 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
             Toast.makeText(this@MainActivity, "Setting icon clicked", Toast.LENGTH_SHORT).show()
         }
         mHomeIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
-        mFavIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
-        mLibraryIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
-        mRatingIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
-        mPlayIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
+        mFavIcon.setOnClickListener {
+            //Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show()
+            val station = readFile("station.json")
+            Log.d("File", station)
+        }
+        mLibraryIcon.setOnClickListener {
+            //Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show()
+            presenter?.requestStationData()
+        }
+        mRatingIcon.setOnClickListener {
 
-        val mediaUseCase = MediaUseCase()
-        mediaUseCase.start()
+            //Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show()
+        }
+        mPlayIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
     }
 
 
@@ -130,5 +161,25 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener {
             }
         }
         return false
+    }
+
+    fun writeFile(filename: String, fileContents: String) {
+        this.openFileOutput(filename, Context.MODE_PRIVATE).use {
+            it.write(fileContents.toByteArray())
+            Log.d("File", "Success")
+        }
+    }
+
+    private fun readFile(filename: String): String {
+        var fileInputStream: FileInputStream? = null
+        fileInputStream = openFileInput(filename)
+        var inputStreamReader = InputStreamReader(fileInputStream)
+        val bufferedReader = BufferedReader(inputStreamReader)
+        val stringBuilder: StringBuilder = StringBuilder()
+        var text: String? = null
+        while ({ text = bufferedReader.readLine(); text }() != null) {
+            stringBuilder.append(text)
+        }
+        return stringBuilder.toString()
     }
 }

@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import com.google.gson.GsonBuilder
 
 
-class MediaUseCase : Callback<StationList> {
+class MediaUseCase(val presenter: IMainPresenter) : Callback<StationList> {
     override fun onFailure(call: Call<StationList>, t: Throwable) {
         t.printStackTrace()
     }
@@ -18,9 +18,7 @@ class MediaUseCase : Callback<StationList> {
     override fun onResponse(call: Call<StationList>, response: Response<StationList>) {
         if (response.isSuccessful) {
             val station: StationList? = response.body()
-            for (station in station?.stationList!!) {
-                Log.d("Station",station.title)
-            }
+            station?.stationList?.let { presenter.onNetworkData(it) }
         }
     }
 
