@@ -17,8 +17,8 @@ class MainActivity : AppCompatActivity() {
         val filename = "hello.txt"
         val fileContents = "Hello world!"
         writeFile(filename,fileContents)
-        val stringBuilder: StringBuilder = readFile(filename)
-        Log.d("File",stringBuilder.toString())
+        val content = readFile(filename)
+        Log.d("File",content)
     }
 
     private fun writeFile(filename: String,fileContents:String) {
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun readFile(filename: String): StringBuilder {
+    private fun readFile(filename: String): String {
         var fileInputStream: FileInputStream? = null
         fileInputStream = openFileInput(filename)
         var inputStreamReader = InputStreamReader(fileInputStream)
@@ -38,6 +38,6 @@ class MainActivity : AppCompatActivity() {
         while ({ text = bufferedReader.readLine(); text }() != null) {
             stringBuilder.append(text)
         }
-        return stringBuilder
+        return stringBuilder.toString()
     }
 }
