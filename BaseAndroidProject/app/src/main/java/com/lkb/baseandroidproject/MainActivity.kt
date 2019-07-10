@@ -1,12 +1,12 @@
 package com.lkb.baseandroidproject
 
+import android.app.Dialog
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import android.content.DialogInterface
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,15 +19,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun showAddItemDialog(c: Context) {
-        val taskEditText = EditText(c)
-        val dialog = AlertDialog.Builder(c)
-            .setTitle("Add a new task")
-            .setMessage("What do you want to do next?")
-            .setView(taskEditText)
-            .setPositiveButton("Add",
-                DialogInterface.OnClickListener { dialog, which -> val task = taskEditText.text.toString() })
-            .setNegativeButton("Cancel", null)
-            .create()
+        val dialog = Dialog(c)
+        dialog.setContentView(R.layout.custom)
+        val dialogButton = dialog.findViewById(R.id.dialogButtonOK) as Button
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener {
+            dialog.dismiss()
+            Toast.makeText(applicationContext, "Dismissed..!!", Toast.LENGTH_SHORT).show()
+        }
         dialog.show()
     }
 }
