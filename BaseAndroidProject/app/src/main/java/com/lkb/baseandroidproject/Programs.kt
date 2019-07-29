@@ -84,3 +84,8 @@ class MyMath {
 //    taskThree()
 //}
 
+fun main() {
+    var list = mutableListOf<Int>(7, 8, 9)
+    var f = list.mapIndexed { i, e -> if (e % 2 == 0) i else 0 }.filter { it != 0 }[0]
+    print(f)
+}
