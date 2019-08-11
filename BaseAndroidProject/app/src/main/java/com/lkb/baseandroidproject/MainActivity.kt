@@ -1,6 +1,5 @@
 package com.lkb.baseandroidproject
 
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -17,6 +16,12 @@ import com.google.gson.Gson
 import com.lkb.baseandroidproject.MyAdapter.RecyclerViewClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.*
+import com.crashlytics.android.Crashlytics
+import com.lkb.baseandroidproject.model.Station
+import com.lkb.baseandroidproject.model.StationList
+import io.fabric.sdk.android.Fabric
+
+
 
 
 class MainActivity : AppCompatActivity(), RecyclerViewClickListener,
@@ -52,6 +57,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Fabric.with(this, Crashlytics())
         context = this@MainActivity
         presenter = MainPresenter(this)
         if (Build.VERSION.SDK_INT >= 19) {
@@ -156,15 +162,15 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener,
         return -1
     }
 
-    fun checkServiceRunning(): Boolean {
-        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
-            if ("com.example.yourpackagename.YourServiceName" == service.service.className) {
-                return true
-            }
-        }
-        return false
-    }
+//    fun checkServiceRunning(): Boolean {
+//        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+//        for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
+//            if ("com.example.yourpackagename.YourServiceName" == service.service.className) {
+//                return true
+//            }
+//        }
+//        return false
+//    }
 
     private fun writeFile(filename: String, fileContents: String) {
         this.openFileOutput(filename, Context.MODE_PRIVATE).use {

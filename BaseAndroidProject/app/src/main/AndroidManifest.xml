@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.lkb.baseandroidproject">
+        package="com.lkb.baseandroidproject">
 
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <application
             android:name=".MyApplication"
@@ -13,20 +15,27 @@
             android:roundIcon="@drawable/ic_icon"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <service
                 android:name=".MusicService"
-                android:exported="false">
-        </service>
+                android:exported="false"></service>
 
-        <activity android:name=".SplashActivity"
-                  android:theme="@style/NoActionBar">
+        <activity
+                android:name=".SplashActivity"
+                android:theme="@style/NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" android:launchMode="singleTask" android:theme="@style/NoActionBar"/>
+        <activity
+                android:name=".MainActivity"
+                android:launchMode="singleTask"
+                android:theme="@style/NoActionBar" />
+        <meta-data
+                android:name="io.fabric.ApiKey"
+                android:value="6108958b6336dbdd581b9773034139ed1f483eae" />
     </application>
 
 </manifest>

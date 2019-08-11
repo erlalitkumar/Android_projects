@@ -45,7 +45,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
             Log.d(tag, "onHandle with the msg")
             val url = msg?.data?.getString("url") // your URL here
             if (currentStation.contentEquals(msg?.data?.getString("channel").toString())) {
-                pausePlayBack()
+                //pausePlayBack()
+                stopService()
                 currentStation = "NA"
             } else {
                 currentStation = msg?.data?.getString("channel").toString()
@@ -112,6 +113,9 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
 
     fun pausePlayBack() {
         mediaPlayer?.pause()
+    }
+    fun stopService(){
+        this@MusicService.stopSelf()
     }
 
     fun resumePlayBack() {

@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 

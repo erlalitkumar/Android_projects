@@ -7,10 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.lkb.baseandroidproject.model.Station
+import com.lkb.baseandroidproject.model.StationList
 import es.claucookie.miniequalizerlibrary.EqualizerView
 
-class MyAdapter(private val myDataset: StationList) :
-    androidx.recyclerview.widget.RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter() :
+    RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+    private lateinit var myDataset: StationList
+
+    constructor(myDataset: StationList) : this() {
+        this.myDataset = myDataset
+    }
+
     var currentPlayingStationPosition = -1
     private lateinit var listener: RecyclerViewClickListener
 
@@ -60,7 +68,13 @@ class MyAdapter(private val myDataset: StationList) :
                 notifyDataSetChanged()
             }
             listener.onClick(myDataset.stationList[position])
-            currentPlayingStationPosition = position
+            if(currentPlayingStationPosition==position){
+                currentPlayingStationPosition =-1
+            }else{
+                currentPlayingStationPosition = position
+            }
+
+
 
             if (!myDataset.stationList[position].isPlaying) {
                 holder.playImage.setImageResource(R.drawable.ic_stop_icon)
@@ -79,8 +93,4 @@ class MyAdapter(private val myDataset: StationList) :
     }
 
     override fun getItemCount() = myDataset.stationList.size
-
-    fun updateData() {
-
-    }
 }
