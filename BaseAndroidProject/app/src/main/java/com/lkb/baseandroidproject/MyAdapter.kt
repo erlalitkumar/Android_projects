@@ -31,9 +31,9 @@ class MyAdapter() :
     }
 
     inner class MyViewHolder(val view: View) :
-        androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+        RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.info_text)
-        val playImage: ImageView = view.findViewById(R.id.playImage)
+        val playImage: ImageView = view.findViewById(R.id.playImg)
         val equalizer: EqualizerView = view.findViewById(R.id.equalizerView)
     }
 
@@ -93,4 +93,7 @@ class MyAdapter() :
     }
 
     override fun getItemCount() = myDataset.stationList.size
+    fun getCurrentPosition(): Int {
+        return currentPlayingStationPosition
+    }
 }

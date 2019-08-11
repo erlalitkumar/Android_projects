@@ -10,6 +10,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
@@ -94,7 +95,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener,
 
         viewAdapter.setRecyclerViewClickListener(this)
 
-        (mRecyclerView as androidx.recyclerview.widget.RecyclerView).apply {
+        (mRecyclerView as RecyclerView).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
@@ -104,16 +105,13 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener,
             Toast.makeText(this@MainActivity, "Setting icon clicked", Toast.LENGTH_SHORT).show()
         }
         mHomeIcon.setOnClickListener {
-            Toast.makeText(
-                this@MainActivity,
-                "icon clicked",
-                Toast.LENGTH_SHORT
-            ).show()
+            if(viewAdapter.getCurrentPosition()>=0){
+                (mRecyclerView as RecyclerView).smoothScrollToPosition(viewAdapter.getCurrentPosition())
+            }
+
         }
         mFavIcon.setOnClickListener {
-            val station = readFile("station.json")
-            val mapper =
-                Log.d("File", station)
+           //fav icon
         }
         mLibraryIcon.setOnClickListener {
             presenter?.requestStationData()
@@ -143,8 +141,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener,
 
     private fun getCurrentStation(): String {
         val pref = getSharedPreferences("radio", Context.MODE_PRIVATE)
-        val station = pref.getString("station", "NA")
-        return station
+        return pref.getString("station", "NA")
     }
 
     private fun setCurrentStation(station: String) {
@@ -161,16 +158,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener,
         }
         return -1
     }
-
-//    fun checkServiceRunning(): Boolean {
-//        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-//        for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
-//            if ("com.example.yourpackagename.YourServiceName" == service.service.className) {
-//                return true
-//            }
-//        }
-//        return false
-//    }
 
     private fun writeFile(filename: String, fileContents: String) {
         this.openFileOutput(filename, Context.MODE_PRIVATE).use {
