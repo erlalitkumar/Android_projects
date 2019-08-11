@@ -9,7 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import es.claucookie.miniequalizerlibrary.EqualizerView
 
-class MyAdapter(private val myDataset: StationList) : androidx.recyclerview.widget.RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(private val myDataset: StationList) :
+    androidx.recyclerview.widget.RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     var currentPlayingStationPosition = -1
     private lateinit var listener: RecyclerViewClickListener
 
@@ -21,7 +22,8 @@ class MyAdapter(private val myDataset: StationList) : androidx.recyclerview.widg
         this.listener = listener
     }
 
-    inner class MyViewHolder(val view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+    inner class MyViewHolder(val view: View) :
+        androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.info_text)
         val playImage: ImageView = view.findViewById(R.id.playImage)
         val equalizer: EqualizerView = view.findViewById(R.id.equalizerView)
@@ -29,11 +31,11 @@ class MyAdapter(private val myDataset: StationList) : androidx.recyclerview.widg
 
 
     override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
+        parent: ViewGroup,
+        viewType: Int
     ): MyViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.my_text_view, parent, false)
+            .inflate(R.layout.my_text_view, parent, false)
         return MyViewHolder(view)
     }
 
@@ -77,4 +79,8 @@ class MyAdapter(private val myDataset: StationList) : androidx.recyclerview.widg
     }
 
     override fun getItemCount() = myDataset.stationList.size
+
+    fun updateData() {
+
+    }
 }

@@ -18,7 +18,7 @@ class MediaUseCase(val presenter: IMainPresenter) : Callback<StationList> {
     override fun onResponse(call: Call<StationList>, response: Response<StationList>) {
         if (response.isSuccessful) {
             val station: StationList? = response.body()
-            station?.stationList?.let { presenter.onNetworkData(it) }
+            station?.let { presenter.onNetworkData(it) }
         }
     }
 

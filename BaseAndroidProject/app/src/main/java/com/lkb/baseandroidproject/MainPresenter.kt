@@ -1,7 +1,7 @@
 package com.lkb.baseandroidproject
 
-class MainPresenter(private val view:IMainPresenter.view):IMainPresenter{
-    override fun onNetworkData(data: List<Station>) {
+class MainPresenter(private val view:IMainPresenter.View):IMainPresenter{
+    override fun onNetworkData(data: StationList) {
         view.onStationData(data)
     }
 

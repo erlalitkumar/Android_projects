@@ -19,12 +19,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.io.*
 
 
-class MainActivity : AppCompatActivity(), RecyclerViewClickListener, IMainPresenter.view {
-    var presenter: MainPresenter? = null
-    override fun onStationData(data: List<Station>) {
-        //data.forEach { Log.d("Station", it.title) }
+class MainActivity : AppCompatActivity(), RecyclerViewClickListener,
+    IMainPresenter.View {
+    private var presenter: MainPresenter? = null
+    private var context: Context? = null
+    private var stationList: StationList? = null
+
+    override fun onStationData(data: StationList) {
         val stringJson = Gson().toJson(data)
-        //write the data to the file system
         Log.d("Station", stringJson)
         writeFile("station.json", stringJson)
     }
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener, IMainPresen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        context = this@MainActivity
         presenter = MainPresenter(this)
         if (Build.VERSION.SDK_INT >= 19) {
             window.decorView.systemUiVisibility =
@@ -64,60 +67,60 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener, IMainPresen
             1,
             androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
         )
-        val jsonFile = File("station.json")
 
-        if(jsonFile.exists()){
-            //val stationSource: InputStream = resources.openRawResource(R.raw.station)
+        try {
+            var slist = readFile("station.json")
             val mapper2 = jacksonObjectMapper()
-            val stationList: StationList = mapper2.readValue(jsonFile)
-            Log.d("json", stationList.stationList[0].title)
-        }else{
+            stationList = mapper2.readValue(slist)
+            Log.d("json", stationList?.let { it.stationList[0].title })
+        } catch (e: FileNotFoundException) {
             val stationSource: InputStream = resources.openRawResource(R.raw.station)
             val mapper2 = jacksonObjectMapper()
-            val stationList: StationList = mapper2.readValue(stationSource)
-            Log.d("json", stationList.stationList[0].title)
+            stationList = mapper2.readValue(stationSource)
+            Log.d("json", stationList?.let { it.stationList[0].title })
         }
-        val stationSource: InputStream = resources.openRawResource(R.raw.station)
-        val mapper2 = jacksonObjectMapper()
-        val stationList: StationList = mapper2.readValue(stationSource)
-        Log.d("json", stationList.stationList[0].title)
 
         viewManager = staggeredGridLayoutManager
-        var myDataset = stationList
-        viewAdapter = MyAdapter(myDataset)
-        viewAdapter.currentPlayingStationPosition = getStationIndex(getCurrentStation(), myDataset)
+        stationList?.let {
+            viewAdapter = MyAdapter(it)
+            viewAdapter.currentPlayingStationPosition = getStationIndex(getCurrentStation(), it)
+        }
+
         viewAdapter.setRecyclerViewClickListener(this)
 
         (mRecyclerView as androidx.recyclerview.widget.RecyclerView).apply {
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
-
-            // use a linear layout manager
             layoutManager = viewManager
-
-            // specify an viewAdapter (see also next example)
             adapter = viewAdapter
         }
 
         settingImage.setOnClickListener {
             Toast.makeText(this@MainActivity, "Setting icon clicked", Toast.LENGTH_SHORT).show()
         }
-        mHomeIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
+        mHomeIcon.setOnClickListener {
+            Toast.makeText(
+                this@MainActivity,
+                "icon clicked",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
         mFavIcon.setOnClickListener {
-            //Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show()
             val station = readFile("station.json")
-            Log.d("File", station)
+            val mapper =
+                Log.d("File", station)
         }
         mLibraryIcon.setOnClickListener {
-            //Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show()
             presenter?.requestStationData()
         }
         mRatingIcon.setOnClickListener {
-
-            //Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show()
         }
-        mPlayIcon.setOnClickListener { Toast.makeText(this@MainActivity, "icon clicked", Toast.LENGTH_SHORT).show() }
+        mPlayIcon.setOnClickListener {
+            Toast.makeText(
+                this@MainActivity,
+                "icon clicked",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
 
@@ -132,20 +135,20 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener, IMainPresen
         win.attributes = winParams
     }
 
-    fun getCurrentStation(): String {
+    private fun getCurrentStation(): String {
         val pref = getSharedPreferences("radio", Context.MODE_PRIVATE)
         val station = pref.getString("station", "NA")
         return station
     }
 
-    fun setCurrentStation(station: String) {
+    private fun setCurrentStation(station: String) {
         val pref = getSharedPreferences("radio", Context.MODE_PRIVATE)
         val editor = pref.edit()
         editor.putString("station", station)
         editor.commit()
     }
 
-    fun getStationIndex(name: String, data: StationList): Int {
+    private fun getStationIndex(name: String, data: StationList): Int {
         for (i in 0 until data.stationList.size) {
             if (data.stationList[i].title.contentEquals(name))
                 return i
@@ -163,7 +166,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener, IMainPresen
         return false
     }
 
-    fun writeFile(filename: String, fileContents: String) {
+    private fun writeFile(filename: String, fileContents: String) {
         this.openFileOutput(filename, Context.MODE_PRIVATE).use {
             it.write(fileContents.toByteArray())
             Log.d("File", "Success")
