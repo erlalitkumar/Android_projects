@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include
+            android:id="@+id/mRecyclerView"
+            layout="@layout/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="156dp"
+            android:layout_marginBottom="195dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvNowPlaying"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Radio Stations"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/mRecyclerView"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+            android:id="@+id/settingImage"
+            android:layout_width="28dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/setting_icon" />
+
+    <View
+            android:id="@+id/upperView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="1dp"
+            android:background="#131212"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#131212"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+            android:id="@+id/mHomeIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/mLibraryIcon"
+            app:layout_constraintEnd_toStartOf="@+id/mLibraryIcon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/mLibraryIcon"
+            app:srcCompat="@drawable/home_icon" />
+
+    <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="@+id/mHomeIcon"
+            app:layout_constraintStart_toStartOf="@+id/mHomeIcon"
+            app:layout_constraintTop_toBottomOf="@+id/mHomeIcon" />
+
+    <ImageView
+            android:id="@+id/mLibraryIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/mRatingIcon"
+            app:layout_constraintEnd_toStartOf="@+id/mRatingIcon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/mHomeIcon"
+            app:layout_constraintTop_toTopOf="@+id/mRatingIcon"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/music" />
+
+    <ImageView
+            android:id="@+id/mRatingIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/mLibraryIcon"
+            app:srcCompat="@drawable/music" />
+
+    <TextView
+            android:id="@+id/tvFav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Favourite"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="@+id/mLibraryIcon"
+            app:layout_constraintStart_toStartOf="@+id/mLibraryIcon"
+            app:layout_constraintTop_toBottomOf="@+id/mLibraryIcon" />
+
+    <TextView
+            android:id="@+id/tvRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rate Us"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="@+id/mRatingIcon"
+            app:layout_constraintStart_toStartOf="@+id/mRatingIcon"
+            app:layout_constraintTop_toBottomOf="@+id/mRatingIcon" />
+
+    <ImageView
+            android:id="@+id/mPlayIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/upperView"
+            app:srcCompat="@drawable/ic_play_button" />
+
+    <ImageView
+            android:id="@+id/mFavIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/upperView"
+            app:layout_constraintTop_toTopOf="@+id/upperView"
+            app:srcCompat="@drawable/ic_love" />
+
+    <com.lkb.baseandroidproject.CustomTextView
+            android:id="@+id/tvNowPlaying"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="40dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Now playing : Radio mirchi                                                     "
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/mPlayIcon"
+            app:layout_constraintStart_toEndOf="@+id/mFavIcon"
+            app:layout_constraintTop_toTopOf="@+id/upperView"
+            app:layout_constraintVertical_bias="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

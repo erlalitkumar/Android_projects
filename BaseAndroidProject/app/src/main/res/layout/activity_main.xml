@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        android:background="@drawable/black_bg">
+        android:background="@drawable/black_bg"
+        tools:context=".MainActivity">
+
+    <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     <!--<android.support.v7.widget.Toolbar-->
     <!--android:id="@+id/mToolbar"-->
     <!--android:layout_width="match_parent"-->
@@ -17,136 +21,6 @@
     <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light" app:layout_constraintTop_toTopOf="parent"-->
     <!--app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>-->
 
-    <include
-            android:id="@+id/mRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            layout="@layout/recycler_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="156dp" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="195dp" app:layout_constraintBottom_toTopOf="@+id/tvNowPlaying"/>
-    <TextView
-            android:text="Radio Stations"
-            android:textSize="24sp"
-            android:textColor="#ffffff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp" app:layout_constraintBottom_toTopOf="@+id/mRecyclerView"/>
 
-    <ImageView
-            android:id="@+id/settingImage"
-            android:layout_width="28dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/setting_icon" />
-    <View
-            android:background="#131212"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/upperView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginBottom="1dp" app:layout_constraintBottom_toTopOf="@+id/view"/>
-    <View
-            android:background="#131212"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp" app:srcCompat="@drawable/home_icon"
-            android:id="@+id/mHomeIcon"
-            app:layout_constraintStart_toEndOf="@+id/view"
-            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/mLibraryIcon"
-            android:layout_marginEnd="50dp" app:layout_constraintTop_toTopOf="@+id/mLibraryIcon"
-            app:layout_constraintBottom_toBottomOf="@+id/mLibraryIcon" android:layout_marginStart="24dp"/>
-    <TextView
-            android:text="Home"
-            android:textSize="8sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            app:layout_constraintStart_toStartOf="@+id/mHomeIcon"
-            app:layout_constraintEnd_toEndOf="@+id/mHomeIcon"
-            app:layout_constraintTop_toBottomOf="@+id/mHomeIcon"/>
-    <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp" app:srcCompat="@drawable/music"
-            android:id="@+id/mLibraryIcon"
-            app:layout_constraintStart_toEndOf="@+id/mHomeIcon" app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toStartOf="@+id/mRatingIcon" android:layout_marginEnd="50dp"
-            android:layout_marginStart="50dp" app:layout_constraintTop_toTopOf="@+id/mRatingIcon"
-            app:layout_constraintBottom_toBottomOf="@+id/mRatingIcon" app:layout_constraintVertical_bias="0.0"/>
-    <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp" app:srcCompat="@drawable/music"
-            android:id="@+id/mRatingIcon"
-            app:layout_constraintStart_toEndOf="@+id/mLibraryIcon" app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toStartOf="@+id/view" android:layout_marginStart="50dp"
-            android:layout_marginEnd="24dp" android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    <TextView
-            android:text="Favourite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="8sp"
-            android:id="@+id/tvFav" app:layout_constraintStart_toStartOf="@+id/mLibraryIcon"
-            app:layout_constraintEnd_toEndOf="@+id/mLibraryIcon"
-            app:layout_constraintTop_toBottomOf="@+id/mLibraryIcon"/>
-    <TextView
-            android:text="Rate Us"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvRating"
-            android:textSize="8sp"
-            app:layout_constraintStart_toStartOf="@+id/mRatingIcon"
-            app:layout_constraintEnd_toEndOf="@+id/mRatingIcon" app:layout_constraintTop_toBottomOf="@+id/mRatingIcon"
-    />
-    <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp" app:srcCompat="@drawable/ic_play_button"
-            android:id="@+id/mPlayIcon"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="@+id/upperView"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"/>
-
-    <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp" app:srcCompat="@drawable/ic_love"
-            android:id="@+id/mFavIcon"
-            app:layout_constraintStart_toStartOf="@+id/upperView"
-            android:layout_marginStart="24dp" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="@+id/upperView"/>
-    <com.lkb.baseandroidproject.CustomTextView
-            android:text="Now playing : Radio mirchi                                                     "
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="15dp"
-            android:freezesText="true"
-            android:id="@+id/tvNowPlaying"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="@+id/upperView"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/mFavIcon" android:layout_marginStart="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/mPlayIcon" android:layout_marginEnd="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
