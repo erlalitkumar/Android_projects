@@ -7,17 +7,17 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.crashlytics.android.Crashlytics
 import com.lkb.baseandroidproject.model.StationList
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(),IMainPresenter.View {
+class MainActivity : AppCompatActivity(), IMainPresenter.View {
     private var presenter: MainPresenter? = null
-    override fun onStationData(data: StationList) {
-
-    }
+    private var model: MediaStateViewModel? = null
+    override fun onStationData(data: StationList) = Unit
 
     companion object {
         var TAG = "MainActivity"
@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity(),IMainPresenter.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        model = ViewModelProviders.of(this)[MediaStateViewModel::class.java]
         presenter = MainPresenter(this)
         Fabric.with(this, Crashlytics())
 
@@ -39,13 +40,13 @@ class MainActivity : AppCompatActivity(),IMainPresenter.View {
         }
         var fm = supportFragmentManager
         var ft = fm.beginTransaction()
-        ft.replace(R.id.container,HomeFragment.newInstance())
+        ft.replace(R.id.container, HomeFragment.newInstance())
         ft.commit()
 
         mHomeIcon.setOnClickListener {
-//            if (viewAdapter.getCurrentPosition() >= 0) {
-//                (mRecyclerView as RecyclerView).smoothScrollToPosition(viewAdapter.getCurrentPosition())
-//            }
+            if (model?.adapter!!.getCurrentPosition() >= 0) {
+                model?.recyclerView?.smoothScrollToPosition(model?.adapter!!.getCurrentPosition())
+            }
         }
         mFavIcon.setOnClickListener {
             //fav icon

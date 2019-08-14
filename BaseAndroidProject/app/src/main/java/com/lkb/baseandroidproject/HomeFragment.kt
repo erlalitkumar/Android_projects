@@ -9,13 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import com.lkb.baseandroidproject.model.Station
 import com.lkb.baseandroidproject.model.StationList
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.home_layout.*
 import java.io.*
 
@@ -25,7 +25,14 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
     private var stationList: StationList? = null
     private lateinit var viewAdapter: MyAdapter
     private lateinit var viewManager: androidx.recyclerview.widget.StaggeredGridLayoutManager
-    private val longText = ""
+    private var model: MediaStateViewModel? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        model = (activity?.run {
+            ViewModelProviders.of(this)[MediaStateViewModel::class.java]
+        } ?: throw Exception("Invalid Activity"))
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,7 +44,7 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         presenter = MainPresenter(this)
-
+        model?.recyclerView = mRecyclerView as RecyclerView
         try {
             var slist = readFile("station.json")
             val mapper2 = jacksonObjectMapper()
@@ -57,6 +64,7 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
         stationList?.let {
             viewAdapter = MyAdapter(it)
             viewAdapter.currentPlayingStationPosition = getStationIndex(getCurrentStation(), it)
+            model?.adapter = viewAdapter
         }
 
         viewAdapter.setRecyclerViewClickListener(this)
@@ -70,7 +78,7 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
         settingImage.setOnClickListener {
             var fm = activity?.supportFragmentManager
             var ft = fm?.beginTransaction()
-            ft?.replace(R.id.container,SettingFragment.newInstance(),"setting")
+            ft?.replace(R.id.container, SettingFragment.newInstance(), "setting")
             ft?.addToBackStack("setting")
             ft?.commit()
         }
@@ -79,7 +87,6 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
 
     override fun onClick(item: Station) {
         setCurrentStation(item.title)
-        //tvNowPlaying.text = "Now Playing : " + item.title + longText
         var intent = Intent(activity, MusicService::class.java)
         intent.putExtra("channel", item.url)
         intent.putExtra("station", item.title)
@@ -115,7 +122,6 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
     private fun writeFile(filename: String, fileContents: String) {
         activity?.openFileOutput(filename, Context.MODE_PRIVATE).use {
             it?.write(fileContents.toByteArray())
-            Log.d("File", "Success")
         }
     }
 
