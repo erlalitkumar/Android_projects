@@ -15,6 +15,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import com.lkb.baseandroidproject.model.Station
 import com.lkb.baseandroidproject.model.StationList
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.home_layout.*
 import java.io.*
 
@@ -67,33 +68,18 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
         }
 
         settingImage.setOnClickListener {
-            Toast.makeText(activity, "Setting icon clicked", Toast.LENGTH_SHORT).show()
+            var fm = activity?.supportFragmentManager
+            var ft = fm?.beginTransaction()
+            ft?.replace(R.id.container,SettingFragment.newInstance(),"setting")
+            ft?.addToBackStack("setting")
+            ft?.commit()
         }
-        mHomeIcon.setOnClickListener {
-            if (viewAdapter.getCurrentPosition() >= 0) {
-                (mRecyclerView as RecyclerView).smoothScrollToPosition(viewAdapter.getCurrentPosition())
-            }
-        }
-        mFavIcon.setOnClickListener {
-            //fav icon
-        }
-        mLibraryIcon.setOnClickListener {
-            presenter?.requestStationData()
-        }
-        mRatingIcon.setOnClickListener {
-        }
-        mPlayIcon.setOnClickListener {
-            Toast.makeText(
-                activity,
-                "icon clicked",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+
     }
 
     override fun onClick(item: Station) {
         setCurrentStation(item.title)
-        tvNowPlaying.text = "Now Playing : " + item.title + longText
+        //tvNowPlaying.text = "Now Playing : " + item.title + longText
         var intent = Intent(activity, MusicService::class.java)
         intent.putExtra("channel", item.url)
         intent.putExtra("station", item.title)
