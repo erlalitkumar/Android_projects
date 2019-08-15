@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.crashlytics.android.Crashlytics
 import com.lkb.baseandroidproject.model.StationList
@@ -42,7 +43,9 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View {
         var ft = fm.beginTransaction()
         ft.replace(R.id.container, HomeFragment.newInstance())
         ft.commit()
-
+        model?.nowPlaying?.observe(this, Observer<String> {
+            tvNowPlaying.text = it+blankSpaceForMarquee()
+        })
         mHomeIcon.setOnClickListener {
             if (model?.adapter!!.getCurrentPosition() >= 0) {
                 model?.recyclerView?.smoothScrollToPosition(model?.adapter!!.getCurrentPosition())
@@ -52,7 +55,6 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View {
             //fav icon
         }
         mLibraryIcon.setOnClickListener {
-            presenter?.requestStationData()
         }
         mRatingIcon.setOnClickListener {
         }

@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -87,17 +86,14 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
 
     override fun onClick(item: Station) {
         setCurrentStation(item.title)
+        model?.nowPlaying?.value = "Now Playing : " + item.title
         var intent = Intent(activity, MusicService::class.java)
         intent.putExtra("channel", item.url)
         intent.putExtra("station", item.title)
         activity?.startService(intent)
     }
 
-    override fun onStationData(data: StationList) {
-        val stringJson = Gson().toJson(data)
-        Log.d("Station", stringJson)
-        writeFile("station.json", stringJson)
-    }
+    override fun onStationData(data: StationList) = Unit
 
     private fun getCurrentStation(): String {
         val pref = activity?.getSharedPreferences("radio", Context.MODE_PRIVATE)
@@ -117,12 +113,6 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
                 return i
         }
         return -1
-    }
-
-    private fun writeFile(filename: String, fileContents: String) {
-        activity?.openFileOutput(filename, Context.MODE_PRIVATE).use {
-            it?.write(fileContents.toByteArray())
-        }
     }
 
     private fun readFile(filename: String): String {
