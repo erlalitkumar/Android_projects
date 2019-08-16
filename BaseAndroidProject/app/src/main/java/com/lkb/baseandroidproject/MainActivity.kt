@@ -1,6 +1,5 @@
 package com.lkb.baseandroidproject
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 class MainActivity : BaseActivity() {
