@@ -106,11 +106,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
 
         return START_STICKY
     }
-
-    fun refreshPlayBack() {
-
-    }
-
     fun pausePlayBack() {
         mediaPlayer?.pause()
     }
