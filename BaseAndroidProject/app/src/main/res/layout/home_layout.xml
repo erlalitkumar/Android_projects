@@ -1,37 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_height="match_parent">
 
-    <include
-            android:id="@+id/mRecyclerView"
-            layout="@layout/recycler_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
+        <include
+                android:id="@+id/mRecyclerView"
+                layout="@layout/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Radio Stations"
-            android:textColor="#ffffff"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/mRecyclerView"
-            app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+                android:id="@+id/tvTrending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="60dp"
+                android:text="Trending Stations"
+                android:textColor="#ffffff"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/mRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-            android:id="@+id/settingImage"
-            android:layout_width="28dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/setting_icon" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+                android:id="@+id/settingImage"
+                android:layout_width="28dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/setting_icon" />
+
+        <TextView
+                android:id="@+id/tvFavourite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:text="Favourite Station"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mRecyclerView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

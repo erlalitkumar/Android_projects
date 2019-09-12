@@ -1,6 +1,7 @@
 package com.lkb.baseandroidproject
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -50,6 +51,10 @@ class SettingFragment : Fragment(), IMainPresenter.View {
         presenter = MainPresenter(this)
         btnUpdateList.setOnClickListener {
             presenter?.requestStationData()
+        }
+
+        tvPrivacyPolicy.setOnClickListener {
+            startActivity(Intent(activity,PrivacyPolicyActivity::class.java))
         }
     }
 

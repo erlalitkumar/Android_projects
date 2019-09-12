@@ -16,8 +16,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Setting"
-            app:subtitleTextColor="#ffffff"/>
+            app:subtitleTextColor="#ffffff"
+            app:title="Setting" />
 
     <TextView
             android:id="@+id/textView"
@@ -49,5 +49,15 @@
             android:text="Credit"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+            android:id="@+id/tvPrivacyPolicy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="Privacy Policy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
