@@ -1,4 +1,4 @@
-package com.core.lib
+package com.lkb.core
 
 import org.junit.Test
 

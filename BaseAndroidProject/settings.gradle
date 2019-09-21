@@ -1,2 +1,4 @@
 include ':app'
 include ':core-lib'
+
+project(":core-lib").projectDir = new File(rootDir,"libraries/core")
