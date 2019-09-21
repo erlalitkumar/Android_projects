@@ -85,32 +85,47 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
 
 
     override fun onBind(intent: Intent?): IBinder? {
-        return mBinder
-    }
-
-    @SuppressLint("MissingPermission")
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val channelUrl = intent?.getStringExtra("channel") ?: "http://prclive1.listenon.in:9960/;"
         val currentStation = intent?.getStringExtra("station") ?: "NA"
         Log.d(tag, "onStartCommand executed")
         //if (!isServiceRunning()) {
         Log.d(tag, "onStartCommand executed with job");
         serviceHandler?.obtainMessage()?.also { msg ->
-            msg.arg1 = startId
+           // msg.arg1 = startId
             val bundle = Bundle()
             bundle.putString("url", channelUrl)
             bundle.putString("channel", currentStation)
             msg.data = bundle
             serviceHandler?.sendMessage(msg)
         }
-
-        return START_STICKY
+        return mBinder
     }
+
+//    @SuppressLint("MissingPermission")
+//    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+//        val channelUrl = intent?.getStringExtra("channel") ?: "http://prclive1.listenon.in:9960/;"
+//        val currentStation = intent?.getStringExtra("station") ?: "NA"
+//        Log.d(tag, "onStartCommand executed")
+//        //if (!isServiceRunning()) {
+//        Log.d(tag, "onStartCommand executed with job");
+//        serviceHandler?.obtainMessage()?.also { msg ->
+//            msg.arg1 = startId
+//            val bundle = Bundle()
+//            bundle.putString("url", channelUrl)
+//            bundle.putString("channel", currentStation)
+//            msg.data = bundle
+//            serviceHandler?.sendMessage(msg)
+//        }
+//
+//        return START_STICKY
+//    }
     fun pausePlayBack() {
         mediaPlayer?.pause()
     }
     fun stopService(){
-        this@MusicService.stopSelf()
+        //this@MusicService.stopSelf()
+        releaseMediaPlayer()
+        stopForeground(true)
     }
 
     fun resumePlayBack() {

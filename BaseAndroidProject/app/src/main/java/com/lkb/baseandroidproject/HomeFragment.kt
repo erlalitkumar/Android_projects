@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.google.gson.Gson
 import com.lkb.baseandroidproject.model.Station
 import com.lkb.baseandroidproject.model.StationList
 import kotlinx.android.synthetic.main.home_layout.*
@@ -27,6 +26,7 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
     private var model: MediaStateViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        presenter = MainPresenter(this)
         model = (activity?.run {
             ViewModelProviders.of(this)[MediaStateViewModel::class.java]
         } ?: throw Exception("Invalid Activity"))
@@ -42,12 +42,11 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter = MainPresenter(this)
         model?.recyclerView = mRecyclerView as RecyclerView
         try {
-            var slist = readFile("station.json")
+            var sList = readFile("station.json")
             val mapper2 = jacksonObjectMapper()
-            stationList = mapper2.readValue(slist)
+            stationList = mapper2.readValue(sList)
             Log.d("json", stationList?.let { it.stationList[0].title })
         } catch (e: FileNotFoundException) {
             val stationSource: InputStream = resources.openRawResource(R.raw.station)
@@ -90,7 +89,8 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
         var intent = Intent(activity, MusicService::class.java)
         intent.putExtra("channel", item.url)
         intent.putExtra("station", item.title)
-        activity?.startService(intent)
+        //activity?.startService(intent)
+        activity?.bindService(intent, model?.serviceConnection, Context.BIND_AUTO_CREATE)
     }
 
     override fun onStationData(data: StationList) = Unit
@@ -108,7 +108,7 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
     }
 
     private fun getStationIndex(name: String, data: StationList): Int {
-        for (i in 0 until data.stationList.size) {
+        for (i in data.stationList.indices) {
             if (data.stationList[i].title.contentEquals(name))
                 return i
         }

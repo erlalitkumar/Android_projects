@@ -1,8 +1,11 @@
 package com.lkb.baseandroidproject
 
+import android.content.ComponentName
+import android.content.ServiceConnection
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -17,9 +20,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), IMainPresenter.View {
+    private var isBound: Boolean = false
     private var presenter: MainPresenter? = null
     private var model: MediaStateViewModel? = null
     override fun onStationData(data: StationList) = Unit
+    private var musicService: MusicService? = null
 
     companion object {
         var TAG = "MainActivity"
@@ -28,7 +33,21 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var serviceConnection = object: ServiceConnection{
+            override fun onServiceDisconnected(name: ComponentName?) {
+                isBound = false
+            }
+
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                val binder = service as MusicService.LocalBinder
+                musicService = binder.service
+                isBound = true
+            }
+
+
+        }
         model = ViewModelProviders.of(this)[MediaStateViewModel::class.java]
+        model?.let { it.serviceConnection = serviceConnection }
         presenter = MainPresenter(this)
         Fabric.with(this, Crashlytics())
         if (Build.VERSION.SDK_INT >= 19) {
@@ -59,11 +78,12 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View {
         mRatingIcon.setOnClickListener {
         }
         mPlayIcon.setOnClickListener {
-            Toast.makeText(
-                this@MainActivity,
-                "icon clicked",
-                Toast.LENGTH_SHORT
-            ).show()
+//            Toast.makeText(
+//                this@MainActivity,
+//                "icon clicked",
+//                Toast.LENGTH_SHORT
+//            ).show()
+            (musicService as MusicService).stopService()
         }
     }
 
