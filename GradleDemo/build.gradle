@@ -1,0 +1,6 @@
+task tellJoke {
+    doLast{
+    println "what's a build master's favorite black metal band?"
+    println "Gradle of Filth!"
+    }
+}
