@@ -13,10 +13,10 @@ import es.claucookie.miniequalizerlibrary.EqualizerView
 
 class MyAdapter() :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-    private lateinit var myDataset: StationList
+    private lateinit var myDataSet: StationList
 
-    constructor(myDataset: StationList) : this() {
-        this.myDataset = myDataset
+    constructor(myDataSet: StationList) : this() {
+        this.myDataSet = myDataSet
     }
 
     var currentPlayingStationPosition = -1
@@ -30,7 +30,7 @@ class MyAdapter() :
         this.listener = listener
     }
 
-    inner class MyViewHolder(val view: View) :
+    inner class MyViewHolder(private val view: View) :
         RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.info_text)
         val playImage: ImageView = view.findViewById(R.id.playImg)
@@ -49,14 +49,14 @@ class MyAdapter() :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.textView.text = myDataset.stationList[position].title
+        holder.textView.text = myDataSet.stationList[position].title
         if (currentPlayingStationPosition != -1) {
-            myDataset.stationList[currentPlayingStationPosition].isPlaying = true
+            myDataSet.stationList[currentPlayingStationPosition].isPlaying = true
             holder.equalizer.setBackgroundColor(Color.RED)
             holder.equalizer.visibility = View.VISIBLE
             holder.equalizer.animateBars()
         }
-        if (!myDataset.stationList[position].isPlaying) {
+        if (!myDataSet.stationList[position].isPlaying) {
             holder.playImage.setImageResource(R.drawable.ic_play_icon)
             holder.equalizer.visibility = View.GONE
         } else {
@@ -64,27 +64,24 @@ class MyAdapter() :
         }
         holder.playImage.setOnClickListener {
             if (currentPlayingStationPosition != -1 && currentPlayingStationPosition != position) {
-                myDataset.stationList[currentPlayingStationPosition].isPlaying = false
+                myDataSet.stationList[currentPlayingStationPosition].isPlaying = false
                 notifyDataSetChanged()
             }
-            listener.onClick(myDataset.stationList[position])
-            if(currentPlayingStationPosition==position){
-                currentPlayingStationPosition =-1
-            }else{
-                currentPlayingStationPosition = position
-            }
+            listener.onClick(myDataSet.stationList[position])
+            currentPlayingStationPosition =
+                if (currentPlayingStationPosition == position) -1 else position
 
 
 
-            if (!myDataset.stationList[position].isPlaying) {
+            if (!myDataSet.stationList[position].isPlaying) {
                 holder.playImage.setImageResource(R.drawable.ic_stop_icon)
-                myDataset.stationList[position].isPlaying = true
+                myDataSet.stationList[position].isPlaying = true
                 holder.equalizer.visibility = View.VISIBLE
                 holder.equalizer.setBackgroundColor(Color.RED)
                 holder.equalizer.animateBars()
             } else {
                 holder.playImage.setImageResource(R.drawable.ic_play_icon)
-                myDataset.stationList[position].isPlaying = false
+                myDataSet.stationList[position].isPlaying = false
                 holder.equalizer.stopBars()
                 holder.equalizer.visibility = View.GONE
             }
@@ -92,7 +89,7 @@ class MyAdapter() :
         }
     }
 
-    override fun getItemCount() = myDataset.stationList.size
+    override fun getItemCount() = myDataSet.stationList.size
     fun getCurrentPosition(): Int {
         return currentPlayingStationPosition
     }

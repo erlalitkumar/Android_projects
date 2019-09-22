@@ -15,6 +15,8 @@ import com.lkb.baseandroidproject.MyApplication.Companion.CHANNEL_ID
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener {
     private var currentStation = "NA"
+    private var lastStation = ""
+    private var lastPlayedStationUrl = ""
     override fun onPrepared(mp: MediaPlayer?) {
         mp?.start()
         Log.d(tag, "Track info is : ${mp?.trackInfo.toString()}")
@@ -42,18 +44,22 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     private inner class ServiceHandler(looper: Looper) : Handler(looper) {
         @SuppressLint("MissingPermission")
         override fun handleMessage(msg: Message?) {
-           // Log.d(tag, "onHandle with the msg")
+            // Log.d(tag, "onHandle with the msg")
             val url = msg?.data?.getString("url") // your URL here
             if (currentStation.contentEquals(msg?.data?.getString("channel").toString())) {
                 //pausePlayBack()
-                stopService()
+                // stopService()
+                stopPlayer()
                 currentStation = "NA"
             } else {
                 currentStation = msg?.data?.getString("channel").toString()
-               // Log.d(tag, "onHandle with the msg $url")
+                lastStation = currentStation
+                lastPlayedStationUrl = msg?.data?.getString("url").toString()
+                // Log.d(tag, "onHandle with the msg $url")
                 releaseMediaPlayer()
                 if (url != null) {
                     createMediaPlayer(url)
+                    createNotification()
                 }
             }
 
@@ -62,7 +68,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     }
 
     override fun onCreate() {
-        Log.d(tag,"onCreate")
+        Log.d(tag, "onCreate")
+        instance = this
         HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
             start()
             // Get the HandlerThread's Looper and use it for our Handler
@@ -79,8 +86,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
             0, notificationIntent, 0
         )
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("MyRadio")
-            .setContentText("Now Playing...")
+            .setContentTitle(lastStation)
+            .setContentText("Now Playing : ...")
             .setSmallIcon(R.drawable.ic_baseline_play)
             .setContentIntent(pendingIntent)
             .build()
@@ -89,17 +96,26 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
 
 
     override fun onBind(intent: Intent?): IBinder? {
-        Log.d(tag,"onBind")
+        Log.d(tag, "onBind")
         return mBinder
     }
 
     @SuppressLint("MissingPermission")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d(tag,"onStartCommand")
-        createNotification()
-        val channelUrl = intent?.getStringExtra("channel") ?: "http://prclive1.listenon.in:9960/;"
-        val currentStation = intent?.getStringExtra("station") ?: "NA"
+        Log.d(tag, "onStartCommand")
+        //val channelUrl = intent?.getStringExtra("channel") ?: "http://prclive1.listenon.in:9960/;"
+        // val currentStation = intent?.getStringExtra("station") ?: "NA"
         //if (!isServiceRunning()) {
+        // prepareChannel(startId, channelUrl, currentStation)
+
+        return START_STICKY
+    }
+
+    private fun prepareChannel(
+        startId: Int,
+        channelUrl: String,
+        currentStation: String
+    ) {
         serviceHandler?.obtainMessage()?.also { msg ->
             msg.arg1 = startId
             val bundle = Bundle()
@@ -108,16 +124,32 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
             msg.data = bundle
             serviceHandler?.sendMessage(msg)
         }
-
-        return START_STICKY
     }
+
     fun pausePlayBack() {
         mediaPlayer?.pause()
     }
-    fun stopService(){
-        //this@MusicService.stopSelf()
+
+    fun startPlayer(
+        startId: Int,
+        channelUrl: String,
+        currentStation: String
+    ) {
+        prepareChannel(startId, channelUrl, currentStation)
+    }
+//    fun stopService(){
+//        //this@MusicService.stopSelf()
+//        releaseMediaPlayer()
+//        stopForeground(true)
+//    }
+
+    fun stopPlayer() {
+        mediaPlayer?.stop()
         releaseMediaPlayer()
-        stopForeground(true)
+    }
+
+    fun startLastPlayedStation() {
+        prepareChannel(1, lastPlayedStationUrl, lastStation)
     }
 
     fun resumePlayBack() {
@@ -127,10 +159,10 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     fun createMediaPlayer(url: String) {
         mediaPlayer = MediaPlayer().apply {
             val attributes = AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setLegacyStreamType(AudioManager.STREAM_MUSIC)
-                    .build()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .setLegacyStreamType(AudioManager.STREAM_MUSIC)
+                .build()
             setAudioAttributes(attributes)
             setDataSource(url)
             prepareAsync()
@@ -144,7 +176,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     }
 
     override fun onDestroy() {
-        Log.d(tag,"onDestroy")
+        Log.d(tag, "onDestroy")
         super.onDestroy()
         releaseMediaPlayer()
     }

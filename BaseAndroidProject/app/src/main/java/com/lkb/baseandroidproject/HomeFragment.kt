@@ -87,20 +87,23 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
     override fun onClick(item: Station) {
         setCurrentStation(item.title)
         mediaStateViewModel?.nowPlaying?.value = "Now Playing : " + item.title
-        activity?.startService(getMusicServiceIntent(item))
-        activity?.bindService(
-            getMusicServiceIntent(item),
-            mediaStateViewModel?.serviceConnection,
-            Context.BIND_AUTO_CREATE
-        )
+        mediaStateViewModel?.let {
+            it.musicService?.let { musicService ->
+                musicService.startPlayer(
+                    1,
+                    item.url,
+                    item.title
+                )
+            }
+        }
     }
 
-    private fun getMusicServiceIntent(item: Station): Intent {
-        var intent = Intent(activity, MusicService::class.java)
-        intent.putExtra("channel", item.url)
-        intent.putExtra("station", item.title)
-        return intent
-    }
+//    private fun getMusicServiceIntent(item: Station): Intent {
+//        var intent = Intent(activity, MusicService::class.java)
+//        intent.putExtra("channel", item.url)
+//        intent.putExtra("station", item.title)
+//        return intent
+//    }
 
     override fun onStationData(data: StationList) = Unit
 
