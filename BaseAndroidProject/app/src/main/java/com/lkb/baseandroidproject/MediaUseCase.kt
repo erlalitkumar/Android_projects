@@ -6,10 +6,11 @@ import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
 import com.google.gson.GsonBuilder
+import com.lkb.baseandroidproject.Constants.Companion.STATION_JSON_FILE_URL
 import com.lkb.baseandroidproject.model.StationList
 
 
-class MediaUseCase(val presenter: IMainPresenter) : Callback<StationList> {
+class MediaUseCase(private val presenter: IMainPresenter) : Callback<StationList> {
     override fun onFailure(call: Call<StationList>, t: Throwable) {
         t.printStackTrace()
     }
@@ -38,7 +39,7 @@ class MediaUseCase(val presenter: IMainPresenter) : Callback<StationList> {
     }
 
     companion object {
-        const val BASE_URL = "https://lalitbehera.github.io/"
+        const val BASE_URL = STATION_JSON_FILE_URL
     }
 
 

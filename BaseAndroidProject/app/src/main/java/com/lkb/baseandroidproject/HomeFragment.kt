@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.lkb.baseandroidproject.Constants.Companion.STATION_JSON_FILE_NAME
 import com.lkb.baseandroidproject.model.Station
 import com.lkb.baseandroidproject.model.StationList
 import kotlinx.android.synthetic.main.home_layout.*
@@ -44,7 +45,7 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
         super.onActivityCreated(savedInstanceState)
         mediaStateViewModel?.recyclerView = mRecyclerView as RecyclerView
         try {
-            var sList = readFile("station.json")
+            var sList = readFile(STATION_JSON_FILE_NAME)
             val mapper2 = jacksonObjectMapper()
             stationList = mapper2.readValue(sList)
             Log.d("json", stationList?.let { it.stationList[0].title })

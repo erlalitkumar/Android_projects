@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.crashlytics.android.Crashlytics
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.lkb.baseandroidproject.model.StationList
 import com.lkb.core.logger
 import io.fabric.sdk.android.Fabric
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View {
     private var model: MediaStateViewModel? = null
     override fun onStationData(data: StationList) = Unit
     private var musicService: MusicService? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     companion object {
         var TAG = "MainActivity"
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         setContentView(R.layout.activity_main)
         var serviceConnection = object: ServiceConnection{
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -78,11 +81,6 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View {
         mRatingIcon.setOnClickListener {
         }
         mPlayIcon.setOnClickListener {
-//            Toast.makeText(
-//                this@MainActivity,
-//                "icon clicked",
-//                Toast.LENGTH_SHORT
-//            ).show()
             musicService?.let { it.stopService() }
         }
     }
