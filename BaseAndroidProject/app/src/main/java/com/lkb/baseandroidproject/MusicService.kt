@@ -146,6 +146,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     fun stopPlayer() {
         mediaPlayer?.stop()
         releaseMediaPlayer()
+        stopForeground(true)
     }
 
     fun startLastPlayedStation() {

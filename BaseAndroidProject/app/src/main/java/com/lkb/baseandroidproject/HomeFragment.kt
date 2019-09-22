@@ -77,8 +77,13 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
         settingImage.setOnClickListener {
             var fm = activity?.supportFragmentManager
             var ft = fm?.beginTransaction()
-            ft?.replace(R.id.container, SettingFragment.newInstance(), "setting")
-            ft?.addToBackStack("setting")
+            ft?.replace(
+                R.id.container,
+                SettingFragment.newInstance(),
+                SettingFragment::class.java.simpleName
+            )
+            mediaStateViewModel?.let { it.currentPage = SettingFragment::class.java.simpleName }
+            ft?.addToBackStack(SettingFragment::class.java.simpleName)
             ft?.commit()
         }
 
@@ -97,13 +102,6 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
             }
         }
     }
-
-//    private fun getMusicServiceIntent(item: Station): Intent {
-//        var intent = Intent(activity, MusicService::class.java)
-//        intent.putExtra("channel", item.url)
-//        intent.putExtra("station", item.title)
-//        return intent
-//    }
 
     override fun onStationData(data: StationList) = Unit
 

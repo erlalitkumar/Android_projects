@@ -11,4 +11,5 @@ class MediaStateViewModel : ViewModel() {
     var adapter = MyAdapter()
     var musicService: MusicService? = null
     lateinit var recyclerView: RecyclerView
+    var currentPage = ""
 }
