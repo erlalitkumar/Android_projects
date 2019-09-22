@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.setting_main.*
 
 class SettingFragment : Fragment(), IMainPresenter.View {
     private var presenter: MainPresenter? = null
+    private var model: MediaStateViewModel? = null
 
     companion object {
         fun newInstance(): SettingFragment {
@@ -30,7 +31,6 @@ class SettingFragment : Fragment(), IMainPresenter.View {
         Toast.makeText(activity, "Radio Station Updated", Toast.LENGTH_SHORT).show()
     }
 
-    private var model: MediaStateViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = (activity?.run {
