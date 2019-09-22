@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View {
     private var presenter: MainPresenter? = null
     private var mediaStateViewModel: MediaStateViewModel? = null
     private var musicService: MusicService? = null
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +58,9 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View {
      */
     private fun initSetUp() {
         var serviceConnection = createServiceConnection()
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         mediaStateViewModel = ViewModelProviders.of(this)[MediaStateViewModel::class.java]
         mediaStateViewModel?.let { it.serviceConnection = serviceConnection }
         presenter = MainPresenter(this)
-        Fabric.with(this, Crashlytics())
     }
 
     /**

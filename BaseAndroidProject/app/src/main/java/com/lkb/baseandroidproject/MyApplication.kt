@@ -5,8 +5,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import com.crashlytics.android.Crashlytics
+import com.google.firebase.analytics.FirebaseAnalytics
+import io.fabric.sdk.android.Fabric
 
 class MyApplication : Application() {
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     companion object {
         const val CHANNEL_ID = "MyRadioPlayer"
     }
@@ -15,6 +19,8 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Fabric.with(this, Crashlytics())
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         createNotificationChannel()
     }
 
