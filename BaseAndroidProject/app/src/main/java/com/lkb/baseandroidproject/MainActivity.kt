@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), IMainPresenter.View {
 //                "icon clicked",
 //                Toast.LENGTH_SHORT
 //            ).show()
-            (musicService as MusicService).stopService()
+            musicService?.let { it.stopService() }
         }
     }
 

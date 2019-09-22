@@ -23,11 +23,11 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
     private var stationList: StationList? = null
     private lateinit var viewAdapter: MyAdapter
     private lateinit var viewManager: androidx.recyclerview.widget.StaggeredGridLayoutManager
-    private var model: MediaStateViewModel? = null
+    private var mediaStateViewModel: MediaStateViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = MainPresenter(this)
-        model = (activity?.run {
+        mediaStateViewModel = (activity?.run {
             ViewModelProviders.of(this)[MediaStateViewModel::class.java]
         } ?: throw Exception("Invalid Activity"))
     }
@@ -42,7 +42,7 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        model?.recyclerView = mRecyclerView as RecyclerView
+        mediaStateViewModel?.recyclerView = mRecyclerView as RecyclerView
         try {
             var sList = readFile("station.json")
             val mapper2 = jacksonObjectMapper()
@@ -62,7 +62,7 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
         stationList?.let {
             viewAdapter = MyAdapter(it)
             viewAdapter.currentPlayingStationPosition = getStationIndex(getCurrentStation(), it)
-            model?.adapter = viewAdapter
+            mediaStateViewModel?.adapter = viewAdapter
         }
 
         viewAdapter.setRecyclerViewClickListener(this)
@@ -85,12 +85,20 @@ class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
 
     override fun onClick(item: Station) {
         setCurrentStation(item.title)
-        model?.nowPlaying?.value = "Now Playing : " + item.title
+        mediaStateViewModel?.nowPlaying?.value = "Now Playing : " + item.title
+        activity?.startService(getMusicServiceIntent(item))
+        activity?.bindService(
+            getMusicServiceIntent(item),
+            mediaStateViewModel?.serviceConnection,
+            Context.BIND_AUTO_CREATE
+        )
+    }
+
+    private fun getMusicServiceIntent(item: Station): Intent {
         var intent = Intent(activity, MusicService::class.java)
         intent.putExtra("channel", item.url)
         intent.putExtra("station", item.title)
-        //activity?.startService(intent)
-        activity?.bindService(intent, model?.serviceConnection, Context.BIND_AUTO_CREATE)
+        return intent
     }
 
     override fun onStationData(data: StationList) = Unit

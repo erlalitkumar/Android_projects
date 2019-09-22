@@ -42,7 +42,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     private inner class ServiceHandler(looper: Looper) : Handler(looper) {
         @SuppressLint("MissingPermission")
         override fun handleMessage(msg: Message?) {
-            Log.d(tag, "onHandle with the msg")
+           // Log.d(tag, "onHandle with the msg")
             val url = msg?.data?.getString("url") // your URL here
             if (currentStation.contentEquals(msg?.data?.getString("channel").toString())) {
                 //pausePlayBack()
@@ -50,7 +50,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
                 currentStation = "NA"
             } else {
                 currentStation = msg?.data?.getString("channel").toString()
-                Log.d(tag, "onHandle with the msg $url")
+               // Log.d(tag, "onHandle with the msg $url")
                 releaseMediaPlayer()
                 if (url != null) {
                     createMediaPlayer(url)
@@ -62,19 +62,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     }
 
     override fun onCreate() {
-        val notificationIntent = Intent(this@MusicService, MainActivity::class.java)
-        notificationIntent.putExtra("station", currentStation)
-        val pendingIntent = PendingIntent.getActivity(
-                this,
-                0, notificationIntent, 0
-        )
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("MyRadio")
-                .setContentText("Now Playing...")
-                .setSmallIcon(R.drawable.ic_baseline_play)
-                .setContentIntent(pendingIntent)
-                .build()
-        startForeground(1, notification)
+        Log.d(tag,"onCreate")
         HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
             start()
             // Get the HandlerThread's Looper and use it for our Handler
@@ -83,42 +71,46 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
         }
     }
 
+    private fun createNotification() {
+        val notificationIntent = Intent(this@MusicService, MainActivity::class.java)
+        notificationIntent.putExtra("station", currentStation)
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0, notificationIntent, 0
+        )
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("MyRadio")
+            .setContentText("Now Playing...")
+            .setSmallIcon(R.drawable.ic_baseline_play)
+            .setContentIntent(pendingIntent)
+            .build()
+        startForeground(1, notification)
+    }
+
 
     override fun onBind(intent: Intent?): IBinder? {
+        Log.d(tag,"onBind")
+        return mBinder
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d(tag,"onStartCommand")
+        createNotification()
         val channelUrl = intent?.getStringExtra("channel") ?: "http://prclive1.listenon.in:9960/;"
         val currentStation = intent?.getStringExtra("station") ?: "NA"
-        Log.d(tag, "onStartCommand executed")
         //if (!isServiceRunning()) {
-        Log.d(tag, "onStartCommand executed with job");
         serviceHandler?.obtainMessage()?.also { msg ->
-           // msg.arg1 = startId
+            msg.arg1 = startId
             val bundle = Bundle()
             bundle.putString("url", channelUrl)
             bundle.putString("channel", currentStation)
             msg.data = bundle
             serviceHandler?.sendMessage(msg)
         }
-        return mBinder
-    }
 
-//    @SuppressLint("MissingPermission")
-//    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-//        val channelUrl = intent?.getStringExtra("channel") ?: "http://prclive1.listenon.in:9960/;"
-//        val currentStation = intent?.getStringExtra("station") ?: "NA"
-//        Log.d(tag, "onStartCommand executed")
-//        //if (!isServiceRunning()) {
-//        Log.d(tag, "onStartCommand executed with job");
-//        serviceHandler?.obtainMessage()?.also { msg ->
-//            msg.arg1 = startId
-//            val bundle = Bundle()
-//            bundle.putString("url", channelUrl)
-//            bundle.putString("channel", currentStation)
-//            msg.data = bundle
-//            serviceHandler?.sendMessage(msg)
-//        }
-//
-//        return START_STICKY
-//    }
+        return START_STICKY
+    }
     fun pausePlayBack() {
         mediaPlayer?.pause()
     }
@@ -152,6 +144,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
     }
 
     override fun onDestroy() {
+        Log.d(tag,"onDestroy")
         super.onDestroy()
         releaseMediaPlayer()
     }
