@@ -1,13 +1,12 @@
 package com.lkb.demo;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.TextView;
+
+import static com.lkb.demo.UtilKt.makeBold;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,12 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView tv = findViewById(R.id.tvHello);
-        SpannableString spannableString = new SpannableString("Hello");
-        // setting the text as a Spannable
-        spannableString.setSpan(new
-                        ForegroundColorSpan(Color.RED),
-                0, 1,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv.setText(spannableString, TextView.BufferType.SPANNABLE);
+
+        tv.setText(makeBold("Hello world","Hello"), TextView.BufferType.SPANNABLE);
     }
 }
