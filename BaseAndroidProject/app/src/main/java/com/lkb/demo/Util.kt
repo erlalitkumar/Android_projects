@@ -1,16 +1,14 @@
 package com.lkb.demo
 
-import android.graphics.Color
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannedString
-import android.text.style.ForegroundColorSpan
-import androidx.core.text.bold
-import androidx.core.text.buildSpannedString
-import androidx.core.text.italic
 import android.graphics.Typeface
+import android.os.Build
+import android.text.Html
+import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.Spanned
 import java.util.regex.Pattern
+import android.annotation.TargetApi
+import androidx.core.text.HtmlCompat
 
 
 fun makeBold(fullString: String, boldPart: String): SpannableStringBuilder {
@@ -46,4 +44,14 @@ fun makeBold(fullString: String, boldPart: String): SpannableStringBuilder {
         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
     )
     return fancySentence
+}
+
+@TargetApi(Build.VERSION_CODES.N)
+fun fromHtml(text: String): Spanned {
+    val newApiLevel = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+    return if (newApiLevel) {
+        Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        Html.fromHtml(text)
+    }
 }

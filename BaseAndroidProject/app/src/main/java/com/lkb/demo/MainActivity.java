@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TextView tv = findViewById(R.id.tvHello);
 
-        tv.setText(makeBold("Hello world","Hello"), TextView.BufferType.SPANNABLE);
+        //tv.setText(makeBold("Hello world","Hello"), TextView.BufferType.SPANNABLE);
+        tv.setText(UtilKt.fromHtml("<b>50% OFF on your first order! Use code <span style=\"background-color:#82E0AA\"><font size=\"3\" color=\"white\">FIRST50</font></span></b>"));
+        //tv.setText(UtilKt.fromHtml("<b>50% OFF on your first order! Use code <span style=\"background-color:#82E0AA\"><font size=\"3\" color=\"white\">FIRST50</font></span></b>"));
     }
 }
