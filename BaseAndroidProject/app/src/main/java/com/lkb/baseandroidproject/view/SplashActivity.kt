@@ -3,12 +3,12 @@ package com.lkb.baseandroidproject.view
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.WindowManager
 import com.lkb.baseandroidproject.BaseApplication
 import com.lkb.baseandroidproject.R
+import com.lkb.baseandroidproject.view.base.BaseActivity
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_main)

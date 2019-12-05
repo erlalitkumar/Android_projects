@@ -10,17 +10,17 @@ import android.os.Bundle
 import android.os.IBinder
 import android.view.View
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.lkb.baseandroidproject.*
 import com.lkb.baseandroidproject.model.StationList
 import com.lkb.baseandroidproject.service.MusicService
+import com.lkb.baseandroidproject.view.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(),
+class MainActivity : BaseActivity(),
     IMainPresenter.View {
 
     companion object {

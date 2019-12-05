@@ -7,9 +7,12 @@ import android.content.Context
 import android.os.Build
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.lkb.baseandroidproject.di.application.ApplicationComponent
+import com.lkb.baseandroidproject.di.application.DaggerApplicationComponent
 import io.fabric.sdk.android.Fabric
 
 class BaseApplication : Application() {
+    private var mApplicationComponent: ApplicationComponent? = null
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     companion object {
         const val CHANNEL_ID = "MyRadioPlayer"
@@ -19,6 +22,7 @@ class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        mApplicationComponent = DaggerApplicationComponent.builder().build()
         Fabric.with(this, Crashlytics())
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         createNotificationChannel()
@@ -35,5 +39,9 @@ class BaseApplication : Application() {
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(serviceChannel)
         }
+    }
+
+    fun getApplicationComponent(): ApplicationComponent? {
+        return mApplicationComponent
     }
 }
