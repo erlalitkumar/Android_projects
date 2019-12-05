@@ -19,11 +19,11 @@ import kotlinx.android.synthetic.main.home_layout.*
 import java.io.*
 
 class HomeFragment : Fragment(),
-    MyAdapter.RecyclerViewClickListener,
+    StationViewAdapter.RecyclerViewClickListener,
     IMainPresenter.View {
     private var presenter: MainPresenter? = null
     private var stationList: StationList? = null
-    private lateinit var viewAdapter: MyAdapter
+    private lateinit var viewAdapter: StationViewAdapter
     private lateinit var viewManager: androidx.recyclerview.widget.StaggeredGridLayoutManager
     private var mediaStateViewModel: MediaStateViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +62,7 @@ class HomeFragment : Fragment(),
         )
         viewManager = staggeredGridLayoutManager
         stationList?.let {
-            viewAdapter = MyAdapter(it)
+            viewAdapter = StationViewAdapter(it)
             viewAdapter.currentPlayingStationPosition = getStationIndex(getCurrentStation(), it)
             mediaStateViewModel?.adapter = viewAdapter
         }

@@ -5,7 +5,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.WindowManager
-import com.lkb.baseandroidproject.MyApplication
+import com.lkb.baseandroidproject.BaseApplication
 import com.lkb.baseandroidproject.R
 
 class SplashActivity : AppCompatActivity() {
@@ -13,7 +13,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_main)
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if ((application as MyApplication).displaySplash) {
+        if ((application as BaseApplication).displaySplash) {
             DelayTask().execute()
         } else {
             var intent = Intent(this@SplashActivity, MainActivity::class.java)
@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: Void?) {
             super.onPostExecute(result)
-            (application as MyApplication).displaySplash = false
+            (application as BaseApplication).displaySplash = false
             var intent = Intent(this@SplashActivity, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK

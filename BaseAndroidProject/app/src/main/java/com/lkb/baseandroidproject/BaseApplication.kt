@@ -9,7 +9,7 @@ import com.crashlytics.android.Crashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.fabric.sdk.android.Fabric
 
-class MyApplication : Application() {
+class BaseApplication : Application() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     companion object {
         const val CHANNEL_ID = "MyRadioPlayer"

@@ -11,13 +11,8 @@ import com.lkb.baseandroidproject.model.Station
 import com.lkb.baseandroidproject.model.StationList
 import es.claucookie.miniequalizerlibrary.EqualizerView
 
-class MyAdapter() :
-    RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-    private lateinit var myDataSet: StationList
-
-    constructor(myDataSet: StationList) : this() {
-        this.myDataSet = myDataSet
-    }
+class StationViewAdapter(private val myDataSet: StationList) :
+    RecyclerView.Adapter<StationViewAdapter.MyViewHolder>() {
 
     var currentPlayingStationPosition = -1
     private lateinit var listener: RecyclerViewClickListener
@@ -68,19 +63,16 @@ class MyAdapter() :
                 notifyDataSetChanged()
             }
             listener.onClick(myDataSet.stationList[position])
-            currentPlayingStationPosition =
-                if (currentPlayingStationPosition == position) -1 else position
-
-
+            currentPlayingStationPosition = if (currentPlayingStationPosition == position) -1 else position
 
             if (!myDataSet.stationList[position].isPlaying) {
-                holder.playImage.setImageResource(R.drawable.ic_stop_icon)
+                holder.playImage.setImageResource(R.drawable.ic_play_icon)
                 myDataSet.stationList[position].isPlaying = true
                 holder.equalizer.visibility = View.VISIBLE
                 holder.equalizer.setBackgroundColor(Color.RED)
                 holder.equalizer.animateBars()
             } else {
-                holder.playImage.setImageResource(R.drawable.ic_play_icon)
+                holder.playImage.setImageResource(R.drawable.ic_stop_icon)
                 myDataSet.stationList[position].isPlaying = false
                 holder.equalizer.stopBars()
                 holder.equalizer.visibility = View.GONE
@@ -92,5 +84,9 @@ class MyAdapter() :
     override fun getItemCount() = myDataSet.stationList.size
     fun getCurrentPosition(): Int {
         return currentPlayingStationPosition
+    }
+
+    fun isStationPlaying(position: Int): Boolean {
+        return myDataSet.stationList[position].isPlaying
     }
 }

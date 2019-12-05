@@ -10,25 +10,27 @@ import android.media.MediaPlayer
 import android.os.*
 import androidx.core.app.NotificationCompat
 import android.util.Log
-import com.lkb.baseandroidproject.MyApplication.Companion.CHANNEL_ID
+import com.lkb.baseandroidproject.BaseApplication.Companion.CHANNEL_ID
 import com.lkb.baseandroidproject.R
 import com.lkb.baseandroidproject.view.MainActivity
+import com.lkb.core.debugLogger
 
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener {
     private var currentStation = "NA"
     private var lastStation = ""
     private var lastPlayedStationUrl = ""
-    override fun onPrepared(mp: MediaPlayer?) {
-        mp?.start()
-        Log.d(tag, "Track info is : ${mp?.trackInfo.toString()}")
-    }
-
     private var instance: MusicService? = null
     private val tag = "MusicService"
     private var serviceLooper: Looper? = null
     private var serviceHandler: ServiceHandler? = null
     private var mediaPlayer: MediaPlayer? = null
+
+
+    override fun onPrepared(mp: MediaPlayer?) {
+        mp?.start()
+        debugLogger(tag,"Track info is : ${mp?.trackInfo.toString()}")
+    }
 
     private fun isServiceRunning(): Boolean {
         return instance != null
@@ -104,12 +106,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener {
 
     @SuppressLint("MissingPermission")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d(tag, "onStartCommand")
-        //val channelUrl = intent?.getStringExtra("channel") ?: "http://prclive1.listenon.in:9960/;"
-        // val currentStation = intent?.getStringExtra("station") ?: "NA"
-        //if (!isServiceRunning()) {
-        // prepareChannel(startId, channelUrl, currentStation)
-
+        debugLogger(tag, "onStartCommand executed")
         return START_STICKY
     }
 
