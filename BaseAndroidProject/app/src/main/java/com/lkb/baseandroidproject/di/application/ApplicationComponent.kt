@@ -5,8 +5,8 @@ import com.lkb.baseandroidproject.di.presentation.PresentationModule
 import dagger.Component
 import javax.inject.Singleton
 
-@Singleton
-@Component(modules = [ApplicationModule::class])
-interface ApplicationComponent {
-    fun newPresentationComponent(presentationModule: PresentationModule): PresentationComponent
-}
+//@Singleton
+//@Component(modules = [ApplicationModule::class])
+//interface ApplicationComponent {
+//    fun newPresentationComponent(presentationModule: PresentationModule): PresentationComponent
+//}
