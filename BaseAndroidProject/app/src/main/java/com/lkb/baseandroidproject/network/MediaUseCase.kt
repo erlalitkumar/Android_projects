@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.network
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
 import com.google.gson.GsonBuilder
 import com.lkb.baseandroidproject.Constants.Companion.STATION_JSON_FILE_URL
+import com.lkb.baseandroidproject.IMainPresenter
 import com.lkb.baseandroidproject.model.StationList
 
 
@@ -32,7 +33,8 @@ class MediaUseCase(private val presenter: IMainPresenter) : Callback<StationList
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
-        val stationApi: MediaService = retrofit.create(MediaService::class.java!!)
+        val stationApi: MediaService = retrofit.create(
+            MediaService::class.java!!)
 
         val call = stationApi.getStations()
         call.enqueue(this)

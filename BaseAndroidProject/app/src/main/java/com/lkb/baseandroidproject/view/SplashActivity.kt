@@ -1,10 +1,12 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.view
 
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.WindowManager
+import com.lkb.baseandroidproject.MyApplication
+import com.lkb.baseandroidproject.R
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

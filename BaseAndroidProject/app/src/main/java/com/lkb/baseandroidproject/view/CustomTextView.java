@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject;
+package com.lkb.baseandroidproject.view;
 
 import android.content.Context;
 import android.graphics.Rect;

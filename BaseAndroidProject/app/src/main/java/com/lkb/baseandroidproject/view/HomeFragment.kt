@@ -1,7 +1,6 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.view
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,13 +11,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.lkb.baseandroidproject.*
 import com.lkb.baseandroidproject.Constants.Companion.STATION_JSON_FILE_NAME
 import com.lkb.baseandroidproject.model.Station
 import com.lkb.baseandroidproject.model.StationList
 import kotlinx.android.synthetic.main.home_layout.*
 import java.io.*
 
-class HomeFragment : Fragment(), MyAdapter.RecyclerViewClickListener,
+class HomeFragment : Fragment(),
+    MyAdapter.RecyclerViewClickListener,
     IMainPresenter.View {
     private var presenter: MainPresenter? = null
     private var stationList: StationList? = null

@@ -4,6 +4,7 @@ import android.content.ServiceConnection
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
+import com.lkb.baseandroidproject.service.MusicService
 
 class MediaStateViewModel : ViewModel() {
     lateinit var serviceConnection: ServiceConnection

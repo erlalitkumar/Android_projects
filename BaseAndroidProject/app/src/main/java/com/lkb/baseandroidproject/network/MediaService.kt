@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.network
 
 import com.lkb.baseandroidproject.model.StationList
 import retrofit2.Call

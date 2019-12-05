@@ -1,8 +1,9 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.lkb.baseandroidproject.Constants.Companion.STATION_JSON_FILE_URL
+import com.lkb.baseandroidproject.R
 import kotlinx.android.synthetic.main.privacy_policy.*
 
 class PrivacyPolicyActivity:AppCompatActivity() {

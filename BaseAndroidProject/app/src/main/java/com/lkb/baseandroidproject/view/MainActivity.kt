@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.view
 
 import android.content.ComponentName
 import android.content.Context
@@ -14,15 +14,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.crashlytics.android.Crashlytics
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.lkb.baseandroidproject.*
 import com.lkb.baseandroidproject.model.StationList
-import io.fabric.sdk.android.Fabric
+import com.lkb.baseandroidproject.service.MusicService
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 
-class MainActivity : AppCompatActivity(), IMainPresenter.View {
+class MainActivity : AppCompatActivity(),
+    IMainPresenter.View {
 
     companion object {
         const val  TAG = "MainActivity"

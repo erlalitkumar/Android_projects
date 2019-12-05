@@ -17,11 +17,11 @@
             android:theme="@style/AppTheme">
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <service
-                android:name=".MusicService"
+                android:name=".service.MusicService"
                 android:exported="false"></service>
 
         <activity
-                android:name=".SplashActivity"
+                android:name=".view.SplashActivity"
                 android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,10 +30,10 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".MainActivity"
+                android:name=".view.MainActivity"
                 android:launchMode="singleTask"
                 android:theme="@style/NoActionBar" />
-        <activity android:name=".PrivacyPolicyActivity"/>
+        <activity android:name=".view.PrivacyPolicyActivity"/>
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="6108958b6336dbdd581b9773034139ed1f483eae" />

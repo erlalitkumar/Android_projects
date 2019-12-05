@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.view
 
 import android.content.Context
 import android.content.Intent
@@ -11,10 +11,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
+import com.lkb.baseandroidproject.*
 import com.lkb.baseandroidproject.model.StationList
 import kotlinx.android.synthetic.main.setting_main.*
 
-class SettingFragment : Fragment(), IMainPresenter.View {
+class SettingFragment : Fragment(),
+    IMainPresenter.View {
     private var presenter: MainPresenter? = null
     private var model: MediaStateViewModel? = null
 
@@ -54,7 +56,8 @@ class SettingFragment : Fragment(), IMainPresenter.View {
         }
 
         tvPrivacyPolicy.setOnClickListener {
-            startActivity(Intent(activity,PrivacyPolicyActivity::class.java))
+            startActivity(Intent(activity,
+                PrivacyPolicyActivity::class.java))
         }
     }
 

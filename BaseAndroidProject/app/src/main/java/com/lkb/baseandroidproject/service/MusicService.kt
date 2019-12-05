@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject
+package com.lkb.baseandroidproject.service
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
@@ -11,6 +11,8 @@ import android.os.*
 import androidx.core.app.NotificationCompat
 import android.util.Log
 import com.lkb.baseandroidproject.MyApplication.Companion.CHANNEL_ID
+import com.lkb.baseandroidproject.R
+import com.lkb.baseandroidproject.view.MainActivity
 
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener {

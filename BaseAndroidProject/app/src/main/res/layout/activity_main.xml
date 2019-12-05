@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/black_bg"
-        tools:context=".MainActivity">
+        tools:context=".view.MainActivity">
 
     <FrameLayout
             android:id="@+id/container"
@@ -135,7 +135,7 @@
             app:layout_constraintTop_toTopOf="@+id/upperView"
             app:srcCompat="@drawable/ic_love" />
 
-    <com.lkb.baseandroidproject.CustomTextView
+    <com.lkb.baseandroidproject.view.CustomTextView
             android:id="@+id/tvNowPlaying"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
