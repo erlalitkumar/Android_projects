@@ -14,7 +14,11 @@ class MainActivity : BaseActivity() {
 //        var engine = Engine()
 //        var wheels = Wheels()
 //        var car = Car(engine,wheels)
-        var component = DaggerCarComponent.builder().dieselEngineModule(DieselEngineModule(100)).build()
+        var component = DaggerCarComponent
+            .builder()
+            .horsePower(150)
+            .engineCapacity(1400)
+            .build()
         //car = component.getCar()
         component.inject(this)
         car?.drive()
