@@ -4,8 +4,8 @@ import com.lkb.baseandroidproject.Car
 import com.lkb.baseandroidproject.MainActivity
 import dagger.Component
 
-@Component(modules = [WheelsModule::class])
-interface CarComponent{
+@Component(modules = [WheelsModule::class, DieselEngineModule::class])
+interface CarComponent {
     fun getCar(): Car
     fun inject(mainActivity: MainActivity)
 }

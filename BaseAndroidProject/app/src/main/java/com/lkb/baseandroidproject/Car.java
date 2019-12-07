@@ -22,6 +22,7 @@ public class Car {
     }
 
     void drive() {
+        engine.start();
         Log.d(TAG, "driving ...");
     }
 
