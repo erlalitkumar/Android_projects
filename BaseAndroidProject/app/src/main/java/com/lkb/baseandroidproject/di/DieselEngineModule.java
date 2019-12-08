@@ -1,10 +1,8 @@
-package com.lkb.baseandroidproject.di.presentation;
+package com.lkb.baseandroidproject.di;
 
-import com.lkb.baseandroidproject.DieselEngine;
-import com.lkb.baseandroidproject.Engine;
-import com.lkb.baseandroidproject.PetrolEngine;
+import com.lkb.baseandroidproject.car.DieselEngine;
+import com.lkb.baseandroidproject.car.Engine;
 
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 

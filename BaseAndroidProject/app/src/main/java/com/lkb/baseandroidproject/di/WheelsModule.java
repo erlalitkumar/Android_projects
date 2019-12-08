@@ -1,8 +1,8 @@
-package com.lkb.baseandroidproject.di.presentation;
+package com.lkb.baseandroidproject.di;
 
-import com.lkb.baseandroidproject.Rims;
-import com.lkb.baseandroidproject.Tires;
-import com.lkb.baseandroidproject.Wheels;
+import com.lkb.baseandroidproject.car.Rims;
+import com.lkb.baseandroidproject.car.Tires;
+import com.lkb.baseandroidproject.car.Wheels;
 
 import dagger.Module;
 import dagger.Provides;

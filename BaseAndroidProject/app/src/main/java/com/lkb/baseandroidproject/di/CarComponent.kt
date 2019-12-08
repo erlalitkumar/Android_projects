@@ -1,11 +1,13 @@
-package com.lkb.baseandroidproject.di.presentation
+package com.lkb.baseandroidproject.di
 
-import com.lkb.baseandroidproject.Car
+import com.lkb.baseandroidproject.car.Car
 import com.lkb.baseandroidproject.MainActivity
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Named
+import javax.inject.Singleton
 
+@Singleton
 @Component(modules = [WheelsModule::class, PetrolEngineModule::class])
 interface CarComponent {
     fun getCar(): Car

@@ -1,6 +1,4 @@
-package com.lkb.baseandroidproject;
-
-import javax.inject.Inject;
+package com.lkb.baseandroidproject.car;
 
 public class Wheels {
     // pretend like we don't own this class

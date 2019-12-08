@@ -1,10 +1,6 @@
 package com.lkb.baseandroidproject
 
-import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
-import com.lkb.baseandroidproject.di.presentation.PresentationComponent
-import com.lkb.baseandroidproject.di.presentation.PresentationModule
-import java.lang.RuntimeException
 
 open class BaseActivity:AppCompatActivity() {
     var mIsInjectorUsed: Boolean = false

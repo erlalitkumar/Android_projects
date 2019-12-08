@@ -1,17 +1,21 @@
 package com.lkb.baseandroidproject
 
-//import android.app.Application
-//import com.lkb.baseandroidproject.di.application.ApplicationComponent
-//import com.lkb.baseandroidproject.di.application.DaggerApplicationComponent
-//
-//class BaseApplication:Application() {
-//    private lateinit var mApplicationComponent: ApplicationComponent
-//    override fun onCreate() {
-//        super.onCreate()
-//        mApplicationComponent = DaggerApplicationComponent.builder().build()
-//    }
-//    fun getApplicationComponent(): ApplicationComponent {
-//        return mApplicationComponent
-//    }
-//
-//}
+import android.app.Application
+import com.lkb.baseandroidproject.di.CarComponent
+import com.lkb.baseandroidproject.di.DaggerCarComponent
+
+class BaseApplication:Application() {
+    private lateinit var component: CarComponent
+    override fun onCreate() {
+        super.onCreate()
+        component = DaggerCarComponent
+            .builder()
+            .horsePower(150)
+            .engineCapacity(1400)
+            .build()
+    }
+    fun getApplicationComponent(): CarComponent {
+        return component
+    }
+
+}

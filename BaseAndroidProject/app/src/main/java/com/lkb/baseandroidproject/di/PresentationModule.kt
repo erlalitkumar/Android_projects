@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject.di.presentation
+package com.lkb.baseandroidproject.di
 
 import android.app.Activity
 import android.view.LayoutInflater

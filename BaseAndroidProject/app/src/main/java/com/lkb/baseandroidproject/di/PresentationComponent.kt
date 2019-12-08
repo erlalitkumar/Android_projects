@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject.di.presentation
+package com.lkb.baseandroidproject.di
 
 import com.lkb.baseandroidproject.MainActivity
 import dagger.Subcomponent

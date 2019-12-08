@@ -1,4 +1,4 @@
-package com.lkb.baseandroidproject.di.application
+package com.lkb.baseandroidproject.di
 
 import dagger.Module
 
