@@ -9,23 +9,21 @@ import javax.inject.Named
 
 @PerActivity
 @Subcomponent(
-    modules = [WheelsModule::class, DieselEngineModule::class]
+    modules = [WheelsModule::class, PetrolEngineModule::class]
 )
 interface ActivityComponent {
     fun getCar(): Car
     fun inject(mainActivity: MainActivity)
 
-//    @Component.Builder
-//    interface Builder {
-//
-//        @BindsInstance
-//        fun horsePower(@Named("horse power") horsePower: Int): Builder
-//
-//        @BindsInstance
-//        fun engineCapacity(@Named("engine capacity") engineCapacity: Int): Builder
-//
-//        fun appComponent(appComponent: AppComponent): Builder
-//
-//        fun build(): ActivityComponent
-//    }
+    @Subcomponent.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun horsePower(@Named("horse power") horsePower: Int): Builder
+
+        @BindsInstance
+        fun engineCapacity(@Named("engine capacity") engineCapacity: Int): Builder
+
+        fun build(): ActivityComponent
+    }
 }

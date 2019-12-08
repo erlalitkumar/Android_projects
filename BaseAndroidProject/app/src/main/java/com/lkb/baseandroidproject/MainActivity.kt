@@ -15,9 +15,8 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var component =
-            (application as BaseApplication).getApplicationComponent().getActivityComponent(
-                DieselEngineModule(140)
-            )
+            (application as BaseApplication).getApplicationComponent().getActivityComponent().horsePower(140)
+                .engineCapacity(1400).build()
 
         component.inject(this)
 
