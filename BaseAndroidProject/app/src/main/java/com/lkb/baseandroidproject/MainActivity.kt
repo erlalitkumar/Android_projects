@@ -2,7 +2,7 @@ package com.lkb.baseandroidproject
 
 import android.os.Bundle
 import com.lkb.baseandroidproject.car.Car
-import com.lkb.baseandroidproject.di.DaggerActivityComponent
+import com.lkb.baseandroidproject.di.DieselEngineModule
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -14,12 +14,10 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var component = DaggerActivityComponent
-            .builder()
-            .horsePower(150)
-            .engineCapacity(1400)
-            .appComponent((application as BaseApplication).getApplicationComponent())
-            .build()
+        var component =
+            (application as BaseApplication).getApplicationComponent().getActivityComponent(
+                DieselEngineModule(140)
+            )
 
         component.inject(this)
 
