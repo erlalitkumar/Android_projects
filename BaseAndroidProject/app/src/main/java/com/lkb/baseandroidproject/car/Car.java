@@ -2,8 +2,11 @@ package com.lkb.baseandroidproject.car;
 
 import android.util.Log;
 
+import com.lkb.baseandroidproject.di.PerActivity;
+
 import javax.inject.Inject;
 
+@PerActivity
 public class Car {
     private static final String TAG = "Car";
     private Engine engine;
