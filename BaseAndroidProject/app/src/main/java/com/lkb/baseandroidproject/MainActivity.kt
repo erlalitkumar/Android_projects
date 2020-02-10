@@ -6,14 +6,14 @@ import android.util.Log
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
-@Inject lateinit var car:Car
+    @Inject
+    lateinit var car: Car
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var component = DaggerActivityComponent.create()
-        //var car = Car()
-        component.inject(this)
-
-        Log.d("CAR","new car $car")
+        var component = DaggerCarComponent.create()
+        var car = component.getCar()
+        car.drive()
     }
 }
