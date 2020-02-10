@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var component = DaggerCarComponent.create()
-        var car = component.getCar()
+        component.inject(this)
         car.drive()
     }
 }
