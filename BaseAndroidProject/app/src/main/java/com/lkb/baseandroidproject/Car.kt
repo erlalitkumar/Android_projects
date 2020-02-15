@@ -8,4 +8,9 @@ class Car @Inject constructor(engine:Engine,wheel:Wheel) {
     fun drive(){
         Log.d(TAG, "Car is Driving")
     }
+    @Inject
+    fun enableRemote(remote:Remote){
+        remote.setListener(this)
+    }
+
 }
