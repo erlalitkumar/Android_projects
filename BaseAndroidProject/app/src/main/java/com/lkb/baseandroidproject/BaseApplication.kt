@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.os.Build
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.lkb.demo.BuildConfig
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import timber.log.Timber.DebugTree
