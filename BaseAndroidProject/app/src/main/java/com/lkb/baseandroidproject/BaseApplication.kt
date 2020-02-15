@@ -3,11 +3,14 @@ package com.lkb.baseandroidproject
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
 import android.os.Build
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.lkb.demo.BuildConfig
 import io.fabric.sdk.android.Fabric
+import timber.log.Timber
+import timber.log.Timber.DebugTree
+
 
 class BaseApplication : Application() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -22,6 +25,11 @@ class BaseApplication : Application() {
         Fabric.with(this, Crashlytics())
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         createNotificationChannel()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        } else {
+            //Timber.plant(CrashReportingTree())
+        }
     }
 
     private fun createNotificationChannel() {
