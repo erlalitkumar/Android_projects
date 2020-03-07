@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("access_token2", "ha-ha");
         am.addAccountExplicitly(account, "123456", bundle);
-        Account[] accounts = am.getAccountsByType("com.lkb.demo.app");
+        Account[] accounts = am.getAccountsByType(getResources().getString(R.string.account_type));
         //am.setUserData(account, "access_token", "sjdkiee_dfkje_fjdkjdf_djff");
         helloText.setText("account name is :" + accounts[0].name + " and access_token is: " + am.getUserData(account, "access_token2"));
         Log.d("LKB1", "account name is : " + accounts[0].name);
