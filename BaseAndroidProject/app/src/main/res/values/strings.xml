@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BaseApplicationJava</string>
+    <string name="account_type">com.lkb.demo.app</string>
 </resources>
