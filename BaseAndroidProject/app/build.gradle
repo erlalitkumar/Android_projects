@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.lkb.baseapplicationjava"
+        applicationId "com.landmarkgroup.babyshopstores"
         minSdkVersion 20
         targetSdkVersion 28
         versionCode 1

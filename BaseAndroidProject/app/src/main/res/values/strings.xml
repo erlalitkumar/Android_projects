@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">BaseApplicationJava</string>
-    <string name="account_type">com.lkb.demo.app</string>
+    <string name="app_name">Landmark</string>
+    <string name="account_type">com.lms.android.applications</string>
 </resources>
