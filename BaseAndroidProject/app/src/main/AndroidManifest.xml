@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.lkb.demo">
+        package="com.lkb.demo"
+        android:sharedUserId="@string/account_type">
 
     <uses-permission
             android:name="android.permission.AUTHENTICATE_ACCOUNTS"
@@ -25,8 +26,8 @@
             android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"/>
-                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <service android:name=".LocalAuthenticatorService">
