@@ -2,7 +2,7 @@ package com.lkb.baseandroidproject;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;

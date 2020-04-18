@@ -1,12 +1,12 @@
 package com.lkb.baseandroidproject
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.list_item.view.*
 
-class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MyHolder>(),
+class RecyclerViewAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<RecyclerViewAdapter.MyHolder>(),
     BindableAdapter<Long> {
     override fun setData(items: List<Long>) {
         userIds = items
@@ -19,7 +19,7 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MyHolder>()
 
     var userIds = emptyList<Long>()
 
-    class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MyHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         fun bind(userId: Long) {
             itemView.userText.text = "user id: $userId"
         }

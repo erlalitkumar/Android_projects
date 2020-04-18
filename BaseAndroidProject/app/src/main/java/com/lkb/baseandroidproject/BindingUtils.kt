@@ -1,11 +1,11 @@
 package com.lkb.baseandroidproject
 
-import android.databinding.BindingAdapter
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 
 
 @BindingAdapter("data")
-fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, items: List<T>) {
+fun <T> setRecyclerViewProperties(recyclerView: androidx.recyclerview.widget.RecyclerView, items: List<T>) {
     if (recyclerView.adapter is BindableAdapter<*>) {
         (recyclerView.adapter as BindableAdapter<T>).setData(items)
 
@@ -14,7 +14,7 @@ fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, items: List<T>) {
 
 
 @BindingAdapter("changedPositions")
-fun <T> setDataChanged(recyclerView: RecyclerView, positions: Set<Int>) {
+fun <T> setDataChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, positions: Set<Int>) {
     if (recyclerView.adapter is BindableAdapter<*>) {
         (recyclerView.adapter as BindableAdapter<T>).changedPositions(positions)
 
