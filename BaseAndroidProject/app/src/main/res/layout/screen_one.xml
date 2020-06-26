@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LandingActivity">
-
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/button1"
@@ -14,7 +12,7 @@
         android:layout_marginStart="143dp"
         android:layout_marginLeft="143dp"
         android:layout_marginTop="147dp"
-        android:text="screen 1"
+        android:text="Landing screen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,6 +35,7 @@
         android:text="screen 3"
         app:layout_constraintStart_toStartOf="@+id/button2"
         app:layout_constraintTop_toBottomOf="@+id/button2" />
+
     <Chronometer
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
