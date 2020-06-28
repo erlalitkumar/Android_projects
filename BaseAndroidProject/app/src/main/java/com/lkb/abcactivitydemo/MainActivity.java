@@ -1,63 +1,77 @@
 package com.lkb.abcactivitydemo;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
-Button next;
+    Button next;
+    Button btnLoadFragment;
+    FrameLayout fragmentContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         next = findViewById(R.id.button_next_activity_a);
+        btnLoadFragment = findViewById(R.id.loadFragment);
+        fragmentContainer = findViewById(R.id.fragmentContainer);
         final Intent i = new Intent(this, Main2Activity.class);
         //i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              startActivity(i);
-            }
-        });
-        Log.d("Activity1","onCreate called");
+        next.setOnClickListener(view -> startActivity(i));
+
+//        btnLoadFragment.setOnClickListener(v -> loadFragment()
+//        );
+        loadFragment();
+        Log.d("LKB-Activity1", "onCreate called");
+    }
+
+    private void loadFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.fragmentContainer, BlankFragment.newInstance("new", "fragment"), "blankFragment");
+        ft.commit();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("Activity1","onStart  called");
+        Log.d("LKB-Activity1", "onStart  called");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d("Activity1","onRestart  called");
+        Log.d("LKB-Activity1", "onRestart  called");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("Activity1","onresume called");
+        Log.d("LKB-Activity1", "onresume called");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("Activity1","onStop called");
+        Log.d("LKB-Activity1", "onStop called");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("Activity1","onpause called");
+        Log.d("LKB-Activity1", "onpause called");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("Activity1","onDestroy called");
+        Log.d("LKB-Activity1", "onDestroy called");
     }
 }
