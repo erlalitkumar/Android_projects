@@ -3,6 +3,7 @@ package com.lkb.baseandroidproject
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.webkit.JavascriptInterface
 
 import android.widget.Toast
 
@@ -14,6 +15,7 @@ open class WebAppInterface internal constructor(c: Context) {
      * Show Toast Message
      * @param toast
      */
+    @JavascriptInterface
     fun showToast(toast: String?) {
         Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show()
     }
@@ -22,6 +24,7 @@ open class WebAppInterface internal constructor(c: Context) {
      * Show Dialog
      * @param dialogMsg
      */
+    @JavascriptInterface
     fun showDialog(dialogMsg: String?) {
         val alertDialog: AlertDialog = AlertDialog.Builder(mContext).create()
 
@@ -51,6 +54,7 @@ open class WebAppInterface internal constructor(c: Context) {
     /**
      * Intent - Move to next screen
      */
+    @JavascriptInterface
     fun moveToNextScreen() {
         val alertDialog: AlertDialog.Builder = AlertDialog.Builder(mContext)
         // Setting Dialog Title
