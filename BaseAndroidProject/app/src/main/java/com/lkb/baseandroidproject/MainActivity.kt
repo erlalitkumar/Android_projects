@@ -1,11 +1,13 @@
 package com.lkb.baseandroidproject
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -19,10 +21,13 @@ class MainActivity : AppCompatActivity() {
         textView.text = ""
         disposable = mViewModel.getData()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe {
+            .subscribeOn(Schedulers.single())
+            .subscribe({
                 textView.text = it.toString();
-            }
+            },
+                { error -> textView.text = error.localizedMessage },
+                { textView.text = "completed" }
+            )
 
     }
 
