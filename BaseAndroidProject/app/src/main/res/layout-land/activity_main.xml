@@ -8,29 +8,31 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="76dp"
+        android:layout_height="23dp"
         android:layout_marginBottom="32dp"
         android:text="Activity A"
-        app:layout_constraintBottom_toTopOf="@+id/button_next_activity_a"
-        app:layout_constraintEnd_toEndOf="@+id/button_next_activity_a"
-        app:layout_constraintStart_toStartOf="@+id/button_next_activity_a" />
+        app:layout_constraintBottom_toTopOf="@+id/loadFragment"
+        app:layout_constraintEnd_toEndOf="@+id/loadFragment"
+        app:layout_constraintStart_toStartOf="@+id/loadFragment" />
 
     <Button
         android:id="@+id/button_next_activity_a"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="32dp"
         android:text="Next"
-        app:layout_constraintBottom_toTopOf="@+id/loadFragment"
-        app:layout_constraintEnd_toEndOf="@+id/loadFragment"
-        app:layout_constraintStart_toStartOf="@+id/loadFragment" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragmentContainer" />
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
-        android:layout_width="392dp"
-        android:layout_height="282dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="339dp"
+        android:layout_height="340dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -42,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="LoadFragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/button_next_activity_a"
+        app:layout_constraintEnd_toEndOf="@+id/button_next_activity_a"
+        app:layout_constraintStart_toStartOf="@+id/button_next_activity_a" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

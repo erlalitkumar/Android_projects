@@ -126,4 +126,10 @@ public class BlankFragment extends Fragment {
         super.onResume();
         Log.d("LKB-F", "onResume()");
     }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+    on
 }

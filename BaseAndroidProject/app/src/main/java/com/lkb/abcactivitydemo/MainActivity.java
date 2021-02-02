@@ -6,14 +6,18 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import java.util.HashSet;
 
 public class MainActivity extends AppCompatActivity {
     Button next;
     Button btnLoadFragment;
     FrameLayout fragmentContainer;
+    String myString = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,5 +77,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("LKB-Activity1", "onDestroy called");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("LKB-Activity1", "onSaveInstanceState called");
+        outState.putString("msg", "welcome back!!");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d("LKB-Activity1", "onRestoreInstanceState called");
+        myString = savedInstanceState.getString("MyString");
+
     }
 }
