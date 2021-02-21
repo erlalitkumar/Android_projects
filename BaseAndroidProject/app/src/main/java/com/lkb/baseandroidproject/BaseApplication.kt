@@ -7,6 +7,5 @@ class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Realm.init(this)
     }
 }
