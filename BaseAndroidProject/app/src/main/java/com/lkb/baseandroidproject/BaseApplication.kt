@@ -1,7 +1,6 @@
 package com.lkb.baseandroidproject
 
 import android.app.Application
-import io.realm.Realm
 
 class BaseApplication : Application() {
 
