@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">BaseAndroidProject</string>
+    <string name="app_name">Collab</string>
+    <string name="loading">loading</string>
+    <string name="logout">Do you want to log out?</string>
+    <string name="button_text">Click me</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="dialog_title">Alert!!</string>
+    <string name="pos_button">Ok</string>
+    <string name="neg_button">Cancel</string>
+    <string name="dialog_message">Do you want to logout !!</string>
+    <string name="dialog_tag">dialog</string>
 </resources>
